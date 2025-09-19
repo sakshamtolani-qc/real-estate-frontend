@@ -1,0 +1,236 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
+import { AuthProvider } from './context/AuthContext';
+import { TooltipProvider } from './components/common';
+
+// // Layout Components
+// import DashboardLayout from '@/components/layout/DashboardLayout';
+// import AuthLayout from '@/components/layout/AuthLayout';
+// import CustomerLayout from '@/components/layout/CustomerLayout';
+
+// // Auth Pages
+// import LoginPage from '@/pages/auth/login/LoginPage';
+// import RegisterPage from '@/pages/auth/register/RegisterPage';
+// import ForgotPasswordPage from '@/pages/auth/forgot-password/ForgotPasswordPage';
+
+// // Admin/Agent Pages
+// import Dashboard from '@/pages/dashboard/Dashboard';
+// import LeadsPage from '@/pages/leads/LeadsPage';
+// import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
+// import ClientsPage from '@/pages/clients/ClientsPage';
+// import ClientDetailPage from '@/pages/clients/client-detail/ClientDetailPage';
+// import PropertiesPage from '@/pages/properties/PropertiesPage';
+// import PropertyDetailPage from '@/pages/properties/property-detail/PropertyDetailPage';
+// import AddPropertyPage from '@/pages/properties/add-property/AddPropertyPage';
+// import DealsPage from '@/pages/deals/DealsPage';
+// import DealDetailPage from '@/pages/deals/deal-detail/DealDetailPage';
+// import ActivitiesPage from '@/pages/activities/ActivitiesPage';
+// import InvoicesPage from '@/pages/invoices/InvoicesPage';
+// import InvoiceDetailPage from '@/pages/invoices/invoice-detail/InvoiceDetailPage';
+// import TransactionsPage from '@/pages/transactions/TransactionsPage';
+// import ReportsPage from '@/pages/reports/ReportsPage';
+// import SettingsPage from '@/pages/settings/SettingsPage';
+// import ProfilePage from '@/pages/profile/ProfilePage';
+
+// // Customer Portal Pages
+// import CustomerDashboard from '@/pages/customer/dashboard/CustomerDashboard';
+// import CustomerPropertiesPage from '@/pages/customer/properties/CustomerPropertiesPage';
+// import CustomerPropertyDetailPage from '@/pages/customer/property-detail/CustomerPropertyDetailPage';
+// import CustomerDealsPage from '@/pages/customer/deals/CustomerDealsPage';
+// import CustomerInvoicesPage from '@/pages/customer/invoices/CustomerInvoicesPage';
+// import CustomerDocumentsPage from '@/pages/customer/documents/CustomerDocumentsPage';
+
+// // Public Pages
+// import HomePage from '@/pages/home/HomePage';
+// import PropertiesListingPage from '@/pages/properties-listing/PropertiesListingPage';
+
+// 404 Page
+import NotFoundPage from './pages/not-found/NotFoundPage';
+
+// Create QueryClient
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
+
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AuthProvider>
+          <Router>
+          <div className="App">
+            <Routes>
+              {/* All routes commented out for now - Team members will uncomment as they create components */}
+              
+              {/* Public Routes */}
+              {/* <Route path="/" element={<HomePage />} /> */}
+              {/* <Route path="/properties" element={<PropertiesListingPage />} /> */}
+              
+              {/* Auth Routes */}
+              {/* <Route path="/auth" element={
+                <PublicRoute>
+                  <AuthLayout />
+                </PublicRoute>
+              }>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
+                <Route path="forgot-password" element={<ForgotPasswordPage />} />
+                <Route index element={<Navigate to="login" replace />} />
+              </Route> */}
+
+              {/* Customer Portal Routes */}
+              {/* <Route path="/customer" element={
+                <ProtectedRoute allowedRoles={['customer']}>
+                  <CustomerLayout />
+                </ProtectedRoute>
+              }>
+                <Route path="dashboard" element={<CustomerDashboard />} />
+                <Route path="properties" element={<CustomerPropertiesPage />} />
+                <Route path="properties/:id" element={<CustomerPropertyDetailPage />} />
+                <Route path="deals" element={<CustomerDealsPage />} />
+                <Route path="invoices" element={<CustomerInvoicesPage />} />
+                <Route path="documents" element={<CustomerDocumentsPage />} />
+                <Route path="profile" element={<ProfilePage />} />
+                <Route index element={<Navigate to="dashboard" replace />} />
+              </Route> */}
+
+              {/* Admin/Agent Dashboard Routes */}
+              {/* <Route path="/dashboard" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<Dashboard />} />
+              </Route> */}
+
+              {/* Leads Routes */}
+              {/* <Route path="/leads" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<LeadsPage />} />
+                <Route path=":id" element={<LeadDetailPage />} />
+              </Route> */}
+
+              {/* Clients Routes */}
+              {/* <Route path="/clients" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<ClientsPage />} />
+                <Route path=":id" element={<ClientDetailPage />} />
+              </Route> */}
+
+              {/* Properties Routes */}
+              {/* <Route path="/admin/properties" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<PropertiesPage />} />
+                <Route path="add" element={<AddPropertyPage />} />
+                <Route path=":id" element={<PropertyDetailPage />} />
+              </Route> */}
+
+              {/* Deals Routes */}
+              {/* <Route path="/deals" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<DealsPage />} />
+                <Route path=":id" element={<DealDetailPage />} />
+              </Route> */}
+
+              {/* Activities Routes */}
+              {/* <Route path="/activities" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<ActivitiesPage />} />
+              </Route> */}
+
+              {/* Invoices Routes */}
+              {/* <Route path="/invoices" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<InvoicesPage />} />
+                <Route path=":id" element={<InvoiceDetailPage />} />
+              </Route> */}
+
+              {/* Transactions Routes */}
+              {/* <Route path="/transactions" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<TransactionsPage />} />
+              </Route> */}
+
+              {/* Reports Routes */}
+              {/* <Route path="/reports" element={
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<ReportsPage />} />
+              </Route> */}
+
+              {/* Settings Routes */}
+              {/* <Route path="/settings" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<SettingsPage />} />
+              </Route> */}
+
+              {/* Profile Route */}
+              {/* <Route path="/profile" element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<ProfilePage />} />
+              </Route> */}
+
+              {/* 404 Route - Keep this active */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+
+            {/* Toast Notifications with Sonner */}
+            <Toaster
+              position="top-right"
+              expand={true}
+              richColors={true}
+              closeButton={true}
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  fontSize: '14px',
+                },
+                className: 'sonner-toast',
+              }}
+            />
+          </div>
+          </Router>
+        </AuthProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+
+export default App;
