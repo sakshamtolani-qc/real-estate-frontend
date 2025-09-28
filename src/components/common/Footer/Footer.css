@@ -1,0 +1,266 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.footer {
+  width: 100%;
+  background-color: #EFF0F2;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Feedback Section */
+.feedback-section {
+  background-color: #EFF0F2;
+  padding: 20px 0;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.feedback-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feedback-text h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #212121;
+  margin: 0 0 4px 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.feedback-text p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #212121;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.email-subscription {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.email-input {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 25px 0 0 25px;
+  background-color: #FFFFFF;
+  color: #212121;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  min-width: 250px;
+  width: 250px;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #E0E0E0;
+}
+
+.email-input::placeholder {
+  color: #9E9E9E;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.submit-button {
+  background-color: #212121;
+  border: none;
+  border-radius: 0 25px 25px 0;
+  padding: 13px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  border: 1px solid #212121;
+  border-left: none;
+}
+
+.submit-button:hover {
+  background-color: #333;
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1);
+}
+
+/* Main Footer */
+.footer-main {
+  background-color: #EFF0F2;
+  padding: 40px 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.footer-logo {
+    height: 300px;
+    width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20px;
+}
+
+.logo {
+  
+  max-width: 500px;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.footer-section h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #212121;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.5px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 12px;
+}
+
+.footer-section ul li a {
+  color: #212121;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #254EF0;
+}
+
+/* Contact Info Specific Styles */
+.contact-info .contact-details {
+  margin-bottom: 20px;
+}
+
+.contact-info .contact-details p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #212121;
+  margin: 8px 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.social-icons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.social-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #212121;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.social-icon:hover {
+  background-color: #254EF0;
+}
+
+.social-icon span {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 200px 1fr;
+    gap: 30px;
+  }
+  
+  .feedback-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .email-subscription {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .footer-logo {
+    justify-content: center;
+    padding-right: 0;
+  }
+  
+  .feedback-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .email-subscription {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  
+  .email-input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-main {
+    padding: 30px 0;
+  }
+  
+  .feedback-section {
+    padding: 15px 0;
+  }
+  
+  .footer-container {
+    padding: 0 15px;
+    gap: 25px;
+  }
+  
+  .logo {
+    max-width: 100px;
+  }
+}

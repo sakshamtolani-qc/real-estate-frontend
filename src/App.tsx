@@ -42,7 +42,7 @@ import { TooltipProvider } from './components/common';
 // import CustomerDocumentsPage from '@/pages/customer/documents/CustomerDocumentsPage';
 
 // // Public Pages
-// import HomePage from '@/pages/home/HomePage';
+import Landing from './pages/Landing/Landing';
 // import PropertiesListingPage from '@/pages/properties-listing/PropertiesListingPage';
 
 // 404 Page
@@ -71,7 +71,7 @@ function App() {
               {/* All routes commented out for now - Team members will uncomment as they create components */}
               
               {/* Public Routes */}
-              {/* <Route path="/" element={<HomePage />} /> */}
+              <Route path="/" element={<Landing />} />
               {/* <Route path="/properties" element={<PropertiesListingPage />} /> */}
               
               {/* Auth Routes */}
