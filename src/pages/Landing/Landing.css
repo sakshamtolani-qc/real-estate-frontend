@@ -57,9 +57,19 @@
   height: 70px;
 }
 
-.logo-image {
-  height: 40px;
-  width: 100px;
+.header-logo{
+    height: 50px;
+    width: 150px;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+}
+.head-logo-image{
+    /* overflow: hidden; */
+    object-fit: contain;
+    position: relative;
+
+
 }
 
 .nav {

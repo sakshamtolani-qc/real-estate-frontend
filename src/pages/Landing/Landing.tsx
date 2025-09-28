@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, ChevronDown, Search, Users, Key, Star, Menu, X } from 'lucide-react';
 import './Landing.css';
-import Footer from '../../components/common/Footer/Footer';
+import {Footer} from '../../components/common/Footer/Footer';
 
 const Landing: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -144,8 +144,8 @@ const Landing: React.FC = () => {
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <div className="logo">
-              <img src="/logo.svg" alt="Quorum Property" className="logo-image" />
+            <div className="header-logo">
+              <img src="/logo.png" alt="Quorum Property" className="head-logo-image" />
             </div>
             
             <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
@@ -321,7 +321,7 @@ const Landing: React.FC = () => {
               <h2>What our customers are <span className="highlight">saying</span> us?</h2>
               <p>Various versions have evolved over the years, sometimes by accident, sometimes on purpose injected humour and the like.</p>
               <div className="testimonial-stats">
-                <div className="stat">
+                {/* <div className="stat">
                   <h3>10m+</h3>
                   <p>Happy People</p>
                 </div>
@@ -333,7 +333,7 @@ const Landing: React.FC = () => {
                       <Star key={i} className="w-4 h-4 filled" />
                     ))}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="testimonials-right">
