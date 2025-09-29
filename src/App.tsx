@@ -11,7 +11,7 @@ import { TooltipProvider } from './components/common';
 
 // // Auth Pages
 import LoginPage from './pages/auth/login/LoginPage';
-// import RegisterPage from '@/pages/auth/register/RegisterPage';
+import SignupPage from './pages/auth/Signup/Signup';
 // import ForgotPasswordPage from '@/pages/auth/forgot-password/ForgotPasswordPage';
 
 // // Admin/Agent Pages
@@ -81,8 +81,8 @@ function App() {
                 </PublicRoute>
               }> */}
                 <Route path="/login" element={<LoginPage />} />
-                {/* <Route path="register" element={<RegisterPage />} />
-                <Route path="forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                {/*<Route path="forgot-password" element={<ForgotPasswordPage />} />
                 <Route index element={<Navigate to="login" replace />} />
               </Route> */}
 
