@@ -10,7 +10,7 @@ import { TooltipProvider } from './components/common';
 // import CustomerLayout from '@/components/layout/CustomerLayout';
 
 // // Auth Pages
-// import LoginPage from '@/pages/auth/login/LoginPage';
+import LoginPage from './pages/auth/login/LoginPage';
 // import RegisterPage from '@/pages/auth/register/RegisterPage';
 // import ForgotPasswordPage from '@/pages/auth/forgot-password/ForgotPasswordPage';
 
@@ -79,9 +79,9 @@ function App() {
                 <PublicRoute>
                   <AuthLayout />
                 </PublicRoute>
-              }>
-                <Route path="login" element={<LoginPage />} />
-                <Route path="register" element={<RegisterPage />} />
+              }> */}
+                <Route path="/login" element={<LoginPage />} />
+                {/* <Route path="register" element={<RegisterPage />} />
                 <Route path="forgot-password" element={<ForgotPasswordPage />} />
                 <Route index element={<Navigate to="login" replace />} />
               </Route> */}
