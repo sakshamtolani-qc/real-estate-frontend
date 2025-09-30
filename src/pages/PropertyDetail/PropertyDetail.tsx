@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
-import { Heart, Share2, Bed, Bath, Maximize, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Header from '../../components/common/Header/Header';
 import {Footer} from '../../components/common/Footer/Footer';
 import './PropertyDetail.css';
@@ -31,10 +32,67 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 export default function PropertyDetail() {
   const { id } = useParams();
+  const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleScheduleCall = () => {
     alert('Schedule a call functionality will be implemented with backend');
   };
+
+  const openCarousel = () => {
+    setCurrentImageIndex(0);
+    setIsCarouselOpen(true);
+  };
+
+  const closeCarousel = () => {
+    setIsCarouselOpen(false);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === mockPropertyData.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? mockPropertyData.images.length - 1 : prev - 1
+    );
+  };
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!isCarouselOpen) return;
+      
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextImage();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevImage();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closeCarousel();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isCarouselOpen]);
+
+  // Prevent body scroll when carousel is open
+  useEffect(() => {
+    if (isCarouselOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isCarouselOpen]);
 
   const handleFavorite = () => {
     alert('Favorite functionality will be implemented with backend');
@@ -70,7 +128,7 @@ export default function PropertyDetail() {
                     />
                   </div>
                 ))}
-                <div className="gallery-image-wrapper more-photos">
+                <div className="gallery-image-wrapper more-photos" onClick={openCarousel}>
                   <img
                     src={mockPropertyData.images[4]}
                     alt="More photos"
@@ -153,6 +211,53 @@ export default function PropertyDetail() {
           </aside>
         </div>
       </main>
+
+      {/* Image Carousel Modal */}
+      {isCarouselOpen && (
+        <div className="carousel-overlay" onClick={closeCarousel}>
+          <div className="carousel-modal" onClick={(e) => e.stopPropagation()}>
+            {/* Close Button */}
+            <button className="carousel-close" onClick={closeCarousel}>
+              <X size={24} />
+            </button>
+            
+            {/* Image Counter */}
+            <div className="carousel-counter">
+              {currentImageIndex + 1} / {mockPropertyData.images.length}
+            </div>
+            
+            {/* Main Image */}
+            <div className="carousel-image-container">
+              <img 
+                src={mockPropertyData.images[currentImageIndex]} 
+                alt={`Property view ${currentImageIndex + 1}`}
+                className="carousel-image"
+              />
+            </div>
+            
+            {/* Navigation Arrows */}
+            <button className="carousel-arrow carousel-prev" onClick={prevImage}>
+              <ChevronLeft size={32} />
+            </button>
+            <button className="carousel-arrow carousel-next" onClick={nextImage}>
+              <ChevronRight size={32} />
+            </button>
+            
+            {/* Thumbnail Strip */}
+            <div className="carousel-thumbnails">
+              {mockPropertyData.images.map((image, index) => (
+                <div 
+                  key={index}
+                  className={`carousel-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                >
+                  <img src={image} alt={`Thumbnail ${index + 1}`} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
