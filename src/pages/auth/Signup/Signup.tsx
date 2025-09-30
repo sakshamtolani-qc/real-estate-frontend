@@ -151,11 +151,12 @@ const Signup: React.FC = () => {
         <div className="form-container">
           {/* Header */}
           <div className="form-header">
-            <img src="/logo.svg" alt="Quorium Consulting" className="form-logo" />
-            <div className="signup-badge">
-              <User className="user-icon" />
-              <span>SignUp</span>
+            <div className="login-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="white"/>
+              </svg>
             </div>
+            <h2 className="form-title">SignUp</h2>
           </div>
 
           {/* Form */}
