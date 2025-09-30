@@ -36,7 +36,7 @@ import SignupPage from './pages/auth/Signup/Signup';
 // // Customer Portal Pages
 // import CustomerDashboard from '@/pages/customer/dashboard/CustomerDashboard';
 import Properties from './pages/Properties/Properties';
-// import CustomerPropertyDetailPage from '@/pages/customer/property-detail/CustomerPropertyDetailPage';
+import PropertyDetail from './pages/PropertyDetail/PropertyDetail';
 // import CustomerDealsPage from '@/pages/customer/deals/CustomerDealsPage';
 // import CustomerInvoicesPage from '@/pages/customer/invoices/CustomerInvoicesPage';
 // import CustomerDocumentsPage from '@/pages/customer/documents/CustomerDocumentsPage';
@@ -94,8 +94,8 @@ function App() {
               }> */}
                 {/* <Route path="dashboard" element={<CustomerDashboard />} /> */}
                 <Route path="/properties" element={<Properties />} />
-                {/* <Route path="properties/:id" element={<CustomerPropertyDetailPage />} />
-                <Route path="deals" element={<CustomerDealsPage />} />
+                <Route path="/property/:1" element={<PropertyDetail />} />
+                {/* <Route path="deals" element={<CustomerDealsPage />} />
                 <Route path="invoices" element={<CustomerInvoicesPage />} />
                 <Route path="documents" element={<CustomerDocumentsPage />} />
                 <Route path="profile" element={<ProfilePage />} />
