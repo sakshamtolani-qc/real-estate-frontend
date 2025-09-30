@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, ChevronDown, Search, Users, Key, Star, Menu, X } from 'lucide-react';
 import './Landing.css';
 import {Footer} from '../../components/common/Footer/Footer';
+import Header from '../../components/common/Header/Header';
 
 const Landing: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,7 +142,8 @@ const Landing: React.FC = () => {
   return (
     <div className="landing-page">
       {/* Header */}
-      <header className="header">
+      <Header/>
+      {/* <header className="header">
         <div className="container">
           <div className="header-content">
             <div className="header-logo">
@@ -170,13 +172,7 @@ const Landing: React.FC = () => {
               >
                 About
               </a>
-              {/* <a 
-                href="#contact"
-                className={activeSection === 'contact' ? 'active' : ''}
-                onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}
-              >
-                Contact
-              </a> */}
+             
             </nav>
 
             <div className="header-right">
@@ -197,7 +193,7 @@ const Landing: React.FC = () => {
             </button>
           </div>
         </div>
-      </header>
+      </header> */}
 
       {/* Hero Section */}
       <section id="home" className="hero">

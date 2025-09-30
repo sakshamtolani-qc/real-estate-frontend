@@ -35,7 +35,7 @@ import SignupPage from './pages/auth/Signup/Signup';
 
 // // Customer Portal Pages
 // import CustomerDashboard from '@/pages/customer/dashboard/CustomerDashboard';
-// import CustomerPropertiesPage from '@/pages/customer/properties/CustomerPropertiesPage';
+import Properties from './pages/Properties/Properties';
 // import CustomerPropertyDetailPage from '@/pages/customer/property-detail/CustomerPropertyDetailPage';
 // import CustomerDealsPage from '@/pages/customer/deals/CustomerDealsPage';
 // import CustomerInvoicesPage from '@/pages/customer/invoices/CustomerInvoicesPage';
@@ -91,10 +91,10 @@ function App() {
                 <ProtectedRoute allowedRoles={['customer']}>
                   <CustomerLayout />
                 </ProtectedRoute>
-              }>
-                <Route path="dashboard" element={<CustomerDashboard />} />
-                <Route path="properties" element={<CustomerPropertiesPage />} />
-                <Route path="properties/:id" element={<CustomerPropertyDetailPage />} />
+              }> */}
+                {/* <Route path="dashboard" element={<CustomerDashboard />} /> */}
+                <Route path="/properties" element={<Properties />} />
+                {/* <Route path="properties/:id" element={<CustomerPropertyDetailPage />} />
                 <Route path="deals" element={<CustomerDealsPage />} />
                 <Route path="invoices" element={<CustomerInvoicesPage />} />
                 <Route path="documents" element={<CustomerDocumentsPage />} />
