@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Header from '../../components/common/Header/Header';
 import {Footer} from '../../components/common/Footer/Footer';
@@ -24,75 +24,24 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     '/P1a.png',
     '/P1b.png',
     '/P1c.png',
-    '/P1d.png',
-    '/P1e.png'
+    '/P1d-3.png',
+    '/P1e-4.png',
+    '/P1a.png'
   ],
-  subtitle: 'SUKH SYNTHIES'
+  subtitle: 'sdkvnsivnsv'
 };
 
 export default function PropertyDetail() {
   const { id } = useParams();
-  const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+  const [showCarousel, setShowCarousel] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  const handleScheduleCall = () => {
-    alert('Schedule a call functionality will be implemented with backend');
-  };
-
-  const openCarousel = () => {
-    setCurrentImageIndex(0);
-    setIsCarouselOpen(true);
-  };
-
-  const closeCarousel = () => {
-    setIsCarouselOpen(false);
-  };
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === mockPropertyData.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? mockPropertyData.images.length - 1 : prev - 1
-    );
-  };
-
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (!isCarouselOpen) return;
-      
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        nextImage();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        prevImage();
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        closeCarousel();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isCarouselOpen]);
-
-  // Prevent body scroll when carousel is open
-  useEffect(() => {
-    if (isCarouselOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isCarouselOpen]);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [scheduleForm, setScheduleForm] = useState({
+    callTime: '',
+    date: '',
+    termsAccepted: false,
+    privacyAccepted: false
+  });
 
   const handleFavorite = () => {
     alert('Favorite functionality will be implemented with backend');
@@ -102,159 +51,239 @@ export default function PropertyDetail() {
     alert('Share functionality will be implemented with backend');
   };
 
+  const openCarousel = (index: number) => {
+    setCurrentImageIndex(index);
+    setShowCarousel(true);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === mockPropertyData.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? mockPropertyData.images.length - 1 : prev - 1
+    );
+  };
+
+  const handleScheduleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!scheduleForm.termsAccepted || !scheduleForm.privacyAccepted) {
+      alert('Please accept both terms and conditions');
+      return;
+    }
+    console.log('Schedule form submitted:', scheduleForm);
+    alert('Call scheduled successfully!');
+    setShowScheduleModal(false);
+    setScheduleForm({
+      callTime: '',
+      date: '',
+      termsAccepted: false,
+      privacyAccepted: false
+    });
+  };
+
   return (
     <div className="property-detail-page">
       <Header />
 
       <main className="property-detail-main">
         <div className="property-detail-container">
-          <div className="property-detail-content">
-            <div className="property-gallery-section">
-              <div className="main-image-wrapper">
+          <section className="property-gallery-section">
+            <div className="gallery-grid-layout">
+              <div className="main-image-container" onClick={() => openCarousel(0)}>
                 <img
                   src={mockPropertyData.images[0]}
                   alt={mockPropertyData.title}
-                  className="main-property-image"
+                  className="main-gallery-image"
                 />
               </div>
 
-              <div className="gallery-grid">
+              <div className="side-images-grid">
                 {mockPropertyData.images.slice(1, 4).map((image, index) => (
-                  <div key={index} className="gallery-image-wrapper">
+                  <div
+                    key={index}
+                    className="side-image-container"
+                    onClick={() => openCarousel(index + 1)}
+                  >
                     <img
                       src={image}
                       alt={`Property view ${index + 1}`}
-                      className="gallery-image"
+                      className="side-gallery-image"
                     />
                   </div>
                 ))}
-                <div className="gallery-image-wrapper more-photos" onClick={openCarousel}>
+                <div
+                  className="side-image-container more-photos-container"
+                  onClick={() => openCarousel(4)}
+                >
                   <img
                     src={mockPropertyData.images[4]}
                     alt="More photos"
-                    className="gallery-image"
+                    className="side-gallery-image"
                   />
                   <div className="more-photos-overlay">
-                    <span>+2</span>
-                    <span>Photos</span>
+                    <span className="more-photos-number">+2</span>
+                    <span className="more-photos-text">More<br/>Photos</span>
                   </div>
                 </div>
               </div>
             </div>
+          </section>
 
-            <div className="property-info-section">
-              <div className="property-description-card">
-                <h1 className="section-title">Property Description</h1>
-                <p className="property-subtitle">{mockPropertyData.subtitle}</p>
-
-                <div className="description-text">
-                  {mockPropertyData.description.split('\n\n').map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+          <div className="property-content-wrapper">
+            <section className="property-description-section">
+              <div className="description-header">
+                <div>
+                  <h1 className="property-description-title">Property Description</h1>
+                  <p className="property-subtitle-text">{mockPropertyData.subtitle}</p>
+                </div>
+                <div className="description-actions">
+                  <button className="action-icon-btn" onClick={handleFavorite} aria-label="Add to favorites">
+                    <Heart size={22} />
+                  </button>
+                  <button className="action-icon-btn" onClick={handleShare} aria-label="Share property">
+                    <Share2 size={22} />
+                  </button>
                 </div>
               </div>
-            </div>
+
+              <div className="description-content">
+                {mockPropertyData.description.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="description-paragraph">{paragraph}</p>
+                ))}
+              </div>
+            </section>
+
+            <aside className="pricing-card-section">
+              <div className="pricing-card">
+                <div className="pricing-card-price">₹ {mockPropertyData.price}</div>
+
+                <h2 className="pricing-card-title">{mockPropertyData.title}</h2>
+
+                <div className="pricing-card-location">
+                  <MapPin size={16} />
+                  <span>{mockPropertyData.location}</span>
+                </div>
+
+                <div className="pricing-card-features">
+                  <div className="pricing-feature-item">
+                    <Bed size={18} />
+                    <span>{mockPropertyData.bedrooms} BHK</span>
+                  </div>
+                  <div className="pricing-feature-item">
+                    <Bath size={18} />
+                    <span>{mockPropertyData.bathrooms} Baths</span>
+                  </div>
+                  <div className="pricing-feature-item">
+                    <Maximize size={18} />
+                    <span>{mockPropertyData.area} sqft</span>
+                  </div>
+                </div>
+
+                <button
+                  className="schedule-call-button"
+                  onClick={() => setShowScheduleModal(true)}
+                >
+                  Schedule a call
+                </button>
+              </div>
+            </aside>
           </div>
-
-          <aside className="property-sidebar">
-            <div className="property-card-sticky">
-              <div className="property-actions-header">
-                <button
-                  className="icon-button"
-                  onClick={handleFavorite}
-                  aria-label="Add to favorites"
-                >
-                  <Heart size={20} />
-                </button>
-                <button
-                  className="icon-button"
-                  onClick={handleShare}
-                  aria-label="Share property"
-                >
-                  <Share2 size={20} />
-                </button>
-              </div>
-
-              <div className="property-price-section">
-                <span className="property-detail-price">₹ {mockPropertyData.price}</span>
-              </div>
-
-              <h2 className="property-detail-title">{mockPropertyData.title}</h2>
-
-              <div className="property-detail-location">
-                <MapPin size={16} />
-                <span>{mockPropertyData.location}</span>
-              </div>
-
-              <div className="property-detail-features">
-                <div className="feature-item">
-                  <Bed size={18} />
-                  <span>{mockPropertyData.bedrooms} BHK</span>
-                </div>
-                <div className="feature-item">
-                  <Bath size={18} />
-                  <span>{mockPropertyData.bathrooms} Baths</span>
-                </div>
-                <div className="feature-item">
-                  <Maximize size={18} />
-                  <span>{mockPropertyData.area} sqft</span>
-                </div>
-              </div>
-
-              <button
-                className="schedule-call-btn"
-                onClick={handleScheduleCall}
-              >
-                Schedule a call
-              </button>
-            </div>
-          </aside>
         </div>
       </main>
 
-      {/* Image Carousel Modal */}
-      {isCarouselOpen && (
-        <div className="carousel-overlay" onClick={closeCarousel}>
-          <div className="carousel-modal" onClick={(e) => e.stopPropagation()}>
-            {/* Close Button */}
-            <button className="carousel-close" onClick={closeCarousel}>
+      {showCarousel && (
+        <div className="carousel-modal" onClick={() => setShowCarousel(false)}>
+          <button className="carousel-close" onClick={() => setShowCarousel(false)}>
+            <X size={32} />
+          </button>
+          <button className="carousel-prev" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+            <ChevronLeft size={40} />
+          </button>
+          <div className="carousel-content" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={mockPropertyData.images[currentImageIndex]}
+              alt={`Property view ${currentImageIndex + 1}`}
+              className="carousel-image"
+            />
+          </div>
+          <button className="carousel-next" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+            <ChevronRight size={40} />
+          </button>
+        </div>
+      )}
+
+      {showScheduleModal && (
+        <div className="schedule-modal-overlay" onClick={() => setShowScheduleModal(false)}>
+          <div className="schedule-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setShowScheduleModal(false)}>
               <X size={24} />
             </button>
-            
-            {/* Image Counter */}
-            <div className="carousel-counter">
-              {currentImageIndex + 1} / {mockPropertyData.images.length}
-            </div>
-            
-            {/* Main Image */}
-            <div className="carousel-image-container">
-              <img 
-                src={mockPropertyData.images[currentImageIndex]} 
-                alt={`Property view ${currentImageIndex + 1}`}
-                className="carousel-image"
-              />
-            </div>
-            
-            {/* Navigation Arrows */}
-            <button className="carousel-arrow carousel-prev" onClick={prevImage}>
-              <ChevronLeft size={32} />
-            </button>
-            <button className="carousel-arrow carousel-next" onClick={nextImage}>
-              <ChevronRight size={32} />
-            </button>
-            
-            {/* Thumbnail Strip */}
-            <div className="carousel-thumbnails">
-              {mockPropertyData.images.map((image, index) => (
-                <div 
-                  key={index}
-                  className={`carousel-thumbnail ${index === currentImageIndex ? 'active' : ''}`}
-                  onClick={() => setCurrentImageIndex(index)}
-                >
-                  <img src={image} alt={`Thumbnail ${index + 1}`} />
-                </div>
+
+            <div className="modal-gallery-preview">
+              {mockPropertyData.images.slice(0, 3).map((image, index) => (
+                <img key={index} src={image} alt={`Preview ${index + 1}`} className="modal-preview-image" />
               ))}
             </div>
+
+            <h2 className="schedule-modal-title">Schedule A Call</h2>
+
+            <form className="schedule-form" onSubmit={handleScheduleSubmit}>
+              <div className="form-group">
+                <label htmlFor="callTime">When would you like to receive a call?</label>
+                <select
+                  id="callTime"
+                  value={scheduleForm.callTime}
+                  onChange={(e) => setScheduleForm({...scheduleForm, callTime: e.target.value})}
+                  required
+                >
+                  <option value="">Select time</option>
+                  <option value="morning">Morning (9 AM - 12 PM)</option>
+                  <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                  <option value="evening">Evening (4 PM - 8 PM)</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="date">Enter the date</label>
+                <input
+                  type="date"
+                  id="date"
+                  value={scheduleForm.date}
+                  onChange={(e) => setScheduleForm({...scheduleForm, date: e.target.value})}
+                  required
+                />
+              </div>
+
+              <div className="form-checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={scheduleForm.termsAccepted}
+                    onChange={(e) => setScheduleForm({...scheduleForm, termsAccepted: e.target.checked})}
+                  />
+                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+                </label>
+              </div>
+
+              <div className="form-checkbox-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={scheduleForm.privacyAccepted}
+                    onChange={(e) => setScheduleForm({...scheduleForm, privacyAccepted: e.target.checked})}
+                  />
+                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
+                </label>
+              </div>
+
+              <button type="submit" className="schedule-submit-btn">
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       )}
