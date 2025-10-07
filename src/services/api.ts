@@ -32,12 +32,26 @@ api.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error) => {
-    // Handle 401 Unauthorized - Don't auto-redirect, let components handle it
-    // This prevents issues with the back button and login flow
-    if (error.response?.status === 401) {
-      // Just log the error, don't clear storage or redirect
-      console.warn('401 Unauthorized - Authentication required');
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // Handle 401 Unauthorized - token might be invalid/expired
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      console.warn('401 Unauthorized - Token may be invalid');
+      
+      // If token is invalid, clear it and retry without authentication
+      if (error.response?.data?.code === 'token_not_valid') {
+        console.log('Token invalid, clearing and retrying without auth');
+        localStorage.removeItem('auth_token');
+        
+        // Mark this request as retried to avoid infinite loops
+        originalRequest._retry = true;
+        
+        // Remove the Authorization header and retry
+        delete originalRequest.headers.Authorization;
+        
+        return api(originalRequest);
+      }
     }
     
     // Handle network errors

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bed, Bath, Maximize, MapPin, SlidersHorizontal } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import api from '../../services/api';
 import './Properties.css';
 
 type PropertyType = 'all' | 'sale' | 'rent';
@@ -148,6 +149,8 @@ export default function Properties() {
   const [selectedType, setSelectedType] = useState<PropertyType>('all');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [isLoadingProperties, setIsLoadingProperties] = useState(true);
   
   // Check if user is an employee/admin (multiple ways for compatibility)
   const isAdmin = Boolean(
@@ -158,8 +161,51 @@ export default function Properties() {
     (user as any)?.is_employee === true
   );
   
+  // Fetch properties from database
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        setIsLoadingProperties(true);
+        const response: any = await api.get('/properties/list/');
+        const data = response.data || response;
+        
+        // Map backend data to frontend format
+        const mappedProperties: Property[] = (data.results || data || []).map((prop: any, index: number) => {
+          // Use property images from public folder (property1.png, property2.png, etc.)
+          // Cycle through images if there are more properties than images
+          const imageNumber = (index % 6) + 1; // Assuming 6 property images available
+          const defaultImage = `/property${imageNumber}.png`;
+          
+          return {
+            id: prop.id,
+            title: prop.title || 'Untitled Property',
+            price: prop.price || '',
+            location: prop.location || 'Location not specified',
+            bedrooms: prop.bedrooms || 0,
+            bathrooms: prop.bathrooms || 0,
+            area: prop.area || 0,
+            image: prop.image || defaultImage,
+            status: prop.status || 'FOR SALE',  // Use status directly from API
+            featured: prop.featured || false,
+            type: prop.type || '3 BHK'  // Use type directly from API
+          };
+        });
+        
+        setProperties(mappedProperties);
+      } catch (error) {
+        console.error('Failed to fetch properties:', error);
+        // Keep empty array if fetch fails
+        setProperties([]);
+      } finally {
+        setIsLoadingProperties(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+  
   // Redirect to signup if not authenticated (only after loading is complete)
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isLoading && !user) {
       navigate('/signup');
     }
@@ -169,8 +215,8 @@ export default function Properties() {
   console.log('Properties - User:', user);
   console.log('Properties - isAdmin:', isAdmin);
   
-  // Show loading state while checking authentication
-  if (isLoading) {
+  // Show loading state while checking authentication or loading properties
+  if (isLoading || isLoadingProperties) {
     return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
   }
 
@@ -184,7 +230,7 @@ export default function Properties() {
     'Office'
   ];
 
-  const filteredProperties = mockProperties.filter(property => {
+  const filteredProperties = properties.filter(property => {
     const typeMatch = selectedType === 'all' ||
       (selectedType === 'sale' && property.status === 'FOR SALE') ||
       (selectedType === 'rent' && property.status === 'FOR RENT');

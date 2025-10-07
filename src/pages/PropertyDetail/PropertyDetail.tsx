@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import api from '../../services/api';
 import './PropertyDetail.css';
 
 const mockPropertyData = {
@@ -36,6 +37,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 export default function PropertyDetail() {
   const { id } = useParams();
   const { user } = useAuth();
+  const [property, setProperty] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -55,6 +58,54 @@ export default function PropertyDetail() {
     (user as any)?.is_employee === true
   );
   
+  // Fetch property data from database
+  useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        setIsLoading(true);
+        const response: any = await api.get(`/properties/detail/${id}/`);
+        const data = response.data || response;
+        
+        // Map backend data to frontend format
+        // Generate default images based on property ID
+        const propertyImageNum = ((data.id - 1) % 6) + 1;
+        const defaultImages = [
+          `/property${propertyImageNum}-1.png`,
+          `/property${propertyImageNum}-2.png`,
+          `/property${propertyImageNum}-3.png`,
+          `/property${propertyImageNum}-4.png`,
+          `/property${propertyImageNum}-5.png`,
+          `/property${propertyImageNum}-6.png`
+        ];
+        
+        const mappedProperty = {
+          id: data.id,
+          title: data.title || 'Untitled Property',
+          price: data.price ? `${data.price}` : '0',
+          location: data.location || 'Location not specified',
+          bedrooms: data.bedrooms || 0,
+          bathrooms: data.bathrooms || 0,
+          area: data.area || 0,
+          description: data.description || 'No description available.',
+          images: data.images && data.images.length > 0 ? data.images : defaultImages,
+          subtitle: data.subtitle || data.property_type || ''
+        };
+        
+        setProperty(mappedProperty);
+      } catch (error) {
+        console.error('Failed to fetch property:', error);
+        // Use mock data as fallback
+        setProperty(mockPropertyData);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchProperty();
+    }
+  }, [id]);
+  
   // Debug log
   console.log('PropertyDetail - User:', user);
   console.log('PropertyDetail - isAdmin:', isAdmin);
@@ -73,14 +124,16 @@ export default function PropertyDetail() {
   };
 
   const nextImage = () => {
+    if (!property) return;
     setCurrentImageIndex((prev) =>
-      prev === mockPropertyData.images.length - 1 ? 0 : prev + 1
+      prev === property.images.length - 1 ? 0 : prev + 1
     );
   };
 
   const prevImage = () => {
+    if (!property) return;
     setCurrentImageIndex((prev) =>
-      prev === 0 ? mockPropertyData.images.length - 1 : prev - 1
+      prev === 0 ? property.images.length - 1 : prev - 1
     );
   };
 
@@ -101,6 +154,11 @@ export default function PropertyDetail() {
     });
   };
 
+  // Show loading state
+  if (isLoading || !property) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading property details...</div>;
+  }
+
   return (
     <div className="property-detail-page">
       {isAdmin ? <AdminHeader /> : <Header />}
@@ -111,14 +169,14 @@ export default function PropertyDetail() {
             <div className="gallery-grid-layout">
               <div className="main-image-container" onClick={() => openCarousel(0)}>
                 <img
-                  src={mockPropertyData.images[0]}
-                  alt={mockPropertyData.title}
+                  src={property.images[0]}
+                  alt={property.title}
                   className="main-gallery-image"
                 />
               </div>
 
               <div className="side-images-grid">
-                {mockPropertyData.images.slice(1, 4).map((image, index) => (
+                {property.images.slice(1, 4).map((image: string, index: number) => (
                   <div
                     key={index}
                     className="side-image-container"
@@ -131,20 +189,22 @@ export default function PropertyDetail() {
                     />
                   </div>
                 ))}
-                <div
-                  className="side-image-container more-photos-container"
-                  onClick={() => openCarousel(4)}
-                >
-                  <img
-                    src={mockPropertyData.images[4]}
-                    alt="More photos"
-                    className="side-gallery-image"
-                  />
-                  <div className="more-photos-overlay">
-                    <span className="more-photos-number">+2</span>
-                    <span className="more-photos-text">More<br/>Photos</span>
+                {property.images.length > 4 && (
+                  <div
+                    className="side-image-container more-photos-container"
+                    onClick={() => openCarousel(4)}
+                  >
+                    <img
+                      src={property.images[4]}
+                      alt="More photos"
+                      className="side-gallery-image"
+                    />
+                    <div className="more-photos-overlay">
+                      <span className="more-photos-number">+{property.images.length - 4}</span>
+                      <span className="more-photos-text">More<br/>Photos</span>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </section>
@@ -154,7 +214,7 @@ export default function PropertyDetail() {
               <div className="description-header">
                 <div>
                   <h1 className="property-description-title">Property Description</h1>
-                  <p className="property-subtitle-text">{mockPropertyData.subtitle}</p>
+                  <p className="property-subtitle-text">{property.subtitle}</p>
                 </div>
                 <div className="description-actions">
                   <button className="action-icon-btn" onClick={handleFavorite} aria-label="Add to favorites">
@@ -167,7 +227,7 @@ export default function PropertyDetail() {
               </div>
 
               <div className="description-content">
-                {mockPropertyData.description.split('\n\n').map((paragraph, index) => (
+                {property.description.split('\n\n').map((paragraph: string, index: number) => (
                   <p key={index} className="description-paragraph">{paragraph}</p>
                 ))}
               </div>
@@ -175,27 +235,27 @@ export default function PropertyDetail() {
 
             <aside className="pricing-card-section">
               <div className="pricing-card">
-                <div className="pricing-card-price">₹ {mockPropertyData.price}</div>
+                <div className="pricing-card-price">₹ {property.price} INR</div>
 
-                <h2 className="pricing-card-title">{mockPropertyData.title}</h2>
+                <h2 className="pricing-card-title">{property.title}</h2>
 
                 <div className="pricing-card-location">
                   <MapPin size={16} />
-                  <span>{mockPropertyData.location}</span>
+                  <span>{property.location}</span>
                 </div>
 
                 <div className="pricing-card-features">
                   <div className="pricing-feature-item">
                     <Bed size={18} />
-                    <span>{mockPropertyData.bedrooms} BHK</span>
+                    <span>{property.bedrooms} BHK</span>
                   </div>
                   <div className="pricing-feature-item">
                     <Bath size={18} />
-                    <span>{mockPropertyData.bathrooms} Baths</span>
+                    <span>{property.bathrooms} Baths</span>
                   </div>
                   <div className="pricing-feature-item">
                     <Maximize size={18} />
-                    <span>{mockPropertyData.area} sqft</span>
+                    <span>{property.area} sqft</span>
                   </div>
                 </div>
 
@@ -221,7 +281,7 @@ export default function PropertyDetail() {
           </button>
           <div className="carousel-content" onClick={(e) => e.stopPropagation()}>
             <img
-              src={mockPropertyData.images[currentImageIndex]}
+              src={property.images[currentImageIndex]}
               alt={`Property view ${currentImageIndex + 1}`}
               className="carousel-image"
             />
