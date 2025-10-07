@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, ChevronDown, Search, Users, Key, Star, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Landing.css';
 import {Footer} from '../../components/common/Footer/Footer';
 import Header from '../../components/common/Header/Header';
 
 const Landing: React.FC = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
@@ -37,6 +41,17 @@ const Landing: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
+  };
+
+  // Handle property click - check if user is authenticated
+  const handlePropertyClick = (propertyId: number) => {
+    if (user) {
+      // User is authenticated, go to property detail page
+      navigate(`/property/${propertyId}`);
+    } else {
+      // User is not authenticated, redirect to signup
+      navigate('/signup');
+    }
   };
 
   const propertyTypes = [
@@ -206,6 +221,14 @@ const Landing: React.FC = () => {
                 <span className="highlight">Click</span> Away.
               </h1>
               <button className="cta-button">LET US GUIDE YOUR HOME</button>
+              <div className="auth-buttons">
+                <button className="auth-button login-button" onClick={() => navigate('/login')}>
+                  Login
+                </button>
+                <button className="auth-button signup-button" onClick={() => navigate('/signup')}>
+                  Sign Up
+                </button>
+              </div>
             </div>
             <div className="hero-image">
               <img src="/building1.png" alt="Buildings" />
@@ -224,7 +247,7 @@ const Landing: React.FC = () => {
           
           <div className="property-types">
             {propertyTypes.map((type, index) => (
-              <div key={index} className="property-type-card">
+              <div key={index} className="property-type-card" onClick={() => handlePropertyClick(index + 1)} style={{ cursor: 'pointer' }}>
                 <img src={type.image} alt={type.title} />
                 <div className="property-type-info">
                   <h3>{type.title}</h3>
@@ -251,7 +274,7 @@ const Landing: React.FC = () => {
 
           <div className="properties-grid">
             {featuredProperties.map((property) => (
-              <div key={property.id} className="property-card">
+              <div key={property.id} className="property-card" onClick={() => handlePropertyClick(property.id)} style={{ cursor: 'pointer' }}>
                 <div className="property-image">
                   <img src={property.image} alt={property.title} />
                   <div className={`property-badge ${property.badgeColor}`}>

@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bed, Bath, Maximize, MapPin, SlidersHorizontal } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
+import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
 import './Properties.css';
 
@@ -142,9 +144,35 @@ const mockProperties: Property[] = [
 
 export default function Properties() {
   const navigate = useNavigate();
+  const { user, isLoading } = useAuth();
   const [selectedType, setSelectedType] = useState<PropertyType>('all');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
+  
+  // Check if user is an employee/admin (multiple ways for compatibility)
+  const isAdmin = Boolean(
+    user?.is_employee || 
+    user?.is_superuser ||
+    user?.role === 'admin' || 
+    user?.role === 'agent' ||
+    (user as any)?.is_employee === true
+  );
+  
+  // Redirect to signup if not authenticated (only after loading is complete)
+  React.useEffect(() => {
+    if (!isLoading && !user) {
+      navigate('/signup');
+    }
+  }, [user, isLoading, navigate]);
+  
+  // Debug log
+  console.log('Properties - User:', user);
+  console.log('Properties - isAdmin:', isAdmin);
+  
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
+  }
 
   const filterOptions: FilterType[] = [
     'Studio Apartment',
@@ -180,7 +208,7 @@ export default function Properties() {
 
   return (
     <div className="properties-page">
-      <Header />
+      {isAdmin ? <AdminHeader /> : <Header />}
 
       <main className="properties-main">
         <div className="properties-container">

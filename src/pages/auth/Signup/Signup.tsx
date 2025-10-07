@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
+import { useAuth } from '../../../context/AuthContext';
+import { toast } from 'sonner';
 import './Signup.css';
 
 interface FormData {
@@ -22,6 +24,8 @@ interface FormErrors {
 }
 
 const Signup: React.FC = () => {
+  const navigate = useNavigate();
+  const { register } = useAuth();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -97,31 +101,79 @@ const Signup: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual API call
-      console.log('Form submitted:', formData);
+      // Prepare data for backend API according to RegisterForm interface
+      const registerData = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phoneNo,
+      };
+
+      // Call register function from AuthContext (this will auto-login the user)
+      await register(registerData);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Show success message
+      toast.success('Account created successfully! Redirecting to properties...');
       
-      // TODO: Handle JWT token storage
-      // const response = await fetch('/api/signup', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-      // 
-      // if (response.ok) {
-      //   const { token } = await response.json();
-      //   localStorage.setItem('jwt', token);
-      //   // Redirect to dashboard or home
-      // }
+      // Redirect to properties page
+      setTimeout(() => {
+        navigate('/properties');
+      }, 1500);
       
-      alert('Signup successful! (Demo mode)');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Signup error:', error);
-      alert('Signup failed. Please try again.');
+      
+      // Handle specific error messages from backend
+      if (error?.response?.data) {
+        const errorData = error.response.data;
+        const backendErrors: FormErrors = {};
+        
+        // Map backend errors to form fields
+        if (errorData.email) {
+          const emailError = Array.isArray(errorData.email) ? errorData.email[0] : errorData.email;
+          backendErrors.email = emailError;
+          toast.error(emailError);
+        }
+        
+        if (errorData.phone) {
+          const phoneError = Array.isArray(errorData.phone) ? errorData.phone[0] : errorData.phone;
+          backendErrors.phoneNo = phoneError;
+          toast.error(phoneError);
+        }
+        
+        if (errorData.password) {
+          const passwordError = Array.isArray(errorData.password) ? errorData.password[0] : errorData.password;
+          backendErrors.password = passwordError;
+          toast.error(passwordError);
+        }
+        
+        if (errorData.first_name) {
+          const firstNameError = Array.isArray(errorData.first_name) ? errorData.first_name[0] : errorData.first_name;
+          backendErrors.firstName = firstNameError;
+          toast.error(firstNameError);
+        }
+        
+        if (errorData.last_name) {
+          const lastNameError = Array.isArray(errorData.last_name) ? errorData.last_name[0] : errorData.last_name;
+          backendErrors.lastName = lastNameError;
+          toast.error(lastNameError);
+        }
+        
+        // Set all backend errors to display inline
+        if (Object.keys(backendErrors).length > 0) {
+          setErrors(prev => ({ ...prev, ...backendErrors }));
+        }
+        
+        // Show generic message if no specific field errors
+        if (errorData.message && Object.keys(backendErrors).length === 0) {
+          toast.error(errorData.message);
+        } else if (Object.keys(backendErrors).length === 0) {
+          toast.error('Signup failed. Please check your information and try again.');
+        }
+      } else {
+        toast.error('Network error. Please check your connection and try again.');
+      }
     } finally {
       setIsLoading(false);
     }

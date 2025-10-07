@@ -15,11 +15,10 @@ import SignupPage from './pages/auth/Signup/Signup';
 // import ForgotPasswordPage from '@/pages/auth/forgot-password/ForgotPasswordPage';
 
 // // Admin/Agent Pages
-// import Dashboard from '@/pages/dashboard/Dashboard';
+import Dashboard from './pages/Admin/Dashboard';
 // import LeadsPage from '@/pages/leads/LeadsPage';
 // import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
-// import ClientsPage from '@/pages/clients/ClientsPage';
-// import ClientDetailPage from '@/pages/clients/client-detail/ClientDetailPage';
+
 // import PropertiesPage from '@/pages/properties/PropertiesPage';
 // import PropertyDetailPage from '@/pages/properties/property-detail/PropertyDetailPage';
 // import AddPropertyPage from '@/pages/properties/add-property/AddPropertyPage';
@@ -29,8 +28,9 @@ import SignupPage from './pages/auth/Signup/Signup';
 // import InvoicesPage from '@/pages/invoices/InvoicesPage';
 // import InvoiceDetailPage from '@/pages/invoices/invoice-detail/InvoiceDetailPage';
 // import TransactionsPage from '@/pages/transactions/TransactionsPage';
-// import ReportsPage from '@/pages/reports/ReportsPage';
+
 // import SettingsPage from '@/pages/settings/SettingsPage';
+import Employees from './pages/Admin/EmployeeList';
 // import ProfilePage from '@/pages/profile/ProfilePage';
 
 // // Customer Portal Pages
@@ -44,6 +44,9 @@ import PropertyDetail from './pages/PropertyDetail/PropertyDetail';
 // // Public Pages
 import Landing from './pages/Landing/Landing';
 // import PropertiesListingPage from '@/pages/properties-listing/PropertiesListingPage';
+
+// Protected Route Component
+import ProtectedRoute from './components/ProtectedRoute';
 
 // 404 Page
 import NotFoundPage from './pages/not-found/NotFoundPage';
@@ -93,8 +96,16 @@ function App() {
                 </ProtectedRoute>
               }> */}
                 {/* <Route path="dashboard" element={<CustomerDashboard />} /> */}
-                <Route path="/properties" element={<Properties />} />
-                <Route path="/property/:1" element={<PropertyDetail />} />
+                <Route path="/properties" element={
+                  <ProtectedRoute>
+                    <Properties />
+                  </ProtectedRoute>
+                } />
+                <Route path="/property/:id" element={
+                  <ProtectedRoute>
+                    <PropertyDetail />
+                  </ProtectedRoute>
+                } />
                 {/* <Route path="deals" element={<CustomerDealsPage />} />
                 <Route path="invoices" element={<CustomerInvoicesPage />} />
                 <Route path="documents" element={<CustomerDocumentsPage />} />
@@ -103,14 +114,24 @@ function App() {
               </Route> */}
 
               {/* Admin/Agent Dashboard Routes */}
-              {/* <Route path="/dashboard" element={
-                <ProtectedRoute allowedRoles={['admin', 'agent']}>
-                  <DashboardLayout />
-                </ProtectedRoute>
+              <Route path="/dashboard" element={
+                // <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <Dashboard />
+                // </ProtectedRoute>
               }>
+                
                 <Route index element={<Dashboard />} />
-              </Route> */}
-
+              </Route>
+               <Route path="/admin/employees" element={
+                // <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                  <Employees />
+                // </ProtectedRoute>
+              }></Route>
+              
+              {/* Admin Properties Route - not protected as it handles auth internally */}
+              <Route path="/admin/properties" element={<Properties />} />
+              <Route path="/admin/properties/add" element={<Properties />} />
+              
               {/* Leads Routes */}
               {/* <Route path="/leads" element={
                 <ProtectedRoute allowedRoles={['admin', 'agent']}>

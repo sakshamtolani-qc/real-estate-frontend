@@ -172,6 +172,45 @@
   transform: translateY(-2px);
 }
 
+/* Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.auth-button {
+  padding: 15px 30px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: none;
+}
+
+.login-button {
+  background: var(--text-dark);
+  color: var(--primary-white);
+}
+
+.login-button:hover {
+  background: var(--secondary-blue);
+  transform: translateY(-2px);
+}
+
+.signup-button {
+  background: var(--text-dark);
+  color: var(--primary-white);
+}
+
+.signup-button:hover {
+  background: var(--secondary-blue);
+  transform: translateY(-2px);
+}
+
 .hero-image img {
   width: 100%;
   height: auto;

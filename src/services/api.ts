@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ApiResponse, ApiError } from '@/types';
 
 // Base API URL - Update this to match your backend
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
@@ -33,11 +33,11 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Handle 401 Unauthorized - redirect to login
+    // Handle 401 Unauthorized - Don't auto-redirect, let components handle it
+    // This prevents issues with the back button and login flow
     if (error.response?.status === 401) {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-      window.location.href = '/auth/login';
+      // Just log the error, don't clear storage or redirect
+      console.warn('401 Unauthorized - Authentication required');
     }
     
     // Handle network errors
@@ -58,37 +58,37 @@ api.interceptors.response.use(
 // API helper functions
 export const apiService = {
   // GET request
-  get: async <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+  get: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
     const response = await api.get(url, config);
     return response.data;
   },
 
   // POST request
-  post: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+  post: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
     const response = await api.post(url, data, config);
     return response.data;
   },
 
   // PUT request
-  put: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+  put: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
     const response = await api.put(url, data, config);
     return response.data;
   },
 
   // DELETE request
-  delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+  delete: async <T>(url: string, config?: AxiosRequestConfig): Promise<T> => {
     const response = await api.delete(url, config);
     return response.data;
   },
 
   // PATCH request
-  patch: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> => {
+  patch: async <T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> => {
     const response = await api.patch(url, data, config);
     return response.data;
   },
 
   // File upload
-  uploadFile: async <T>(url: string, file: File, onUploadProgress?: (progress: number) => void): Promise<ApiResponse<T>> => {
+  uploadFile: async <T>(url: string, file: File, onUploadProgress?: (progress: number) => void): Promise<T> => {
     const formData = new FormData();
     formData.append('file', file);
 

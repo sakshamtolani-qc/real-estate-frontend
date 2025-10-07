@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 import './LoginPage.css';
 
 interface LoginFormData {
@@ -8,12 +9,32 @@ interface LoginFormData {
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { login, user } = useAuth();
   const [formData, setFormData] = useState<LoginFormData>({
     emailOrPhone: '',
     password: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
+
+  // Clear any old tokens on mount
+  useEffect(() => {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('auth_user');
+  }, []);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      if ((user as any).is_superuser) {
+        navigate('/dashboard', { replace: true });
+      } else {
+        navigate('/properties', { replace: true });
+      }
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,28 +52,14 @@ const Login: React.FC = () => {
     setError('');
 
     try {
-      // TODO: Replace with actual API call when backend is ready
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
-      
-      // Mock login for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock JWT token (replace with actual token from API response)
-      const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.mocktoken';
-      localStorage.setItem('authToken', mockToken);
-      
-      // Redirect to dashboard or home page
-      console.log('Login successful!');
-      
-    } catch (error) {
-      setError('Invalid credentials. Please try again.');
-    } finally {
+      await login({
+        email: formData.emailOrPhone,
+        password: formData.password
+      });
+      // Navigation will be handled by the useEffect above
+    } catch (error: any) {
+      console.error('Login error:', error);
+      setError(error?.message || 'Invalid credentials. Please try again.');
       setIsLoading(false);
     }
   };

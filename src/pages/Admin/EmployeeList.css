@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+.employee-list-container {
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #EFF0F2;
+  padding-top: 70px; /* Space for fixed AdminHeader */
+}
+
+.employee-list-main {
+  flex: 1;
+  padding: 60px 40px;
+    background: #EFF0F2;
+}
+
+.employee-list-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.employee-list-title {
+  font-size: 48px;
+  font-weight: 600;
+  color:black;
+  text-align: center;
+  margin-bottom: 60px;
+  letter-spacing: -0.5px;
+}
+
+.title-highlight {
+  color: #d4af37;
+  position: relative;
+}
+
+.title-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+    color: #212121;
+  height: 3px;
+  background-color: #d4af37;
+}
+
+.employee-list-actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filters-btn,
+.add-staff-btn {
+  display: flex;
+    color: #000;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filters-btn:hover,
+.add-staff-btn:hover {
+  background-color: rgba(3, 22, 45, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.filters-btn:active,
+.add-staff-btn:active {
+  transform: translateY(0);
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  position: relative;
+}
+
+.search-input {
+  padding: 12px 50px 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: transparent;
+    color: #212121;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  width: 280px;
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #666;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.search-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+    color: #212121;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.3s ease;
+}
+
+.search-btn:hover {
+  color: #d4af37;
+}
+
+.table-wrapper {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 32px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employee-table thead {
+  background-color: #d4af37;
+}
+
+.employee-table th {
+  padding: 18px 24px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+    color: #212121;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.employee-table th:hover {
+  background-color: #c9a532;
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sort-icon {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.employee-table th:hover .sort-icon {
+  opacity: 1;
+}
+
+.employee-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.employee-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.employee-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.employee-table td {
+  padding: 20px 24px;
+    color: #212121;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-active {
+  background-color: rgba(231, 200, 115, 0.2);
+    color: #22C55E;
+  border: 1px solid rgba(231, 200, 115, 0.3);
+}
+
+.status-active::before {
+  background-color: #e7c873;
+}
+
+.status-inactive {
+  background-color: rgba(114, 114, 114, 0.1);
+    color: #666;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.status-inactive::before {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.page-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: black;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-btn:hover {
+  background-color: rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
+}
+
+.page-btn.active {
+  background-color: #d4af37;
+  border-color: #d4af37;
+  color: #1a4d4d;
+  font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+  .employee-list-main {
+    padding: 40px 30px;
+  }
+
+  .employee-list-title {
+    font-size: 40px;
+  }
+
+  .employee-table th,
+  .employee-table td {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .employee-list-main {
+    padding: 30px 20px;
+  }
+
+  .employee-list-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .employee-list-actions {
+    flex-direction: column;
+  }
+
+  .search-form {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  .employee-table {
+    min-width: 700px;
+  }
+
+  .employee-table th,
+  .employee-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .employee-list-title {
+    font-size: 28px;
+  }
+
+  .pagination {
+    gap: 8px;
+  }
+
+  .page-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .employee-list-main {
+    padding: 20px 16px;
+  }
+
+  .employee-list-title {
+    font-size: 24px;
+    margin-bottom: 32px;
+  }
+
+  .filters-btn,
+  .add-staff-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .employee-table th,
+  .employee-table td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .status-badge {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+}

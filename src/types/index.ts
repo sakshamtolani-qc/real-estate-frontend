@@ -24,17 +24,20 @@ export interface ApiError {
 // User Types
 export interface User {
   id: string;
-  uuid: string;
+  uuid?: string;
   username: string;
   email: string;
   first_name: string;
   last_name: string;
   phone?: string;
-  role: 'admin' | 'agent' | 'customer';
-  is_active: boolean;
+  role?: 'admin' | 'agent' | 'customer';
+  is_active?: boolean;
+  is_employee?: boolean;
+  is_client?: boolean;
   profile_picture?: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
+  is_superuser?: boolean;
 }
 
 // Lead Types

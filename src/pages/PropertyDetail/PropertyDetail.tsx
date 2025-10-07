@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
+import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
 import './PropertyDetail.css';
 
@@ -33,6 +35,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 export default function PropertyDetail() {
   const { id } = useParams();
+  const { user } = useAuth();
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
@@ -42,6 +45,19 @@ export default function PropertyDetail() {
     termsAccepted: false,
     privacyAccepted: false
   });
+  
+  // Check if user is an employee/admin (multiple ways for compatibility)
+  const isAdmin = Boolean(
+    user?.is_employee || 
+    user?.is_superuser ||
+    user?.role === 'admin' || 
+    user?.role === 'agent' ||
+    (user as any)?.is_employee === true
+  );
+  
+  // Debug log
+  console.log('PropertyDetail - User:', user);
+  console.log('PropertyDetail - isAdmin:', isAdmin);
 
   const handleFavorite = () => {
     alert('Favorite functionality will be implemented with backend');
@@ -87,7 +103,7 @@ export default function PropertyDetail() {
 
   return (
     <div className="property-detail-page">
-      <Header />
+      {isAdmin ? <AdminHeader /> : <Header />}
 
       <main className="property-detail-main">
         <div className="property-detail-container">

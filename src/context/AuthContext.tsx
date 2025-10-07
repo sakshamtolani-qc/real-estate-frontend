@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User, LoginForm } from '@/types';
 import { authService } from '../services';
 import { reToast } from '../utils';
+import { migrateUserData, needsUserDataRefresh, refreshUserData } from '../utils/userMigration';
 
 interface AuthContextType {
   user: User | null;
@@ -24,28 +25,67 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored auth data on app load
-    const storedToken = localStorage.getItem('auth_token');
-    const storedUser = localStorage.getItem('auth_user');
+    const initializeAuth = async () => {
+      // Check for stored auth data on app load
+      const storedToken = localStorage.getItem('auth_token');
+      
+      if (storedToken) {
+        // Migrate user data if needed
+        const migratedUser = migrateUserData();
+        
+        if (migratedUser) {
+          setToken(storedToken);
+          setUser(migratedUser as unknown as User);
+          
+          // If user data still needs refresh, fetch from backend
+          if (needsUserDataRefresh()) {
+            console.log('User data needs refresh, fetching from backend...');
+            const freshUser = await refreshUserData(storedToken);
+            if (freshUser) {
+              setUser(freshUser as unknown as User);
+            }
+          }
+        }
+      }
+      
+      setIsLoading(false);
+    };
+    
+    initializeAuth();
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    // Handle browser back button - only check when page is loaded from cache
+    const handlePageShow = (event: PageTransitionEvent) => {
+      // Only check if page was loaded from bfcache (back/forward button)
+      if (event.persisted) {
+        const storedToken = localStorage.getItem('auth_token');
+        const storedUser = localStorage.getItem('auth_user');
+        
+        // Only redirect if on a protected route and not authenticated
+        if ((!storedToken || !storedUser) && window.location.pathname.includes('dashboard')) {
+          window.location.href = '/login';
+        }
+      }
+    };
+
+    // Listen for pageshow event (fired when navigating back)
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+    };
   }, []);
 
   const login = async (credentials: LoginForm): Promise<void> => {
     setIsLoading(true);
     try {
       const response = await authService.login(credentials);
-      const { token: authToken, user: userData } = response.data;
       
-      setToken(authToken);
-      setUser(userData);
-      
-      localStorage.setItem('auth_token', authToken);
-      localStorage.setItem('auth_user', JSON.stringify(userData));
+  setToken(response.access);
+  setUser(response.user);
+
+  localStorage.setItem('auth_token', response.access);
+  localStorage.setItem('refresh_token', response.refresh);
+  localStorage.setItem('auth_user', JSON.stringify(response.user));
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -57,8 +97,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (userData: any): Promise<void> => {
     setIsLoading(true);
     try {
+      // Register the user
       await authService.register(userData);
-      // Auto-login after registration could be implemented here
+      
+      // Auto-login after successful registration
+      const loginCredentials = {
+        email: userData.email,
+        password: userData.password
+      };
+      
+      const response = await authService.login(loginCredentials);
+      
+      setToken(response.access);
+      setUser(response.user);
+      
+      localStorage.setItem('auth_token', response.access);
+      localStorage.setItem('refresh_token', response.refresh);
+      localStorage.setItem('auth_user', JSON.stringify(response.user));
     } catch (error) {
       console.error('Registration error:', error);
       throw error;
@@ -71,13 +126,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     setToken(null);
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('refresh_token');
     localStorage.removeItem('auth_user');
+    
+    // Clear session storage as well
+    sessionStorage.clear();
     
     // Optional: Call logout API
     authService.logout().catch(console.error);
     
     // Show success toast
     reToast.auth.logoutSuccess();
+    
+    // Clear browser history state to prevent back button access
+    if (window.history.state) {
+      window.history.replaceState(null, '', '/login');
+    }
   };
 
   const value: AuthContextType = {
