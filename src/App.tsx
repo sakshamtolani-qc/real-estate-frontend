@@ -16,7 +16,8 @@ import SignupPage from './pages/auth/Signup/Signup';
 
 // // Admin/Agent Pages
 import Dashboard from './pages/Admin/Dashboard';
-// import LeadsPage from '@/pages/leads/LeadsPage';
+import AddProperty from './pages/Admin/AddProperty';
+import LeadsList from './pages/Admin/LeadsList';
 // import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
 
 // import PropertiesPage from '@/pages/properties/PropertiesPage';
@@ -115,24 +116,44 @@ function App() {
 
               {/* Admin/Agent Dashboard Routes */}
               <Route path="/dashboard" element={
-                // <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <Dashboard />
-                // </ProtectedRoute>
+                </ProtectedRoute>
               }>
                 
                 <Route index element={<Dashboard />} />
               </Route>
                <Route path="/admin/employees" element={
-                // <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <Employees />
-                // </ProtectedRoute>
+                </ProtectedRoute>
               }></Route>
               
               {/* Admin Properties Route - not protected as it handles auth internally */}
               <Route path="/admin/properties" element={<Properties />} />
-              <Route path="/admin/properties/add" element={<Properties />} />
               
-              {/* Leads Routes */}
+              {/* Admin Add Property Route - Protected for admin only */}
+              <Route path="/admin/properties/add" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AddProperty />
+                </ProtectedRoute>
+              } />
+              
+              {/* Alternative Add Property Route - Protected for admin only */}
+              <Route path="/addproperty" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AddProperty />
+                </ProtectedRoute>
+              } />
+              
+              {/* Leads Routes - Admin only */}
+              <Route path="/admin/leads" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <LeadsList />
+                </ProtectedRoute>
+              } />
+              
+              {/* Old Leads Routes */}
               {/* <Route path="/leads" element={
                 <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <DashboardLayout />
