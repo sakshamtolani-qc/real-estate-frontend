@@ -45,6 +45,7 @@
 /* Left Side - Hero Section */
 .hero-section {
   position: relative;
+  flex: 1;
   width: 50%;
   display: flex;
   align-items: center;
@@ -97,6 +98,7 @@
 
 /* Right Side - Form Section */
 .form-section {
+  flex: 1;
   width: 50%;
   display: flex;
   align-items: center;
