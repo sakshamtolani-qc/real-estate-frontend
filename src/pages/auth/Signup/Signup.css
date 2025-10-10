@@ -287,6 +287,31 @@
   text-decoration: underline;
 }
 
+/* Home Link */
+.home-link {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--primary-gray);
+}
+
+.home-text {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.home-text:hover {
+  color: var(--text-dark);
+  text-decoration: none;
+  transform: translateX(-3px);
+}
+
 /* Tablet Responsive Design */
 @media (max-width: 1024px) {
   .signup-container {

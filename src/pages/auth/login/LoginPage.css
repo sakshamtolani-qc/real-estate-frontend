@@ -259,6 +259,30 @@
   text-decoration: underline;
 }
 
+.home-link {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.home-text {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.home-text:hover {
+  color: #212121;
+  text-decoration: none;
+  transform: translateX(-3px);
+}
+
 /* Tablet Styles */
 @media (max-width: 1024px) {
   .login-container {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Calendar, User } from 'lucide-react';
+import { X, Calendar, User, Trash2 } from 'lucide-react';
 import './LeadDetailSidebar.css';
 
 interface Agent {
@@ -58,6 +58,8 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   const [agents, setAgents] = useState<Agent[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -179,6 +181,43 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
     } finally {
       setSaving(false);
     }
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setDeleting(true);
+
+    try {
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch(`http://localhost:8000/api/leads/${leadId}/delete/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok) {
+        // Close the sidebar and refresh the list
+        onClose();
+        onUpdate();
+      } else {
+        console.error('Failed to delete lead');
+        alert('Failed to delete lead. Please try again.');
+      }
+    } catch (err) {
+      console.error('Failed to delete lead', err);
+      alert('An error occurred while deleting the lead.');
+    } finally {
+      setDeleting(false);
+      setShowDeleteConfirm(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowDeleteConfirm(false);
   };
 
   if (loading) {
@@ -345,14 +384,58 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
           </div>
 
           <div className="sidebar-actions">
-            <button type="button" className="btn-cancel" onClick={onClose}>
-              Cancel
+            <button 
+              type="button" 
+              className="btn-delete" 
+              onClick={handleDeleteClick}
+              disabled={saving || deleting}
+            >
+              <Trash2 size={16} />
+              Delete Lead
             </button>
-            <button type="submit" className="btn-update" disabled={saving}>
-              {saving ? 'Updating...' : 'Update Lead'}
-            </button>
+            <div className="sidebar-actions-right">
+              <button type="button" className="btn-cancel" onClick={onClose}>
+                Cancel
+              </button>
+              <button type="submit" className="btn-update" disabled={saving || deleting}>
+                {saving ? 'Updating...' : 'Update Lead'}
+              </button>
+            </div>
           </div>
         </form>
+
+        {showDeleteConfirm && (
+          <div className="delete-confirm-overlay" onClick={handleDeleteCancel}>
+            <div className="delete-confirm-dialog" onClick={(e) => e.stopPropagation()}>
+              <h3>Confirm Delete</h3>
+              <p>
+                Are you sure you want to delete this lead? 
+                <br />
+                <strong>{formData.first_name} {formData.last_name}</strong>
+                <br />
+                This action cannot be undone.
+              </p>
+              <div className="delete-confirm-actions">
+                <button 
+                  type="button" 
+                  className="btn-cancel" 
+                  onClick={handleDeleteCancel}
+                  disabled={deleting}
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="button" 
+                  className="btn-delete-confirm" 
+                  onClick={handleDeleteConfirm}
+                  disabled={deleting}
+                >
+                  {deleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -148,6 +148,12 @@ const Login: React.FC = () => {
                 Sign Up
               </Link>
             </div>
+
+            <div className="home-link">
+              <Link to="/" className="home-text">
+                ← Go to Home
+              </Link>
+            </div>
           </form>
         </div>
       </div>

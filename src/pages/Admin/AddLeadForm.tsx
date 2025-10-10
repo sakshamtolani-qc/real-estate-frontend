@@ -128,16 +128,36 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
         body: JSON.stringify(requestBody),
       });
 
-      if (response.ok) {
-        toast.success('Lead added successfully!');
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Show success message
+        toast.success(data.message || 'Lead added successfully!');
+        
+        // Reset form
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPhone('');
+        setBudgetMin('');
+        setBudgetMax('');
+        setStatus('new');
+        setAssignedAgent('');
+        
+        // Call parent callback to refresh list
         onLeadAdded();
       } else {
-        const error = await response.json();
-        toast.error(error.message || 'Failed to add lead');
+        // Show error message from backend
+        toast.error(data.message || 'Failed to add lead');
+        
+        // If duplicate lead, suggest viewing existing lead
+        if (data.existing_lead_id) {
+          console.log('Duplicate lead exists with ID:', data.existing_lead_id);
+        }
       }
     } catch (error) {
       console.error('Error adding lead:', error);
-      toast.error('An error occurred while adding lead');
+      toast.error('Network error. Please check your connection and try again.');
     } finally {
       setIsLoading(false);
     }

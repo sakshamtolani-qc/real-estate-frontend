@@ -217,17 +217,7 @@ const Landing: React.FC = () => {
                 <span className="highlight">Property</span>, Just a<br />
                 <span className="highlight">Click</span> Away.
               </h1>
-              <button className="cta-button">LET US GUIDE YOUR HOME</button>
-              {!user && (
-                <div className="auth-buttons">
-                  <button className="auth-button login-button" onClick={() => navigate('/login')}>
-                    Login
-                  </button>
-                  <button className="auth-button signup-button" onClick={() => navigate('/signup')}>
-                    Sign Up
-                  </button>
-                </div>
-              )}
+              <button className="cta-button">LET US GUIDE YOUR JOURNEY</button>
             </div>
             <div className="hero-image">
               <img src="/building1.png" alt="Buildings" />

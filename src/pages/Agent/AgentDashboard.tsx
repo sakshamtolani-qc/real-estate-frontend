@@ -231,7 +231,25 @@ const Dashboard: React.FC = () => {
         if (visitsResponse.ok) {
           const visitsData = await visitsResponse.json();
           if (visitsData.results && Array.isArray(visitsData.results)) {
-            setScheduledVisits(visitsData.results);
+            // Filter out past visits on the client side as well
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const currentTime = now.toTimeString().slice(0, 5); // HH:MM format
+            
+            const upcomingVisits = visitsData.results.filter((visit: ScheduledVisit) => {
+              // If visit is in the future, include it
+              if (visit.visit_date > today) {
+                return true;
+              }
+              // If visit is today, check if end time hasn't passed
+              if (visit.visit_date === today) {
+                return visit.end_time >= currentTime;
+              }
+              // Visit is in the past
+              return false;
+            });
+            
+            setScheduledVisits(upcomingVisits);
           }
         }
         

@@ -132,6 +132,13 @@ function App() {
                   <AgentLeads />
                 </ProtectedRoute>
               } />
+              
+              {/* Agent Add Property Route */}
+              <Route path="/agent/properties/add" element={
+                <ProtectedRoute allowedRoles={['agent']}>
+                  <AddProperty />
+                </ProtectedRoute>
+              } />
                <Route path="/admin/employees" element={
                 <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <Employees />
@@ -141,16 +148,16 @@ function App() {
               {/* Admin Properties Route - not protected as it handles auth internally */}
               <Route path="/admin/properties" element={<Properties />} />
               
-              {/* Admin Add Property Route - Protected for admin only */}
+              {/* Admin Add Property Route - Protected for admin and agent */}
               <Route path="/admin/properties/add" element={
-                <ProtectedRoute allowedRoles={['admin']}>
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <AddProperty />
                 </ProtectedRoute>
               } />
               
-              {/* Alternative Add Property Route - Protected for admin only */}
+              {/* Alternative Add Property Route - Protected for admin and agent */}
               <Route path="/addproperty" element={
-                <ProtectedRoute allowedRoles={['admin']}>
+                <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <AddProperty />
                 </ProtectedRoute>
               } />

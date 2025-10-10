@@ -94,11 +94,19 @@ const AgentLeads: React.FC = () => {
 
   // Handle navigation from notification
   useEffect(() => {
-    if (location.state && location.state.openAddLead) {
-      setInitialLeadData(location.state.leadData || null);
-      setShowAddForm(true);
-      // Clear the state to prevent reopening on refresh
-      window.history.replaceState({}, document.title);
+    if (location.state) {
+      // If notification wants to open existing lead detail
+      if (location.state.openLeadId) {
+        setSelectedLeadId(location.state.openLeadId);
+        // Clear the state to prevent reopening on refresh
+        window.history.replaceState({}, document.title);
+      }
+      // Legacy: if notification wants to open add lead form (kept for backward compatibility)
+      else if (location.state.openAddLead) {
+        setInitialLeadData(location.state.leadData || null);
+        setShowAddForm(true);
+        window.history.replaceState({}, document.title);
+      }
     }
   }, [location]);
 

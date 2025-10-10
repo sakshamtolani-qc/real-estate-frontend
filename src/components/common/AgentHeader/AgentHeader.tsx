@@ -49,11 +49,11 @@ export default function AgentHeader() {
   };
 
   const handleNotificationClick = (notification: Notification) => {
-    // Navigate to leads page with the notification data in state
+    // Navigate to leads page and open the existing lead detail
     if (notification.related_data && notification.related_data.lead_id) {
       navigate('/agent/leads', { 
         state: { 
-          openAddLead: true,
+          openLeadId: notification.related_data.lead_id,
           leadData: notification.related_data 
         } 
       });

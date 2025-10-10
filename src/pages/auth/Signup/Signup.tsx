@@ -319,6 +319,12 @@ const Signup: React.FC = () => {
               <span>Already have an account? </span>
               <Link to="/login">Login</Link>
             </div>
+
+            <div className="home-link">
+              <Link to="/" className="home-text">
+                ← Go to Home
+              </Link>
+            </div>
           </form>
         </div>
       </div>
