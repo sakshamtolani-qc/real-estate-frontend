@@ -5,12 +5,14 @@ import { useAuth } from '../../context/AuthContext';
 import './Landing.css';
 import {Footer} from '../../components/common/Footer/Footer';
 import Header from '../../components/common/Header/Header';
+import { ContactModal } from '../../components/ContactModal/ContactModal';
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,15 +45,10 @@ const Landing: React.FC = () => {
     setIsMenuOpen(false);
   };
 
-  // Handle property click - check if user is authenticated
+  // Handle property click - allow all users to view properties
   const handlePropertyClick = (propertyId: number) => {
-    if (user) {
-      // User is authenticated, go to property detail page
-      navigate(`/property/${propertyId}`);
-    } else {
-      // User is not authenticated, redirect to signup
-      navigate('/signup');
-    }
+    // Navigate to property detail page (no login required)
+    navigate(`/property/${propertyId}`);
   };
 
   const propertyTypes = [
@@ -406,7 +403,7 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Contact Section */}
-      {/* <section id="contact" className="contact-section">
+      <section id="contact" className="contact-section">
         <div className="container">
           <div className="section-header">
             <h2>Get in <span className="highlight">Touch</span></h2>
@@ -416,41 +413,52 @@ const Landing: React.FC = () => {
           <div className="contact-content">
             <div className="contact-info">
               <div className="contact-item">
+                <div className="contact-icon">
+                  <Phone size={24} />
+                </div>
                 <h4>Call Us</h4>
                 <p>+91 9026404xxx</p>
               </div>
               <div className="contact-item">
+                <div className="contact-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <polyline points="22,6 12,13 2,6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <h4>Email Us</h4>
                 <p>info@quorumproperty.com</p>
               </div>
               <div className="contact-item">
+                <div className="contact-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
                 <h4>Visit Us</h4>
-                <p>123 Property Street, Real Estate District, City 12345</p>
+                <p>123 Property Street, Real Estate District</p>
               </div>
             </div>
             
-            <div className="contact-form">
-              <form>
-                <div className="form-row">
-                  <input type="text" placeholder="Your Name" required />
-                  <input type="email" placeholder="Your Email" required />
-                </div>
-                <div className="form-row">
-                  <input type="tel" placeholder="Your Phone" required />
-                  <select required>
-                    <option value="">Property Type</option>
-                    <option value="villa">Villa</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="office">Office</option>
-                  </select>
-                </div>
-                <textarea placeholder="Your Message" rows={4} required></textarea>
-                <button type="submit" className="cta-button">Send Message</button>
-              </form>
+            <div className="contact-cta">
+              <button 
+                className="contact-button"
+                onClick={() => setIsContactModalOpen(true)}
+              >
+                Send us a Message
+              </button>
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={() => setIsContactModalOpen(false)} 
+        type="general"
+      />
 
       {/* Footer */}
       <Footer/>

@@ -11,6 +11,27 @@ export default function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
+  const scrollToSection = (sectionId: string) => {
+    // If not on landing page, navigate to it first
+    if (window.location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    } else {
+      // Already on landing page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    closeMenu();
+  };
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -51,18 +72,18 @@ export default function Header() {
         </Link>
 
         <nav className="nav-menu">
-          <Link to="/" className="nav-link">
+          <a href="#home" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
             Home
-          </Link>
+          </a>
           <Link to="/properties" className="nav-link">
             Listings
           </Link>
-          <Link to="/about" className="nav-link">
+          <a href="#about" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>
             About
-          </Link>
-          <Link to="/contact" className="nav-link">
+          </a>
+          <a href="#contact" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>
             Contact
-          </Link>
+          </a>
         </nav>
 
         <div className="header-actions">
@@ -133,22 +154,22 @@ export default function Header() {
             </div>
             
             <nav className="mobile-nav">
-              <Link to="/" className="mobile-nav-link" onClick={closeMenu}>
+              <a href="#home" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
                 <span className="nav-text">Home</span>
                 <span className="nav-arrow">→</span>
-              </Link>
+              </a>
               <Link to="/properties" className="mobile-nav-link" onClick={closeMenu}>
                 <span className="nav-text">Listings</span>
                 <span className="nav-arrow">→</span>
               </Link>
-              <Link to="/about" className="mobile-nav-link" onClick={closeMenu}>
+              <a href="#about" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>
                 <span className="nav-text">About</span>
                 <span className="nav-arrow">→</span>
-              </Link>
-              <Link to="/contact" className="mobile-nav-link" onClick={closeMenu}>
+              </a>
+              <a href="#contact" className="mobile-nav-link" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>
                 <span className="nav-text">Contact</span>
                 <span className="nav-arrow">→</span>
-              </Link>
+              </a>
             </nav>
             
             <div className="mobile-actions">

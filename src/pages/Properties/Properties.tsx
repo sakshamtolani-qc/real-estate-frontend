@@ -204,20 +204,16 @@ export default function Properties() {
     fetchProperties();
   }, []);
   
-  // Redirect to signup if not authenticated (only after loading is complete)
-  useEffect(() => {
-    if (!isLoading && !user) {
-      navigate('/signup');
-    }
-  }, [user, isLoading, navigate]);
+  // Allow all users to view properties (no login required)
+  // Removed authentication check
   
   // Debug log
   console.log('Properties - User:', user);
   console.log('Properties - isAdmin:', isAdmin);
   
-  // Show loading state while checking authentication or loading properties
-  if (isLoading || isLoadingProperties) {
-    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading...</div>;
+  // Show loading state only for properties (not authentication)
+  if (isLoadingProperties) {
+    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading properties...</div>;
   }
 
   const filterOptions: FilterType[] = [

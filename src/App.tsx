@@ -99,16 +99,9 @@ function App() {
                 </ProtectedRoute>
               }> */}
                 {/* <Route path="dashboard" element={<CustomerDashboard />} /> */}
-                <Route path="/properties" element={
-                  <ProtectedRoute>
-                    <Properties />
-                  </ProtectedRoute>
-                } />
-                <Route path="/property/:id" element={
-                  <ProtectedRoute>
-                    <PropertyDetail />
-                  </ProtectedRoute>
-                } />
+                {/* Public access to properties - no login required */}
+                <Route path="/properties" element={<Properties />} />
+                <Route path="/property/:id" element={<PropertyDetail />} />
                 {/* <Route path="deals" element={<CustomerDealsPage />} />
                 <Route path="invoices" element={<CustomerInvoicesPage />} />
                 <Route path="documents" element={<CustomerDocumentsPage />} />

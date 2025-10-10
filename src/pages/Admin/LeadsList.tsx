@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import AddLeadForm from './AddLeadForm';
 import Modal from './Modal';
 import LeadDetailSidebar from './LeadDetailSidebar';
@@ -18,8 +19,10 @@ interface Lead {
 }
 
 const LeadsList: React.FC = () => {
+  const location = useLocation();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
+  const [initialLeadData, setInitialLeadData] = useState<any>(null);
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,6 +84,16 @@ const LeadsList: React.FC = () => {
     fetchLeads();
   }, []);
 
+  // Handle navigation from notification
+  useEffect(() => {
+    if (location.state && location.state.openAddLead) {
+      setInitialLeadData(location.state.leadData || null);
+      setShowAddForm(true);
+      // Clear the state to prevent reopening on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
+
   const handleSort = (key: keyof Lead) => {
     let direction: 'asc' | 'desc' = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -121,11 +134,13 @@ const LeadsList: React.FC = () => {
   };
 
   const handleAddLeadClick = () => {
+    setInitialLeadData(null); // Clear any previous data
     setShowAddForm(true);
   };
 
   const handleLeadAdded = () => {
     setShowAddForm(false);
+    setInitialLeadData(null); // Clear the initial data
     fetchLeads();
   };
 
@@ -175,8 +190,18 @@ const LeadsList: React.FC = () => {
           </div>
 
           {showAddForm && (
-            <Modal onClose={() => setShowAddForm(false)}>
-              <AddLeadForm onLeadAdded={handleLeadAdded} />
+            <Modal onClose={() => {
+              setShowAddForm(false);
+              setInitialLeadData(null);
+            }}>
+              <AddLeadForm 
+                onLeadAdded={handleLeadAdded}
+                onClose={() => {
+                  setShowAddForm(false);
+                  setInitialLeadData(null);
+                }}
+                initialData={initialLeadData}
+              />
             </Modal>
           )}
 

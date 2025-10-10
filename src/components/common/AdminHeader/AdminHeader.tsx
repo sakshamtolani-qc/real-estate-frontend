@@ -1,20 +1,31 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Bell, User, Settings, LogOut, ChevronDown, Plus, List, Menu, X } from 'lucide-react';
+import { User, Settings, LogOut, ChevronDown, Plus, List, Menu, X } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { NotificationBell } from '../NotificationBell/NotificationBell';
 import './AdminHeader.css';
+
+interface Notification {
+  id: number;
+  type: string;
+  title: string;
+  message: string;
+  is_read: boolean;
+  related_data: any;
+  action_url: string;
+  created_at: string;
+  read_at: string | null;
+}
 
 export default function AdminHeader() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isListingsDropdownOpen, setIsListingsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const listingsRef = useRef<HTMLDivElement>(null);
   const userRef = useRef<HTMLDivElement>(null);
-  const notificationsRef = useRef<HTMLDivElement>(null);
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -24,9 +35,6 @@ export default function AdminHeader() {
       }
       if (userRef.current && !userRef.current.contains(event.target as Node)) {
         setIsUserDropdownOpen(false);
-      }
-      if (notificationsRef.current && !notificationsRef.current.contains(event.target as Node)) {
-        setIsNotificationsOpen(false);
       }
     };
 
@@ -40,14 +48,20 @@ export default function AdminHeader() {
     navigate('/login', { replace: true });
   };
 
-  // Dummy notifications - replace with real data later
-  const notifications = [
-    { id: 1, message: 'New lead assigned to you', time: '5 min ago', unread: true },
-    { id: 2, message: 'Property listing approved', time: '1 hour ago', unread: true },
-    { id: 3, message: 'Deal closed successfully', time: '3 hours ago', unread: false },
-  ];
+  const handleNotificationClick = (notification: Notification) => {
+    // Navigate to leads page with the notification data in state
+    if (notification.related_data && notification.related_data.lead_id) {
+      navigate('/admin/leads', { 
+        state: { 
+          openAddLead: true,
+          leadData: notification.related_data 
+        } 
+      });
+    } else if (notification.action_url) {
+      navigate(notification.action_url);
+    }
+  };
 
-  const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
     <header className="admin-header">
@@ -110,47 +124,7 @@ export default function AdminHeader() {
         {/* Right Side Actions */}
         <div className="admin-header-actions">
           {/* Notifications */}
-          <div className="admin-notification-wrapper" ref={notificationsRef}>
-            <button
-              className="admin-icon-button"
-              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-            >
-              <Bell size={20} />
-              {unreadCount > 0 && (
-                <span className="notification-badge">{unreadCount}</span>
-              )}
-            </button>
-
-            {isNotificationsOpen && (
-              <div className="admin-dropdown-menu notifications-menu">
-                <div className="notifications-header">
-                  <h3>Notifications</h3>
-                  <span className="unread-count">{unreadCount} unread</span>
-                </div>
-                <div className="notifications-list">
-                  {notifications.map(notification => (
-                    <div 
-                      key={notification.id} 
-                      className={`notification-item ${notification.unread ? 'unread' : ''}`}
-                    >
-                      <div className="notification-content">
-                        <p>{notification.message}</p>
-                        <span className="notification-time">{notification.time}</span>
-                      </div>
-                      {notification.unread && <div className="unread-dot"></div>}
-                    </div>
-                  ))}
-                </div>
-                <Link 
-                  to="/admin/notifications" 
-                  className="view-all-notifications"
-                  onClick={() => setIsNotificationsOpen(false)}
-                >
-                  View All Notifications
-                </Link>
-              </div>
-            )}
-          </div>
+          <NotificationBell onNotificationClick={handleNotificationClick} />
 
           {/* User Menu */}
           <div className="admin-user-wrapper" ref={userRef}>

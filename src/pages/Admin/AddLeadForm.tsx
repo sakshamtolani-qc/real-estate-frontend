@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import { toast } from '../../utils';
 
 interface AddLeadFormProps {
   onLeadAdded: () => void;
+  onClose?: () => void;
+  initialData?: any;
 }
 
 interface Agent {
@@ -10,7 +13,7 @@ interface Agent {
   name: string;
 }
 
-const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
+const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initialData }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,6 +25,22 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // Initialize form with notification data if provided
+  useEffect(() => {
+    if (initialData) {
+      const firstName = initialData.lead_name ? initialData.lead_name.split(' ')[0] : '';
+      const lastName = initialData.lead_name ? initialData.lead_name.split(' ').slice(1).join(' ') : '';
+      
+      setFirstName(firstName || '');
+      setLastName(lastName || '');
+      setEmail(initialData.lead_email || '');
+      setPhone(initialData.lead_phone || '');
+      setBudgetMin(initialData.budget_min || '');
+      setBudgetMax(initialData.budget_max || '');
+      setStatus('new'); // Default status for new leads from notifications
+    }
+  }, [initialData]);
 
   useEffect(() => {
     // Check if user is admin
@@ -126,7 +145,19 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
 
   return (
     <div className="add-staff-form">
-      <h2 className="form-title">Add New Lead</h2>
+      <div className="form-header">
+        <h2 className="form-title">Add New Lead</h2>
+        {onClose && (
+          <button 
+            type="button" 
+            className="close-btn" 
+            onClick={onClose}
+            aria-label="Close"
+          >
+            <X size={24} />
+          </button>
+        )}
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
@@ -251,6 +282,16 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
         </div>
 
         <div className="form-actions">
+          {onClose && (
+            <button 
+              type="button" 
+              className="cancel-btn"
+              onClick={onClose}
+              disabled={isLoading}
+            >
+              Cancel
+            </button>
+          )}
           <button 
             type="submit" 
             className="submit-btn"

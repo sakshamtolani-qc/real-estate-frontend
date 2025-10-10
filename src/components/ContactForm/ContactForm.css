@@ -1,0 +1,140 @@
+.contact-form-wrapper {
+  width: 100%;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  padding: 0.875rem 1rem;
+  border: 2px solid #4A4A4A;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  transition: all 0.3s;
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.contact-form select {
+  cursor: pointer;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #666666;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+  border-color: #D4AF37;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+  background-color: #FFFFFF;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.checkbox-group {
+  margin: 0.5rem 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: #D4AF37;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.checkbox-text {
+  color: #333333;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.status-message {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background-color: #D4F4DD;
+  color: #0D5C2F;
+  border: 2px solid #4CAF50;
+}
+
+.status-message.error {
+  background-color: #FFE5E5;
+  color: #991B1B;
+  border: 2px solid #E57373;
+}
+
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  background: #000000;
+  color: #D4AF37;
+  border: 2px solid #D4AF37;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #D4AF37;
+  color: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import { ContactModal } from '../../components/ContactModal/ContactModal';
 import api from '../../services/api';
 import './PropertyDetail.css';
 
@@ -41,13 +42,7 @@ export default function PropertyDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [scheduleForm, setScheduleForm] = useState({
-    callTime: '',
-    date: '',
-    termsAccepted: false,
-    privacyAccepted: false
-  });
+  const [showContactModal, setShowContactModal] = useState(false);
   
   // Check if user is an employee/admin (multiple ways for compatibility)
   const isAdmin = Boolean(
@@ -137,22 +132,6 @@ export default function PropertyDetail() {
     );
   };
 
-  const handleScheduleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!scheduleForm.termsAccepted || !scheduleForm.privacyAccepted) {
-      alert('Please accept both terms and conditions');
-      return;
-    }
-    console.log('Schedule form submitted:', scheduleForm);
-    alert('Call scheduled successfully!');
-    setShowScheduleModal(false);
-    setScheduleForm({
-      callTime: '',
-      date: '',
-      termsAccepted: false,
-      privacyAccepted: false
-    });
-  };
 
   // Show loading state
   if (isLoading || !property) {
@@ -261,9 +240,9 @@ export default function PropertyDetail() {
 
                 <button
                   className="schedule-call-button"
-                  onClick={() => setShowScheduleModal(true)}
+                  onClick={() => setShowContactModal(true)}
                 >
-                  Schedule a call
+                  Schedule a Visit
                 </button>
               </div>
             </aside>
@@ -292,77 +271,13 @@ export default function PropertyDetail() {
         </div>
       )}
 
-      {showScheduleModal && (
-        <div className="schedule-modal-overlay" onClick={() => setShowScheduleModal(false)}>
-          <div className="schedule-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={() => setShowScheduleModal(false)}>
-              <X size={24} />
-            </button>
-
-            <div className="modal-gallery-preview">
-              {mockPropertyData.images.slice(0, 3).map((image, index) => (
-                <img key={index} src={image} alt={`Preview ${index + 1}`} className="modal-preview-image" />
-              ))}
-            </div>
-
-            <h2 className="schedule-modal-title">Schedule A Call</h2>
-
-            <form className="schedule-form" onSubmit={handleScheduleSubmit}>
-              <div className="form-group">
-                <label htmlFor="callTime">When would you like to receive a call?</label>
-                <select
-                  id="callTime"
-                  value={scheduleForm.callTime}
-                  onChange={(e) => setScheduleForm({...scheduleForm, callTime: e.target.value})}
-                  required
-                >
-                  <option value="">Select time</option>
-                  <option value="morning">Morning (9 AM - 12 PM)</option>
-                  <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
-                  <option value="evening">Evening (4 PM - 8 PM)</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="date">Enter the date</label>
-                <input
-                  type="date"
-                  id="date"
-                  value={scheduleForm.date}
-                  onChange={(e) => setScheduleForm({...scheduleForm, date: e.target.value})}
-                  required
-                />
-              </div>
-
-              <div className="form-checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={scheduleForm.termsAccepted}
-                    onChange={(e) => setScheduleForm({...scheduleForm, termsAccepted: e.target.checked})}
-                  />
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
-                </label>
-              </div>
-
-              <div className="form-checkbox-group">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={scheduleForm.privacyAccepted}
-                    onChange={(e) => setScheduleForm({...scheduleForm, privacyAccepted: e.target.checked})}
-                  />
-                  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</span>
-                </label>
-              </div>
-
-              <button type="submit" className="schedule-submit-btn">
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Contact Modal for scheduling visits */}
+      <ContactModal 
+        isOpen={showContactModal} 
+        onClose={() => setShowContactModal(false)} 
+        type="property"
+        propertyId={property.id}
+      />
 
       <Footer />
     </div>
