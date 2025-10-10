@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Plus, TrendingUp, Calendar, Clock, MapPin, Users, Send, X } from 'lucide-react';
-import Header from '../../components/common/Header/Header';
+import { AgentHeader } from '../../components/common';
 import {Footer} from '../../components/common/Footer/Footer';
 import './AgentDashboard.css';
 
@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="agent-dashboard-container">
-      <Header />
+      <AgentHeader />
 
       <div className="agent-dashboard-hero">
         <div className="agent-hero-content">

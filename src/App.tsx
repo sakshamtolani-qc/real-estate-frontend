@@ -19,6 +19,7 @@ import Dashboard from './pages/Admin/Dashboard';
 import AgentDashboard from './pages/Agent/AgentDashboard';
 import AddProperty from './pages/Admin/AddProperty';
 import LeadsList from './pages/Admin/LeadsList';
+import AgentLeads from './pages/Agent/AgentLeads';
 // import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
 
 // import PropertiesPage from '@/pages/properties/PropertiesPage';
@@ -129,6 +130,13 @@ function App() {
               <Route path="/agent/dashboard" element={
                 <ProtectedRoute allowedRoles={['agent']}>
                   <AgentDashboard />
+                </ProtectedRoute>
+              } />
+              
+              {/* Agent Leads Route */}
+              <Route path="/agent/leads" element={
+                <ProtectedRoute allowedRoles={['agent']}>
+                  <AgentLeads />
                 </ProtectedRoute>
               } />
                <Route path="/admin/employees" element={

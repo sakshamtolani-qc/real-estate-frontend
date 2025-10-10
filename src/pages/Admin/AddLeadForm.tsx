@@ -21,9 +21,23 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
   const [assignedAgent, setAssignedAgent] = useState('');
   const [agents, setAgents] = useState<Agent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Fetch agents for assignment dropdown
+    // Check if user is admin
+    const checkUserRole = () => {
+      try {
+        const userStr = localStorage.getItem('auth_user');
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          setIsAdmin(user.is_superuser || user.is_staff || false);
+        }
+      } catch (err) {
+        console.error('Failed to parse user data', err);
+      }
+    };
+    
+    // Fetch agents for assignment dropdown (only for admins)
     const fetchAgents = async () => {
       try {
         const token = localStorage.getItem('auth_token');
@@ -46,7 +60,21 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
         console.error('Failed to fetch agents', err);
       }
     };
-    fetchAgents();
+    
+    checkUserRole();
+    
+    // Only fetch agents if user is admin
+    const userStr = localStorage.getItem('auth_user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        if (user.is_superuser || user.is_staff) {
+          fetchAgents();
+        }
+      } catch (err) {
+        console.error('Failed to parse user data', err);
+      }
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,22 +83,30 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
 
     try {
       const token = localStorage.getItem('auth_token');
+      
+      // Prepare request body
+      const requestBody: any = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone,
+        budget_min: budgetMin ? parseFloat(budgetMin) : null,
+        budget_max: budgetMax ? parseFloat(budgetMax) : null,
+        status,
+      };
+      
+      // Only include assigned_to if user is admin and an agent was selected
+      if (isAdmin && assignedAgent) {
+        requestBody.assigned_to = assignedAgent;
+      }
+      
       const response = await fetch('http://localhost:8000/api/leads/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone,
-          budget_min: budgetMin ? parseFloat(budgetMin) : null,
-          budget_max: budgetMax ? parseFloat(budgetMax) : null,
-          status,
-          assigned_to: assignedAgent || null,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (response.ok) {
@@ -187,21 +223,31 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded }) => {
               <option value="lost">Lost</option>
             </select>
           </div>
-          <div className="form-group">
-            <label htmlFor="assignedAgent">Assign Agent</label>
-            <select
-              id="assignedAgent"
-              value={assignedAgent}
-              onChange={(e) => setAssignedAgent(e.target.value)}
-            >
-              <option value="">-- Select Agent --</option>
-              {agents.map((agent) => (
-                <option key={agent.id} value={agent.id}>
-                  {agent.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          {isAdmin && (
+            <div className="form-group">
+              <label htmlFor="assignedAgent">Assign Agent</label>
+              <select
+                id="assignedAgent"
+                value={assignedAgent}
+                onChange={(e) => setAssignedAgent(e.target.value)}
+              >
+                <option value="">-- Select Agent --</option>
+                {agents.map((agent) => (
+                  <option key={agent.id} value={agent.id}>
+                    {agent.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {!isAdmin && (
+            <div className="form-group">
+              <label>Assignment</label>
+              <p style={{ margin: '10px 0', color: '#666', fontSize: '14px' }}>
+                This lead will be automatically assigned to you
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="form-actions">
