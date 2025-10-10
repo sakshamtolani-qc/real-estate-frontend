@@ -16,6 +16,7 @@ import SignupPage from './pages/auth/Signup/Signup';
 
 // // Admin/Agent Pages
 import Dashboard from './pages/Admin/Dashboard';
+import AgentDashboard from './pages/Agent/AgentDashboard';
 import AddProperty from './pages/Admin/AddProperty';
 import LeadsList from './pages/Admin/LeadsList';
 // import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
@@ -114,15 +115,22 @@ function App() {
                 <Route index element={<Navigate to="dashboard" replace />} />
               </Route> */}
 
-              {/* Admin/Agent Dashboard Routes */}
+              {/* Admin Dashboard Routes */}
               <Route path="/dashboard" element={
-                <ProtectedRoute allowedRoles={['admin', 'agent']}>
+                <ProtectedRoute allowedRoles={['admin']}>
                   <Dashboard />
                 </ProtectedRoute>
               }>
                 
                 <Route index element={<Dashboard />} />
               </Route>
+              
+              {/* Agent Dashboard Routes */}
+              <Route path="/agent/dashboard" element={
+                <ProtectedRoute allowedRoles={['agent']}>
+                  <AgentDashboard />
+                </ProtectedRoute>
+              } />
                <Route path="/admin/employees" element={
                 <ProtectedRoute allowedRoles={['admin', 'agent']}>
                   <Employees />

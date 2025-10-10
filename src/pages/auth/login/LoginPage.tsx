@@ -18,19 +18,18 @@ const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
 
-  // Clear any old tokens on mount
-  useEffect(() => {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('auth_user');
-  }, []);
-
-  // Redirect if already logged in
+  // Redirect if already logged in (but don't clear tokens - user might be re-visiting)
   useEffect(() => {
     if (user) {
+      // Check user role and redirect accordingly
       if ((user as any).is_superuser) {
+        // Admin goes to admin dashboard
         navigate('/dashboard', { replace: true });
+      } else if ((user as any).is_employee) {
+        // Agent/Staff goes to agent dashboard
+        navigate('/agent/dashboard', { replace: true });
       } else {
+        // Regular customer goes to properties
         navigate('/properties', { replace: true });
       }
     }

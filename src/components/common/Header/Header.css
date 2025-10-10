@@ -82,6 +82,102 @@
   background-color: #FFFEF9;
 }
 
+/* User Menu Container */
+.user-menu-container {
+  position: relative;
+}
+
+/* User Dropdown */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+  min-width: 240px;
+  z-index: 1000;
+  animation: dropdownFadeIn 0.2s ease-out;
+  border: 1px solid #EFF0F2;
+  overflow: hidden;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-dropdown-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #EFF0F2;
+  background: linear-gradient(135deg, #FFFEF9 0%, #FFFFFF 100%);
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #212121;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.user-email {
+  font-size: 12px;
+  color: #666;
+  margin: 0.25rem 0 0 0;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-dropdown-divider {
+  height: 1px;
+  background: #EFF0F2;
+  margin: 0.5rem 0;
+}
+
+.user-dropdown-item {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: none;
+  background: transparent;
+  color: #212121;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.user-dropdown-item:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.05) 100%);
+  color: #D4AF37;
+}
+
+.user-dropdown-item.logout {
+  color: #d32f2f;
+  margin-top: 0.25rem;
+}
+
+.user-dropdown-item.logout:hover {
+  background: linear-gradient(135deg, rgba(211, 47, 47, 0.08) 0%, rgba(211, 47, 47, 0.05) 100%);
+  color: #c62828;
+}
+
+.user-dropdown-item svg {
+  flex-shrink: 0;
+}
+
 /* Mobile Menu Button - Hidden by default */
 .mobile-menu-button {
   display: none;
