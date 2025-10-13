@@ -127,8 +127,9 @@ export default function Header() {
               )}
             </div>
           ) : (
-            <Link to="/login" className="user-button">
+            <Link to="/login" className="user-button login-tooltip-container">
               <User size={20} />
+              <span className="login-tooltip">Click to Login</span>
             </Link>
           )}
         </div>

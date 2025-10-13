@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { ButtonLoader } from '../../../components/common/Loader';
 import './LoginPage.css';
 
 interface LoginFormData {
@@ -17,6 +19,7 @@ const Login: React.FC = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
+  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already logged in (but don't clear tokens - user might be re-visiting)
   useEffect(() => {
@@ -118,25 +121,38 @@ const Login: React.FC = () => {
               <label htmlFor="password" className="input-label">
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Password"
-                className="input-field"
-                required
-              />
+              <div className="password-input-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  placeholder="Password"
+                  className="input-field"
+                  required
+                />
+                <button
+                  type="button"
+                  className="password-toggle-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
 
-            <button 
-              type="submit" 
-              className={`login-button ${isLoading ? 'loading' : ''}`}
-              disabled={isLoading}
-            >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
+            {isLoading ? (
+              <ButtonLoader text="Logging in..." fullWidth={true} size="md" variant="primary" />
+            ) : (
+              <button 
+                type="submit" 
+                className="login-button"
+              >
+                Login
+              </button>
+            )}
 
             <div className="divider">
               <span>Or</span>

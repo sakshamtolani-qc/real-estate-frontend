@@ -4,6 +4,7 @@ import { TrendingUp, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import { PageLoader } from '../../components/common/Loader';
 import api from '../../services/api';
 import './Dashboard.css';
 
@@ -42,6 +43,7 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [leadSources, setLeadSources] = useState<LeadSourceData[]>([]);
   const [selectedSource, setSelectedSource] = useState('');
+  const [isLoadingData, setIsLoadingData] = useState(true);
   
   // Prevent browser caching of this page and handle back button
   useEffect(() => {
@@ -205,10 +207,24 @@ const Dashboard = () => {
         console.error('Failed to fetch user name', err);
       }
     };
-    fetchEmployees();
-    fetchStats();
-    fetchLeadSources();
-    fetchUserName();
+    const loadAllData = async () => {
+      setIsLoadingData(true);
+      const startTime = Date.now();
+      await Promise.all([
+        fetchEmployees(),
+        fetchStats(),
+        fetchLeadSources(),
+        fetchUserName()
+      ]);
+      // Ensure loader shows for at least 1 second
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 1000 - elapsedTime);
+      setTimeout(() => {
+        setIsLoadingData(false);
+      }, remainingTime);
+    };
+
+    loadAllData();
   }, [user, isLoading]);
 
   const getGreeting = () => {
@@ -217,6 +233,11 @@ const Dashboard = () => {
     if (hour < 18) return 'Good Afternoon';
     return 'Good Evening';
   };
+
+  // Show loading state while fetching data
+  if (isLoadingData) {
+    return <PageLoader message="Loading Dashboard..." fullScreen={true} />;
+  }
 
   return (
     <div className="dashboard-container">

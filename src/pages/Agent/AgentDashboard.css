@@ -1,10 +1,10 @@
 :root {
-  --primary-color: #FFFFFF;
+  --primary-color: #000000;
   --secondary-color: #E7C873;
   --text-color-primary: #D4AF37;
   --text-color-secondary: #212121;
-  --background-dark: #265E5E;
-  --background-light: #2d7171;
+  --background-dark: #EFF0F2;
+  --background-light:#EFF0F2;
   --card-beige: #E5C6A0;
   --card-yellow: #F4D8A8;
   --card-green: #DCEFD8;
@@ -47,7 +47,7 @@
 
 .agent-hero-text .agent-name-highlight {
   color: var(--text-color-primary);
-  font-weight: 600;
+  font-weight: 800;
   font-size: 3rem;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
@@ -57,7 +57,7 @@
   font-size: 1.5rem;
   color: var(--primary-color);
   margin-top: 1rem;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .agent-hero-text .agent-highlight-text {

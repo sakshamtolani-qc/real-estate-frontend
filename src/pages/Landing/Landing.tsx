@@ -52,7 +52,7 @@ const Landing: React.FC = () => {
   };
 
   const propertyTypes = [
-    { title: 'Modern Villa', subtitle: '15 Properties', image: '/modern-villa.jpg' },
+    { title: 'Modern Villa', subtitle: '15 Properties', image: '/mordern-villa.jpg' },
     { title: 'Apartment', subtitle: '3 Properties', image: '/apartment.jpg' },
     { title: 'Single Family', subtitle: '5 Properties', image: '/single-family.jpg' },
     { title: 'Office', subtitle: '2 Properties', image: '/office.jpg' }
@@ -236,9 +236,9 @@ const Landing: React.FC = () => {
           
           <div className="property-types">
             {propertyTypes.map((type, index) => (
-              <div key={index} className="property-type-card" onClick={() => handlePropertyClick(index + 1)} style={{ cursor: 'pointer' }}>
-                <img src={type.image} alt={type.title} />
-                <div className="property-type-info">
+              <div key={index} className="landing-property-card" onClick={() => handlePropertyClick(index + 1)} style={{ cursor: 'pointer' }}>
+                <img src={type.image} alt={type.title} className="landing-property-image" />
+                <div className="landing-property-overlay">
                   <h3>{type.title}</h3>
                   <p>{type.subtitle}</p>
                 </div>
@@ -249,15 +249,17 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Featured Properties Section */}
-      <section id="listings" className="featured-properties">
+      <section id="listings" className="landing-featured-section">
         <div className="container">
-          <div className="section-header">
-            <h2>Featured <span className="highlight">Properties</span></h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <div className="section-filters">
-              <button className="filter-active">All Properties</button>
-              <button>For Sale</button>
-              <button>For Rent</button>
+          <div className="landing-featured-header">
+            <div className="landing-featured-title">
+              <h2>Featured <span className="highlight">Properties</span></h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
+            <div className="landing-featured-filters">
+              <button className="landing-filter-btn landing-filter-active">All Properties</button>
+              <button className="landing-filter-btn">For Sale</button>
+              <button className="landing-filter-btn">For Rent</button>
             </div>
           </div>
 
@@ -363,30 +365,23 @@ const Landing: React.FC = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="about-section">
+      <section id="about" className="landing-about-section">
         <div className="container">
-          <div className="about-content">
-            <div className="about-text">
-              <h2>About <span className="highlight">Quorum Property</span></h2>
-              <p>We are a leading real estate company dedicated to helping you find your perfect home. With years of experience in the property market, our team of expert realtors provides personalized service to match you with properties that suit your lifestyle and budget.</p>
-              <p>From luxury villas to modern apartments, we offer a diverse portfolio of properties across prime locations. Our commitment to excellence and customer satisfaction has made us a trusted partner for thousands of property buyers and sellers.</p>
-              <div className="about-features">
-                <div className="feature">
-                  <h4>Expert Guidance</h4>
-                  <p>Professional realtors with deep market knowledge</p>
-                </div>
-                <div className="feature">
-                  <h4>Diverse Portfolio</h4>
-                  <p>Wide range of properties to suit every need</p>
-                </div>
-                <div className="feature">
-                  <h4>Trusted Service</h4>
-                  <p>Proven track record of successful transactions</p>
-                </div>
+          <div className="landing-about-content">
+            <div className="landing-about-left">
+              <h2>Discover More <span className="highlight">About</span><br />Properties</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <div className="landing-about-links">
+                <button className="landing-about-link">Ask A Question</button>
+                <button className="landing-about-link">Find A Property</button>
               </div>
+              <button className="landing-about-cta">Let Us Guide Your Home</button>
             </div>
-            <div className="about-image">
-              <img src="/about.jpg" alt="About Us" />
+            <div className="landing-about-right">
+              <div className="landing-about-single-image">
+                <img src="/about.jpg" alt="About Us" />
+              </div>
             </div>
           </div>
         </div>

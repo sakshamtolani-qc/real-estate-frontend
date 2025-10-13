@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, Plus, TrendingUp, Calendar, Clock, MapPin, Users, Send, X } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import { AgentHeader } from '../../components/common';
 import {Footer} from '../../components/common/Footer/Footer';
+import { PageLoader, ButtonLoader } from '../../components/common/Loader';
 import './AgentDashboard.css';
 
 interface Lead {
@@ -83,9 +85,13 @@ const Dashboard: React.FC = () => {
       
       if (response.ok) {
         setScheduledVisits(scheduledVisits.filter(visit => visit.id !== visitId));
+        toast.success('Visit deleted successfully!');
+      } else {
+        toast.error('Failed to delete visit. Please try again.');
       }
     } catch (error) {
       console.error('Error deleting visit:', error);
+      toast.error('An error occurred while deleting the visit.');
     }
   };
 
@@ -109,7 +115,7 @@ const Dashboard: React.FC = () => {
     e.preventDefault();
     
     if (!formData.lead_id || !formData.property_id || !formData.visit_date || !formData.start_time || !formData.end_time) {
-      alert('Please fill in all required fields');
+      toast.error('Please fill in all required fields');
       return;
     }
     
@@ -152,14 +158,14 @@ const Dashboard: React.FC = () => {
           location: ''
         });
         
-        alert('Visit scheduled successfully!');
+        toast.success('Visit scheduled successfully!');
       } else {
         const errorData = await response.json();
-        alert(`Error: ${errorData.message || 'Failed to schedule visit'}`);
+        toast.error(errorData.message || 'Failed to schedule visit');
       }
     } catch (error) {
       console.error('Error scheduling visit:', error);
-      alert('Failed to schedule visit. Please try again.');
+      toast.error('Failed to schedule visit. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -298,6 +304,11 @@ const Dashboard: React.FC = () => {
     
     fetchDashboardData();
   }, [user, isLoading, navigate]);
+
+  // Show loader while fetching initial data
+  if (isLoadingData) {
+    return <PageLoader message="Loading Agent Dashboard..." fullScreen={true} />;
+  }
 
   return (
     <div className="agent-dashboard-container">

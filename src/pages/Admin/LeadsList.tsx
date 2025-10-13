@@ -6,6 +6,7 @@ import LeadDetailSidebar from './LeadDetailSidebar';
 import { Filter, Plus, Search, ChevronDown } from 'lucide-react';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import { PageLoader } from '../../components/common/Loader';
 import './LeadsList.css';
 
 interface Lead {
@@ -26,12 +27,15 @@ const LeadsList: React.FC = () => {
   const [selectedLeadId, setSelectedLeadId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof Lead | null;
     direction: 'asc' | 'desc';
   }>({ key: null, direction: 'asc' });
 
   const fetchLeads = async () => {
+    const startTime = Date.now();
+    setIsLoading(true);
     try {
       const token = localStorage.getItem('auth_token');
       if (!token) {
@@ -77,6 +81,13 @@ const LeadsList: React.FC = () => {
       );
     } catch (err) {
       console.error('Failed to fetch leads', err);
+    } finally {
+      // Ensure loader shows for at least 1 second
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 1000 - elapsedTime);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
     }
   };
 
@@ -163,6 +174,10 @@ const LeadsList: React.FC = () => {
   const handleLeadUpdated = () => {
     fetchLeads();
   };
+
+  if (isLoading) {
+    return <PageLoader message="Loading Leads..." fullScreen={true} />;
+  }
 
   return (
     <div className="leads-list-container">

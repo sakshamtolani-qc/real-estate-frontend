@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Minus, Plus, Upload } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import AgentHeader from '../../components/common/AgentHeader/AgentHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import { ButtonLoader } from '../../components/common/Loader';
 import './AddProperty.css';
 
 interface PropertyType {
@@ -130,7 +132,7 @@ const AddProperty = () => {
       const data = await response.json();
 
       if (data.success) {
-        setSuccess(data.message);
+        toast.success('Property added successfully!');
         // Reset form
         setTitle('');
         setSelectedPropertyType('');
@@ -143,15 +145,14 @@ const AddProperty = () => {
         setDescription('');
         setFeatured(false);
         setPhotos([]);
-        
-        setTimeout(() => {
-          setSuccess('');
-        }, 5000);
+        setSuccess('');
       } else {
         setError(data.message || 'Failed to create property');
+        toast.error(data.message || 'Failed to create property');
       }
     } catch (err) {
       setError('An error occurred while creating the property');
+      toast.error('An error occurred while creating the property');
       console.error(err);
     } finally {
       setSubmitting(false);
@@ -175,7 +176,10 @@ const AddProperty = () => {
     };
 
     console.log('Preview property:', propertyData);
-    alert(`Preview:\n\nTitle: ${title}\nType: ${propertyData.propertyType}\nListing: ${listingType}\nLocation: ${location}\nPrice: ${priceValue}\nBedrooms: ${rooms} BHK\nBathrooms: ${bathrooms}\nArea: ${squareFeet || 'N/A'} sqft\nFeatured: ${featured ? 'Yes' : 'No'}\nDescription: ${description}\nPhotos: ${photos.length}`);
+    toast.info(
+      `Preview Property:\n${title} • ${propertyData.propertyType}\n${priceValue} • ${rooms} BHK\n${location}`,
+      { duration: 5000 }
+    );
   };
 
   // Determine which header to show based on user role
@@ -366,13 +370,16 @@ const AddProperty = () => {
                   placeholder="Describe the property features, amenities, and highlights..."
                 />
                 <div className="action-buttons">
-                  <button 
-                    onClick={handlePostRoom} 
-                    className="post-btn"
-                    disabled={submitting}
-                  >
-                    {submitting ? 'Creating Property...' : 'Create Property'}
-                  </button>
+                  {submitting ? (
+                    <ButtonLoader text="Creating Property..." fullWidth={false} size="md" variant="primary" />
+                  ) : (
+                    <button 
+                      onClick={handlePostRoom} 
+                      className="post-btn"
+                    >
+                      Create Property
+                    </button>
+                  )}
                   <button onClick={handlePreview} className="preview-btn" disabled={submitting}>
                     Preview
                   </button>

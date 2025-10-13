@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, Calendar, User, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 import './LeadDetailSidebar.css';
 
 interface Agent {
@@ -168,6 +169,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
       });
 
       if (res.ok) {
+        toast.success('Lead updated successfully!');
         // Clear the notes field after successful submission
         setFormData(prev => ({ ...prev, notes: '' }));
         // Refresh lead details to get updated notes history
@@ -175,6 +177,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
         onUpdate();
       } else {
         console.error('Failed to update lead');
+        toast.error('Failed to update lead. Please try again.');
       }
     } catch (err) {
       console.error('Failed to update lead', err);
@@ -200,16 +203,17 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
       });
 
       if (res.ok) {
+        toast.success('Lead deleted successfully!');
         // Close the sidebar and refresh the list
         onClose();
         onUpdate();
       } else {
         console.error('Failed to delete lead');
-        alert('Failed to delete lead. Please try again.');
+        toast.error('Failed to delete lead. Please try again.');
       }
     } catch (err) {
       console.error('Failed to delete lead', err);
-      alert('An error occurred while deleting the lead.');
+      toast.error('An error occurred while deleting the lead.');
     } finally {
       setDeleting(false);
       setShowDeleteConfirm(false);

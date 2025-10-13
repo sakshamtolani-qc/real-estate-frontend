@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
 import { ContactModal } from '../../components/ContactModal/ContactModal';
+import { PageLoader } from '../../components/common/Loader';
 import api from '../../services/api';
 import './PropertyDetail.css';
 
@@ -56,6 +58,7 @@ export default function PropertyDetail() {
   // Fetch property data from database
   useEffect(() => {
     const fetchProperty = async () => {
+      const startTime = Date.now();
       try {
         setIsLoading(true);
         const response: any = await api.get(`/properties/detail/${id}/`);
@@ -92,7 +95,12 @@ export default function PropertyDetail() {
         // Use mock data as fallback
         setProperty(mockPropertyData);
       } finally {
-        setIsLoading(false);
+        // Ensure loader shows for at least 1 second
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, 1000 - elapsedTime);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, remainingTime);
       }
     };
 
@@ -106,11 +114,17 @@ export default function PropertyDetail() {
   console.log('PropertyDetail - isAdmin:', isAdmin);
 
   const handleFavorite = () => {
-    alert('Favorite functionality will be implemented with backend');
+    toast.info('Favorite functionality coming soon!');
   };
 
   const handleShare = () => {
-    alert('Share functionality will be implemented with backend');
+    // Copy link to clipboard
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(window.location.href);
+      toast.success('Property link copied to clipboard!');
+    } else {
+      toast.info('Share functionality coming soon!');
+    }
   };
 
   const openCarousel = (index: number) => {
@@ -135,7 +149,7 @@ export default function PropertyDetail() {
 
   // Show loading state
   if (isLoading || !property) {
-    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading property details...</div>;
+    return <PageLoader message="Loading Property Details..." fullScreen={true} />;
   }
 
   return (

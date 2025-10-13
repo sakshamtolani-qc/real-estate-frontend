@@ -6,6 +6,7 @@ import LeadDetailSidebar from '../Admin/LeadDetailSidebar';
 import { Filter, Plus, Search, ChevronDown } from 'lucide-react';
 import { AgentHeader } from '../../components/common';
 import { Footer } from '../../components/common/Footer/Footer';
+import { PageLoader } from '../../components/common/Loader';
 import './AgentLeads.css';
 
 interface Lead {
@@ -34,6 +35,7 @@ const AgentLeads: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchLeads = async () => {
+    const startTime = Date.now();
     setIsLoading(true);
     try {
       const token = localStorage.getItem('auth_token');
@@ -84,7 +86,12 @@ const AgentLeads: React.FC = () => {
     } catch (err) {
       console.error('Failed to fetch leads', err);
     } finally {
-      setIsLoading(false);
+      // Ensure loader shows for at least 1 second
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 1000 - elapsedTime);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
     }
   };
 
@@ -175,6 +182,10 @@ const AgentLeads: React.FC = () => {
   const handleLeadUpdated = () => {
     fetchLeads();
   };
+
+  if (isLoading) {
+    return <PageLoader message="Loading Your Leads..." fullScreen={true} />;
+  }
 
   return (
     <div className="agent-leads-container">

@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
+import { PageLoader, SearchLoader } from '../../components/common/Loader';
 import api from '../../services/api';
 import './Properties.css';
 
@@ -164,6 +165,7 @@ export default function Properties() {
   // Fetch properties from database
   useEffect(() => {
     const fetchProperties = async () => {
+      const startTime = Date.now();
       try {
         setIsLoadingProperties(true);
         const response: any = await api.get('/properties/list/');
@@ -197,7 +199,12 @@ export default function Properties() {
         // Keep empty array if fetch fails
         setProperties([]);
       } finally {
-        setIsLoadingProperties(false);
+        // Ensure loader shows for at least 1 second
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, 1000 - elapsedTime);
+        setTimeout(() => {
+          setIsLoadingProperties(false);
+        }, remainingTime);
       }
     };
 
@@ -213,7 +220,7 @@ export default function Properties() {
   
   // Show loading state only for properties (not authentication)
   if (isLoadingProperties) {
-    return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading properties...</div>;
+    return <PageLoader message="Loading Properties..." fullScreen={true} />;
   }
 
   const filterOptions: FilterType[] = [
