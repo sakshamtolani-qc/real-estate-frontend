@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
 import {Footer} from '../../components/common/Footer/Footer';
 import { PageLoader } from '../../components/common/Loader';
+import { getGreetingForMumbai } from '../../utils';
 import api from '../../services/api';
 import './Dashboard.css';
 
@@ -227,12 +228,6 @@ const Dashboard = () => {
     loadAllData();
   }, [user, isLoading]);
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 18) return 'Good Afternoon';
-    return 'Good Evening';
-  };
 
   // Show loading state while fetching data
   if (isLoadingData) {
@@ -248,7 +243,7 @@ const Dashboard = () => {
           <div className="top-stats-row">
             <div className="greeting-card">
               <div className="greeting-content">
-                <h1 className="greeting-title">{getGreeting()} 👋</h1>
+                <h1 className="greeting-title">{getGreetingForMumbai().greeting} {getGreetingForMumbai().emoji}</h1>
                 <p className="greeting-name">{userName}</p>
                 <p className="greeting-subtitle">Here is your weekly overview report</p>
               </div>

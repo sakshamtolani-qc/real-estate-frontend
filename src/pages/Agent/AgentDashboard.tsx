@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { AgentHeader } from '../../components/common';
 import {Footer} from '../../components/common/Footer/Footer';
 import { PageLoader, ButtonLoader } from '../../components/common/Loader';
+import { getGreetingForMumbai } from '../../utils';
 import './AgentDashboard.css';
 
 interface Lead {
@@ -318,7 +319,7 @@ const Dashboard: React.FC = () => {
         <div className="agent-hero-content">
           <div className="agent-hero-text">
             <h1>
-              Good Afternoon <span className="agent-sun-icon">☀️</span>
+              {getGreetingForMumbai().greeting} <span className="agent-sun-icon">{getGreetingForMumbai().emoji}</span>
             </h1>
             <div className="agent-name-highlight">{user?.first_name || 'Agent'}</div>
             <p>

@@ -61,6 +61,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -119,6 +120,17 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   };
 
   useEffect(() => {
+    // Check if user is admin
+    try {
+      const userStr = localStorage.getItem('auth_user');
+      if (userStr) {
+        const user = JSON.parse(userStr);
+        setIsAdmin(user.is_superuser || user.is_staff || false);
+      }
+    } catch (err) {
+      console.error('Failed to parse user data', err);
+    }
+    
     fetchLeadDetails();
     fetchAgents();
     
@@ -316,27 +328,40 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
 
               <div className="form-group">
                 <label htmlFor="assigned_to">
-                  
+                  {/* <User size={16} className="label-icon" /> */}
                   Assigned Agent
                 </label>
-                <select
-                  id="assigned_to"
-                  name="assigned_to"
-                  value={formData.assigned_to}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Unassigned</option>
-                  {agents.map((agent) => (
-                    <option key={agent.id} value={agent.id}>
-                      {agent.full_name}
-                    </option>
-                  ))}
-                </select>
+                {isAdmin ? (
+                  <select
+                    id="assigned_to"
+                    name="assigned_to"
+                    value={formData.assigned_to}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Unassigned</option>
+                    {agents.map((agent) => (
+                      <option key={agent.id} value={agent.id}>
+                        {agent.full_name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    value={
+                      lead?.assigned_to
+                        ? `${lead.assigned_to.user.first_name} ${lead.assigned_to.user.last_name || ''}`.trim() || lead.assigned_to.user.username
+                        : 'Unassigned'
+                    }
+                    disabled
+                    style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
+                  />
+                )}
               </div>
 
               <div className="form-group full-width">
                 <label htmlFor="follow_up_date">
-                  <Calendar size={16} className="label-icon" />
+                  {/* <Calendar size={16} className="label-icon" /> */}
                   Follow-up Date
                 </label>
                 <input

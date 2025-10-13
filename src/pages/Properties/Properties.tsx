@@ -168,15 +168,42 @@ export default function Properties() {
       const startTime = Date.now();
       try {
         setIsLoadingProperties(true);
+        console.log('Fetching properties from API...');
         const response: any = await api.get('/properties/list/');
+        console.log('Raw API response:', response);
+        
         const data = response.data || response;
+        console.log('Data after parsing:', data);
+        console.log('Is data an array?', Array.isArray(data));
+        console.log('Data type:', typeof data);
+        
+        // Get the actual properties array
+        let propertiesArray = data;
+        if (data && typeof data === 'object' && data.results) {
+          propertiesArray = data.results;
+        } else if (!Array.isArray(data)) {
+          console.error('Unexpected data format:', data);
+          propertiesArray = [];
+        }
+        
+        console.log('Properties array to map:', propertiesArray);
+        console.log('Properties array length:', propertiesArray.length);
         
         // Map backend data to frontend format
-        const mappedProperties: Property[] = (data.results || data || []).map((prop: any, index: number) => {
+        const mappedProperties: Property[] = propertiesArray.map((prop: any, index: number) => {
           // Use property images from public folder (property1.png, property2.png, etc.)
           // Cycle through images if there are more properties than images
           const imageNumber = (index % 6) + 1; // Assuming 6 property images available
           const defaultImage = `/property${imageNumber}.png`;
+          
+          // Parse area - extract number from string like "5000 sqft"
+          let areaValue = 0;
+          if (typeof prop.area === 'string') {
+            const match = prop.area.match(/\d+/);
+            areaValue = match ? parseInt(match[0]) : 0;
+          } else if (typeof prop.area === 'number') {
+            areaValue = prop.area;
+          }
           
           return {
             id: prop.id,
@@ -185,7 +212,7 @@ export default function Properties() {
             location: prop.location || 'Location not specified',
             bedrooms: prop.bedrooms || 0,
             bathrooms: prop.bathrooms || 0,
-            area: prop.area || 0,
+            area: areaValue,
             image: prop.image || defaultImage,
             status: prop.status || 'FOR SALE',  // Use status directly from API
             featured: prop.featured || false,
@@ -193,6 +220,8 @@ export default function Properties() {
           };
         });
         
+        console.log('Mapped properties:', mappedProperties);
+        console.log('Total properties fetched:', mappedProperties.length);
         setProperties(mappedProperties);
       } catch (error) {
         console.error('Failed to fetch properties:', error);
@@ -242,6 +271,12 @@ export default function Properties() {
 
     return typeMatch && filterMatch;
   });
+  
+  // Debug logging
+  console.log('Total properties:', properties.length);
+  console.log('Filtered properties:', filteredProperties.length);
+  console.log('Selected type:', selectedType);
+  console.log('Selected filters:', selectedFilters);
 
   const handlePropertyClick = (id: number) => {
     navigate(`/property/${id}`);
@@ -312,12 +347,26 @@ export default function Properties() {
           </div>
 
           <div className="properties-grid">
-            {filteredProperties.map(property => (
-              <div
-                key={property.id}
-                className="property-card"
-                onClick={() => handlePropertyClick(property.id)}
-              >
+            {filteredProperties.length === 0 ? (
+              <div style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                padding: '60px 20px',
+                color: '#666'
+              }}>
+                <h3>No properties found</h3>
+                <p>Try adjusting your filters or search criteria</p>
+                <p style={{ marginTop: '10px', fontSize: '14px' }}>
+                  Total properties in database: {properties.length}
+                </p>
+              </div>
+            ) : (
+              filteredProperties.map(property => (
+                <div
+                  key={property.id}
+                  className="property-card"
+                  onClick={() => handlePropertyClick(property.id)}
+                >
                 <div className="property-image-wrapper">
                   <img src={property.image} alt={property.title} className="property-image" />
                   <div className="property-badges">
@@ -359,7 +408,8 @@ export default function Properties() {
                   </div>
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </main>

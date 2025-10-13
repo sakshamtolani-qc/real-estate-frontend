@@ -57,11 +57,18 @@ api.interceptors.response.use(
     
     // Handle network errors
     if (!error.response) {
+      console.error('Network Error Details:', {
+        message: error.message,
+        code: error.code,
+        config: error.config,
+        request: error.request,
+      });
       return Promise.reject({
         success: false,
         error: {
           code: 'NETWORK_ERROR',
           message: 'Network error. Please check your connection.',
+          details: error.message,
         },
       });
     }
