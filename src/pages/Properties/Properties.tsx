@@ -222,6 +222,8 @@ export default function Properties() {
         
         console.log('Mapped properties:', mappedProperties);
         console.log('Total properties fetched:', mappedProperties.length);
+        console.log('First property image:', mappedProperties[0]?.image);
+        console.log('All property images:', mappedProperties.map(p => ({ id: p.id, image: p.image })));
         setProperties(mappedProperties);
       } catch (error) {
         console.error('Failed to fetch properties:', error);
@@ -368,7 +370,18 @@ export default function Properties() {
                   onClick={() => handlePropertyClick(property.id)}
                 >
                 <div className="property-image-wrapper">
-                  <img src={property.image} alt={property.title} className="property-image" />
+                  <img 
+                    src={property.image} 
+                    alt={property.title} 
+                    className="property-image"
+                    onError={(e) => {
+                      console.error(`Image failed for property ${property.id}:`, property.image);
+                      (e.target as HTMLImageElement).src = '/P1.png';
+                    }}
+                    onLoad={(e) => {
+                      console.log(`Image loaded successfully for property ${property.id}:`, property.image);
+                    }}
+                  />
                   <div className="property-badges">
                     <span className={`property-status ${property.status === 'FOR SALE' ? 'sale' : 'rent'}`}>
                       {property.status}

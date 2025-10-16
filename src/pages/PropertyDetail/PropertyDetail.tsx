@@ -112,6 +112,7 @@ export default function PropertyDetail() {
   // Debug log
   console.log('PropertyDetail - User:', user);
   console.log('PropertyDetail - isAdmin:', isAdmin);
+  console.log('PropertyDetail - Property Images:', property?.images);
 
   const handleFavorite = () => {
     toast.info('Favorite functionality coming soon!');
@@ -165,6 +166,10 @@ export default function PropertyDetail() {
                   src={property.images[0]}
                   alt={property.title}
                   className="main-gallery-image"
+                  onError={(e) => {
+                    console.error('Main image failed to load:', property.images[0]);
+                    (e.target as HTMLImageElement).src = '/P1a.png';
+                  }}
                 />
               </div>
 
@@ -179,6 +184,10 @@ export default function PropertyDetail() {
                       src={image}
                       alt={`Property view ${index + 1}`}
                       className="side-gallery-image"
+                      onError={(e) => {
+                        console.error(`Side image ${index + 1} failed to load:`, image);
+                        (e.target as HTMLImageElement).src = '/P1b.png';
+                      }}
                     />
                   </div>
                 ))}
@@ -191,6 +200,10 @@ export default function PropertyDetail() {
                       src={property.images[4]}
                       alt="More photos"
                       className="side-gallery-image"
+                      onError={(e) => {
+                        console.error('More photos image failed to load:', property.images[4]);
+                        (e.target as HTMLImageElement).src = '/P1c.png';
+                      }}
                     />
                     <div className="more-photos-overlay">
                       <span className="more-photos-number">+{property.images.length - 4}</span>
@@ -277,6 +290,10 @@ export default function PropertyDetail() {
               src={property.images[currentImageIndex]}
               alt={`Property view ${currentImageIndex + 1}`}
               className="carousel-image"
+              onError={(e) => {
+                console.error(`Carousel image ${currentImageIndex + 1} failed to load:`, property.images[currentImageIndex]);
+                (e.target as HTMLImageElement).src = '/P1a.png';
+              }}
             />
           </div>
           <button className="carousel-next" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
