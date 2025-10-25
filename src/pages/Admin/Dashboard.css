@@ -5,13 +5,13 @@
   display: flex;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
-  background-color: #EFF0F2;
+  background-color: #053934;
   padding-top: 70px; /* Space for fixed header */
 }
 
 .dashboard-main {
   flex: 1;
-  background-color: #EFF0F2;
+  background-color: #053934;
   padding: 2.5rem 3rem;
 }
 

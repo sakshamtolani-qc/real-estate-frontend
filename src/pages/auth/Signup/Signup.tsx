@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { useSettings } from '../../../context/SettingsContext';
 import { ButtonLoader } from '../../../components/common/Loader';
 import { toast } from 'sonner';
 import './Signup.css';
@@ -27,6 +28,7 @@ interface FormErrors {
 const Signup: React.FC = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { settings } = useSettings();
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -187,7 +189,17 @@ const Signup: React.FC = () => {
       {/* Left Column - Hero Section */}
        <div className="hero-section">
         <div className="login-logo-overlay">
-          <img src="/logo.png" alt="Quorium Logo" className="login-logo" />
+          <div className="logo-with-name">
+            {settings?.logo_url ? (
+              <img src={settings.logo_url} alt="Company Logo" className="login-logo" />
+            ) : (
+              <img src="/logo.png" alt="Quorium Logo" className="login-logo" />
+            )}
+            <div className="logo-company-name">
+              <div className="logo-name-large">{settings?.company_name?.split(' ')[0] || 'Quorium'}</div>
+              <div className="logo-name-small">{settings?.company_name?.split(' ').slice(1).join(' ') || 'Property'}</div>
+            </div>
+          </div>
         </div>
         <div className="hero-background">
           <img src="/Bg-image.png" alt="Property buildings" className="hero-image" />
@@ -204,6 +216,7 @@ const Signup: React.FC = () => {
       {/* Right Column - Signup Form */}
       <div className="signup-form-section">
         <div className="form-container">
+
           {/* Header */}
           <div className="form-header">
             <div className="login-icon">

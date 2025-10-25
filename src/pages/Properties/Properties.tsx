@@ -298,7 +298,7 @@ export default function Properties() {
 
       <main className="properties-main">
         <div className="properties-container">
-          <h1 className="properties-title">Listed Properties</h1>
+          <h1 className="properties-title">Listed <span className="properties-highlight">Properties</span></h1>
 
           <div className="properties-controls">
             <div className="type-filters">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Phone, ChevronDown, Search, Users, Key, Star, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
 import './Landing.css';
 import {Footer} from '../../components/common/Footer/Footer';
 import Header from '../../components/common/Header/Header';
@@ -10,9 +11,42 @@ import { ContactModal } from '../../components/ContactModal/ContactModal';
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { settings } = useSettings();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    phone: '+91 9026404xxx',
+    email: 'info@quorumproperty.com',
+    address: '123 Property Street, Real Estate District'
+  });
+
+  // Update contact info from settings
+  useEffect(() => {
+    if (settings) {
+      setContactInfo({
+        phone: settings.phone || '+91 9026404xxx',
+        email: settings.email || 'info@quorumproperty.com',
+        address: settings.address ? `${settings.address}${settings.city ? ', ' + settings.city : ''}` : '123 Property Street, Real Estate District'
+      });
+    }
+  }, [settings]);
+
+  // Listen for settings updates from other components
+  useEffect(() => {
+    const handleSettingsUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      const updatedSettings = customEvent.detail;
+      setContactInfo({
+        phone: updatedSettings.phone || '+91 9026404xxx',
+        email: updatedSettings.email || 'info@quorumproperty.com',
+        address: updatedSettings.address ? `${updatedSettings.address}${updatedSettings.city ? ', ' + updatedSettings.city : ''}` : '123 Property Street, Real Estate District'
+      });
+    };
+
+    window.addEventListener('settingsUpdated', handleSettingsUpdate);
+    return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -402,7 +436,7 @@ const Landing: React.FC = () => {
                   <Phone size={24} />
                 </div>
                 <h4>Call Us</h4>
-                <p>+91 9026404xxx</p>
+                <p>{contactInfo.phone}</p>
               </div>
               <div className="contact-item">
                 <div className="contact-icon">
@@ -412,7 +446,7 @@ const Landing: React.FC = () => {
                   </svg>
                 </div>
                 <h4>Email Us</h4>
-                <p>info@quorumproperty.com</p>
+                <p>{contactInfo.email}</p>
               </div>
               <div className="contact-item">
                 <div className="contact-icon">
@@ -422,7 +456,7 @@ const Landing: React.FC = () => {
                   </svg>
                 </div>
                 <h4>Visit Us</h4>
-                <p>123 Property Street, Real Estate District</p>
+                <p>{contactInfo.address}</p>
               </div>
             </div>
             

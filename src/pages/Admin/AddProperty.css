@@ -5,14 +5,14 @@
   display: flex;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
-  background-color: #EFF0F2;
+  background-color: #053934;
   margin-top: 50px;
 }
 
 .add-property-main {
   flex: 1;
   padding: 3rem 1.5rem;
-  background-color: #EFF0F2;
+  background-color: #053934;
 }
 
 .add-property-container {
@@ -23,7 +23,7 @@
 .section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #212121;
+  color: white;
   margin-bottom: 2.5rem;
   line-height: 1.2;
 }
@@ -78,8 +78,12 @@
   gap: 0.75rem;
   cursor: pointer;
   font-size: 1rem;
-  color: #212121;
+  color: #D4AF37 !important;
   font-weight: 500;
+}
+
+.checkbox-label span {
+  color: #D4AF37 !important;
 }
 
 .checkbox-label input[type="checkbox"] {
@@ -91,7 +95,7 @@
 
 .upload-hint {
   font-size: 0.85rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   margin-top: 0.5rem;
   text-align: center;
 }
@@ -107,7 +111,7 @@
 .photos-count {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #212121;
+  color: white;
 }
 
 .photos-preview {
@@ -151,7 +155,7 @@
 
 .property-description-section {
   margin-bottom: 2rem;
-  background: white;
+  background: #1F655E !important;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -165,18 +169,18 @@
 }
 
 .input-card {
-  background-color: #F3F4F6;
+  background-color: rgba(255, 255, 255, 0.1);
   padding: 1.75rem 2rem;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  border: 1px solid #E5E7EB;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .input-label {
-  color: #212121;
+  color: white;
   font-size: 1rem;
   font-weight: 600;
   white-space: nowrap;
@@ -185,11 +189,11 @@
 
 .property-input {
   flex: 1;
-  background-color: white;
-  border: 2px solid #E5E7EB;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.625rem 1rem;
-  color: #212121;
+  color: white;
   font-size: 1rem;
   font-family: 'Montserrat', sans-serif;
   transition: all 0.3s ease;
@@ -198,18 +202,27 @@
 
 .property-input:focus {
   outline: none;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.15);
   border-color: #7DD3E8;
-  box-shadow: 0 0 0 3px rgba(125, 211, 232, 0.1);
+  box-shadow: 0 0 0 3px rgba(125, 211, 232, 0.2);
 }
 
 .property-input::placeholder {
-  color: #9CA3AF;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.property-input option {
+  background-color: #1F655E;
+  color: white;
+}
+
+select.property-input {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 .facilities-section {
   margin-bottom: 2rem;
-  background: white;
+  background: #1F655E !important;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -262,20 +275,20 @@
 .counter-value {
   font-size: 2rem;
   font-weight: 700;
-  color: #212121;
+  color: white;
   line-height: 1;
   margin-bottom: 0.25rem;
 }
 
 .counter-label {
   font-size: 1rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
 }
 
 .room-description-section {
   margin-bottom: 2rem;
-  background: white;
+  background: #1F655E !important;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -297,11 +310,11 @@
 .description-textarea {
   width: 100%;
   min-height: 180px;
-  background-color: #F9FAFB;
-  border: 2px solid #E5E7EB;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
-  color: #212121;
+  color: white;
   font-size: 0.95rem;
   font-family: 'Montserrat', sans-serif;
   resize: vertical;
@@ -312,12 +325,12 @@
 .description-textarea:focus {
   outline: none;
   border-color: #7DD3E8;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(125, 211, 232, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(125, 211, 232, 0.2);
 }
 
 .description-textarea::placeholder {
-  color: #9CA3AF;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .action-buttons {
@@ -366,7 +379,7 @@
 }
 
 .upload-box {
-  background-color: #F3F4F6;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   height: 250px;
   display: flex;
@@ -374,11 +387,11 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px dashed #D1D5DB;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
 }
 
 .upload-box:hover {
-  background-color: #E5E7EB;
+  background-color: rgba(255, 255, 255, 0.1);
   border-color: #7DD3E8;
   transform: translateY(-2px);
 }
@@ -390,7 +403,7 @@
 }
 
 .upload-icon {
-  color: #9CA3AF;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 4rem;
   font-weight: 300;
   line-height: 1;
@@ -405,7 +418,7 @@
 
 .upload-label {
   font-size: 1.125rem;
-  color: #6B7280;
+  color: rgba(255, 255, 255, 0.7);
   font-weight: 500;
   line-height: 1.3;
 }

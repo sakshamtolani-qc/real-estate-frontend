@@ -12,7 +12,7 @@
 .login-container {
   display: flex;
   min-height: 100vh;
-  background-color: #EFF0F2; /* primary light gray */
+  background-color: #053934; /* dark teal matching landing */
 }
 .login-logo-overlay {
   position: absolute;
@@ -24,6 +24,36 @@
 .login-logo {
   height: 2.5rem;
   width: auto;
+}
+
+.logo-with-name {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+  position: relative;
+}
+
+.logo-company-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.logo-name-large {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+
+.logo-name-small {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .login-logo-overlay {
@@ -51,8 +81,20 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background: white;
+  background: #053934;
   overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(5, 57, 52, 0.8) 0%, rgba(5, 57, 52, 0.8) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero-background {
@@ -61,14 +103,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .hero-image {
   width: 105%;
   height: 110%;
   object-fit: cover;
-  /* opacity: 0.1; */
+  opacity: 1;
 }
 
 .hero-content {
@@ -84,7 +127,7 @@
   width: 600px;
   line-height: 1.7;
   letter-spacing: 2px; 
-  color: #212121; /* dark text */
+  color: white; /* white text */
   margin-bottom: 2rem;
 }
 
@@ -104,13 +147,14 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background-color: #FFFFFF; /* white */
+  background-color: #053934; /* dark teal matching landing */
 }
 
 .form-container {
   width: 100%;
   max-width: 400px;
 }
+
 
 .form-header {
   display: flex;
@@ -122,18 +166,19 @@
 .login-icon {
   width: 60px;
   height: 60px;
-  background-color: #212121; /* dark circle */
+  background-color: transparent; /* transparent circle */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  border: 2px solid #D4AF37; /* gold border */
 }
 
 .form-title {
   font-size: 1.875rem;
   font-weight: 600;
-  color: #212121;
+  color: white !important;
 }
 
 .login-form {
@@ -161,28 +206,58 @@
 .input-label {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #212121;
+  color: white !important;
+}
+
+.input-group label {
+  color: white !important;
 }
 
 .input-field {
   padding: 0.875rem 1rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #EFF0F2; /* light gray input bg */
-  color: #212121;
+  background-color: rgba(255, 255, 255, 0.1); /* semi-transparent white */
+  color: white;
   transition: all 0.2s ease;
 }
 
 .input-field:focus {
   outline: none;
   border-color: #D4AF37; /* gold border */
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
 }
 
 .input-field::placeholder {
-  color: #a0aec0;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.input-field::webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.input-field::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.input-field:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1;
+}
+
+.input-field::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1;
+}
+
+.input-field:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.input-field::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 /* Password Input Wrapper */
@@ -207,12 +282,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   transition: color 0.2s ease;
 }
 
 .password-toggle-btn:hover {
-  color: #212121;
+  color: white;
 }
 
 .password-toggle-btn:focus {
@@ -227,9 +302,9 @@
 
 .login-button {
   padding: 0.875rem 2rem;
-  background-color: #212121; /* dark button */
+  background-color: transparent; /* transparent button */
   color: #FFFFFF;
-  border: none;
+  border: 2px solid #D4AF37; /* gold border */
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -240,9 +315,10 @@
 }
 
 .login-button:hover:not(:disabled) {
-  background-color: #2d2d2d;
+  background-color: #D4AF37;
+  color: #053934;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(26, 26, 26, 0.3);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .login-button:active {
@@ -264,7 +340,7 @@
   align-items: center;
   text-align: center;
   margin: 1rem 0;
-  color: #a0aec0;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.875rem;
 }
 
@@ -273,18 +349,19 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: #e2e8f0;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .divider span {
   padding: 0 1rem;
-  background-color: #FFFFFF;
+  background-color: #053934;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .signup-link {
   text-align: center;
   font-size: 0.875rem;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .signup-text {
@@ -303,11 +380,11 @@
   text-align: center;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .home-text {
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -318,7 +395,7 @@
 }
 
 .home-text:hover {
-  color: #212121;
+  color: white;
   text-decoration: none;
   transform: translateX(-3px);
 }

@@ -5,14 +5,14 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #EFF0F2;
+  background-color: #053934;
   padding-top: 70px; /* Space for fixed AgentHeader */
 }
 
 .agent-leads-main {
   flex: 1;
   padding: 60px 40px;
-  background: #EFF0F2;
+  background: #053934;
 }
 
 .agent-leads-content {
@@ -23,7 +23,7 @@
 .agent-leads-title {
   font-size: 48px;
   font-weight: 600;
-  color: black;
+  color: white;
   text-align: center;
   margin-bottom: 16px;
   letter-spacing: -0.5px;
@@ -31,7 +31,7 @@
 
 .agent-leads-subtitle {
   text-align: center;
-  color: #666;
+  color: #B0B0B0;
   font-size: 16px;
   margin-bottom: 48px;
 }
@@ -65,9 +65,9 @@
   gap: 8px;
   padding: 12px 24px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(125, 211, 232, 0.3);
   background-color: transparent;
-  color: black;
+  color: white;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -97,9 +97,9 @@
 .search-input {
   padding: 12px 50px 12px 20px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: transparent;
-  color: #212121;
+  border: 1px solid rgba(125, 211, 232, 0.3);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: white;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   width: 280px;
@@ -107,13 +107,14 @@
 }
 
 .search-input::placeholder {
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .search-input:focus {
   outline: none;
   border-color: #7DD3E8;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .search-btn {
@@ -121,7 +122,7 @@
   right: 12px;
   background: none;
   border: none;
-  color: #212121;
+  color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -136,7 +137,7 @@
 
 .loading-state,
 .empty-state {
-  background-color: #fff;
+  background-color: white;
   border-radius: 12px;
   padding: 80px 40px;
   text-align: center;
@@ -146,12 +147,12 @@
 .loading-state p,
 .empty-state p {
   font-size: 16px;
-  color: #666;
+  color: #333;
   margin: 0;
 }
 
 .table-wrapper {
-  background-color: #fff;
+  background-color: white;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 32px;
@@ -177,6 +178,7 @@
   cursor: pointer;
   user-select: none;
   transition: background-color 0.3s ease;
+  background-color: #7DD3E8;
 }
 
 .agent-leads-table th:hover {
@@ -214,7 +216,7 @@
 
 .agent-leads-table td {
   padding: 20px 24px;
-  color: #212121;
+  color: #333;
   font-size: 14px;
   font-weight: 400;
 }
@@ -275,9 +277,9 @@
 .page-btn {
   padding: 10px 16px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(125, 211, 232, 0.3);
   background-color: transparent;
-  color: #212121;
+  color: white;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;

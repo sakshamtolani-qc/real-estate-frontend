@@ -9,13 +9,25 @@
   justify-content: center;
 }
 .modal-content {
-  background: #fff;
+  background: #1F655E;
   border-radius: 16px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.12);
   padding: 2rem;
   min-width: 350px;
   max-width: 95vw;
   position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-content select {
+  background-color: #1F655E !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.modal-content select option {
+  background-color: #1F655E !important;
+  color: white !important;
 }
 .close-btn {
   position: absolute;

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Settings, LogOut, ChevronDown, Plus, List, Menu, X, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { useCompanySettings } from '../../../hooks/useCompanySettings';
 import { NotificationBell } from '../NotificationBell/NotificationBell';
 import './AgentHeader.css';
 
@@ -20,6 +21,7 @@ interface Notification {
 export default function AgentHeader() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { logo, company } = useCompanySettings();
   const [isListingsDropdownOpen, setIsListingsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -68,7 +70,8 @@ export default function AgentHeader() {
       <div className="agent-header-container">
         {/* Logo */}
         <Link to="/agent/dashboard" className="agent-logo">
-          <img src="/logo.png" alt="Quorum Property" className="agent-logo-image" />
+          <img src={logo} alt="Company Logo" className="agent-logo-image" />
+          <span className="agent-logo-text">{company}</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -156,12 +159,12 @@ export default function AgentHeader() {
                 </div>
                 <div className="dropdown-divider"></div>
                 <Link 
-                  to="/agent/settings" 
+                  to="/agent/profile" 
                   className="agent-dropdown-item"
                   onClick={() => setIsUserDropdownOpen(false)}
                 >
-                  <Settings size={16} />
-                  <span>Settings</span>
+                  <User size={16} />
+                  <span>My Profile</span>
                 </Link>
                 <button 
                   className="agent-dropdown-item logout-item"
@@ -190,7 +193,8 @@ export default function AgentHeader() {
           <div className="agent-mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="agent-mobile-menu-header">
               <Link to="/agent/dashboard" className="agent-mobile-logo" onClick={() => setIsMobileMenuOpen(false)}>
-                <img src="/logo.png" alt="Quorum Property" className="agent-mobile-logo-image" />
+                <img src={logo} alt="Company Logo" className="agent-mobile-logo-image" />
+                <span className="agent-mobile-logo-text">{company}</span>
               </Link>
               <button 
                 className="agent-mobile-close-button"

@@ -86,7 +86,10 @@
 
 .admin-nav-link:hover {
   color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
 .admin-nav-link.active {
@@ -117,8 +120,8 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   left: 0;
-  background: white;
-  border: 1px solid #EFF0F2;
+  background: #1F655E !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   min-width: 200px;
@@ -143,7 +146,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 0.75rem;
-  color: #212121;
+  color: white !important;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -158,8 +161,10 @@
 }
 
 .admin-dropdown-item:hover {
-  background-color: #FFFEF9;
-  color: #D4AF37;
+  background-color: rgba(125, 211, 232, 0.2) !important;
+  color: #7DD3E8 !important;
+  border-radius: 6px;
+  transform: translateX(4px);
 }
 
 .admin-dropdown-item svg {
@@ -195,7 +200,9 @@
 
 .admin-icon-button:hover {
   border-color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
 .notification-badge {
@@ -325,7 +332,9 @@
 
 .admin-user-button:hover {
   border-color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(212, 175, 55, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
 .user-avatar {
@@ -365,6 +374,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
+  background-color: #1F655E;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-info {
@@ -375,14 +386,14 @@
 .user-full-name {
   font-size: 14px;
   font-weight: 600;
-  color: #212121;
+  color: white !important;
   margin: 0 0 0.25rem 0;
   font-family: 'Montserrat', sans-serif;
 }
 
 .user-email {
   font-size: 12px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6) !important;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;

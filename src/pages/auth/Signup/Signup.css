@@ -16,7 +16,7 @@
 .signup-container {
   display: flex;
   min-height: 100vh;
-  background-color: #EFF0F2; /* primary light gray */
+  background-color: #053934; /* dark teal matching landing */
 }
 .login-logo-overlay {
   position: absolute;
@@ -28,6 +28,36 @@
 .login-logo {
   height: 2.5rem;
   width: auto;
+}
+
+.logo-with-name {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+  position: relative;
+}
+
+.logo-company-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.logo-name-large {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+
+.logo-name-small {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .login-logo-overlay {
@@ -54,8 +84,20 @@
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background: white;
+  background: #053934;
   overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(5, 57, 52, 0.8) 0%, rgba(5, 57, 52, 0.8) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero-background {
@@ -64,14 +106,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 0;
+  overflow: hidden;
 }
 
 .hero-image {
   width: 105%;
   height: 110%;
   object-fit: cover;
-  /* opacity: 0.1; */
+  opacity: 1;
 }
 
 .hero-content {
@@ -87,7 +130,7 @@
   width: 600px;
   line-height: 1.7;
   letter-spacing: 2px; 
-  color: #212121; /* dark text */
+  color: white; /* white text */
   margin-bottom: 2rem;
 }
 
@@ -102,7 +145,7 @@
 
 /* Right Column - Form Section */
 .signup-form-section {
-  background: var(--primary-white);
+  background: #053934;
   flex: 1;
   display: flex;
   align-items: center;
@@ -115,6 +158,7 @@
   max-width: 500px;
 }
 
+
 /* Form Header */
 .form-header {
   display: flex;
@@ -125,12 +169,13 @@
 .login-icon {
   width: 60px;
   height: 60px;
-  background-color: #212121; /* dark circle */
+  background-color: transparent; /* transparent circle */
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.1rem;
+  border: 2px solid #D4AF37; /* gold border */
 }
 
 .form-logo {
@@ -155,6 +200,12 @@
   height: 50px;
 }
 
+.form-title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: white !important;
+}
+
 /* Form Styles */
 .signup-form {
   display: flex;
@@ -177,24 +228,42 @@
 .form-group label {
   font-weight: 500;
   font-size: 0.875rem;
-  color: var(--text-dark);
+  color: white !important;
   margin-bottom: 0.25rem;
 }
 
 .form-group input {
   padding: 0.875rem 1rem;
-  border: 2px solid var(--primary-gray);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.875rem;
-  background: var(--primary-white);
-  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
   transition: all 0.3s ease;
 }
 
 .form-group input::placeholder {
-  color: #9ca3af;
+  color: rgba(255, 255, 255, 0.5) !important;
   font-weight: 400;
+}
+
+.form-group input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.form-group input:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1;
+}
+
+.form-group input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  opacity: 1;
+}
+
+.form-group input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .form-group input:focus {
@@ -234,12 +303,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   transition: color 0.2s ease;
 }
 
 .password-toggle-btn:hover {
-  color: var(--text-dark);
+  color: white;
 }
 
 .password-toggle-btn:focus {
@@ -261,10 +330,10 @@
 
 /* Submit Button */
 .signup-button {
-  background: var(--text-dark);
-  color: var(--primary-white);
+  background: transparent;
+  color: white;
   padding: 1rem 2rem;
-  border: none;
+  border: 2px solid #D4AF37;
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -275,9 +344,10 @@
 }
 
 .signup-button:hover:not(:disabled) {
-  background: #333;
+  background: #D4AF37;
+  color: #053934;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(33, 33, 33, 0.3);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 }
 
 .signup-button:disabled {
@@ -291,7 +361,7 @@
   align-items: center;
   text-align: center;
   margin: 1.5rem 0;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.875rem;
   font-weight: 400;
 }
@@ -301,18 +371,20 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: var(--primary-gray);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .divider span {
   padding: 0 1rem;
+  background-color: #053934;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Login Link */
 .login-link {
   text-align: center;
   font-size: 0.875rem;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .login-link a {
@@ -332,11 +404,11 @@
   text-align: center;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--primary-gray);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .home-text {
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -347,7 +419,7 @@
 }
 
 .home-text:hover {
-  color: var(--text-dark);
+  color: white;
   text-decoration: none;
   transform: translateX(-3px);
 }

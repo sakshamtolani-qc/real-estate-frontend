@@ -1,14 +1,14 @@
 /* Agent Header Container */
 .agent-header {
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EFF0F2;
+  background-color: #1F655E !important;
+  border-bottom: 1px solid #1F655E !important;
   padding: 0.75rem 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .agent-header-container {
@@ -25,13 +25,37 @@
 .agent-logo {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
   flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.agent-logo:hover {
+  opacity: 0.8;
 }
 
 .agent-logo-image {
-  height: 32px;
+  height: 36px;
   width: auto;
+}
+
+.agent-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.agent-mobile-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 /* Navigation */
@@ -44,10 +68,10 @@
 }
 
 .agent-nav-link {
-  color: #212121;
+  color: white;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
@@ -62,7 +86,10 @@
 
 .agent-nav-link:hover {
   color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(212, 175, 55, 0.1);
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
 .agent-nav-link.active {
@@ -93,8 +120,8 @@
   position: absolute;
   top: calc(100% + 0.5rem);
   left: 0;
-  background: white;
-  border: 1px solid #EFF0F2;
+  background: #1F655E !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   min-width: 200px;
@@ -119,7 +146,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.65rem 0.75rem;
-  color: #212121;
+  color: white !important;
   text-decoration: none;
   font-size: 14px;
   font-family: 'Montserrat', sans-serif;
@@ -133,8 +160,10 @@
 }
 
 .agent-dropdown-item:hover {
-  background-color: #FFFEF9;
-  color: #D4AF37;
+  background-color: rgba(125, 211, 232, 0.2) !important;
+  color: #7DD3E8 !important;
+  border-radius: 6px;
+  transform: translateX(4px);
 }
 
 .agent-dropdown-item svg {
@@ -340,6 +369,8 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
+  background-color: #1F655E;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-info {
@@ -350,14 +381,14 @@
 .user-full-name {
   font-size: 14px;
   font-weight: 600;
-  color: #212121;
+  color: white !important;
   margin: 0 0 0.25rem 0;
   font-family: 'Montserrat', sans-serif;
 }
 
 .user-email {
   font-size: 12px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6) !important;
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;

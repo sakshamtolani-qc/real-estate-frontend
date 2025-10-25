@@ -3,7 +3,8 @@
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  background-color: #FFFFFF;
+  background-color: #053934;
+  font-family: 'Montserrat', sans-serif;
 }
 
 
@@ -21,10 +22,14 @@
 
 .properties-title {
   font-size: 2rem;
-  font-weight: 500;
-  color: #212121;
+  font-weight: 600;
+  color: white;
   margin-bottom: 2rem;
   font-family: 'Montserrat', sans-serif;
+}
+
+.properties-highlight {
+  color: #D4AF37;
 }
 
 .properties-controls {
@@ -46,9 +51,9 @@
 .type-filter-btn {
   padding: 0.625rem 1.25rem;
   border-radius: 50px;
-  border: 1px solid #EFF0F2;
-  background-color: #FFFFFF;
-  color: #212121;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -58,13 +63,14 @@
 
 .type-filter-btn:hover {
   border-color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .type-filter-btn.active {
-  background-color: #212121;
-  color: #FFFFFF;
-  border-color: #212121;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #D4AF37;
+  border-color: #D4AF37;
 }
 
 .filters-dropdown {
@@ -77,9 +83,9 @@
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
   border-radius: 50px;
-  border: 1px solid #EFF0F2;
-  background-color: #FFFFFF;
-  color: #212121;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -89,19 +95,20 @@
 
 .filters-btn:hover {
   border-color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
 }
 
 .filters-menu {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
-  background-color: #FFFFFF;
-  border: 1px solid #EFF0F2;
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 1rem;
   min-width: 200px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
 
@@ -112,13 +119,13 @@
   padding: 0.5rem;
   cursor: pointer;
   font-size: 14px;
-  color: #212121;
+  color: rgba(255, 255, 255, 0.8);
   font-family: 'Montserrat', sans-serif;
   transition: background-color 0.2s;
 }
 
 .filter-option:hover {
-  background-color: #FFFEF9;
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
 }
 
@@ -137,19 +144,20 @@
 }
 
 .property-card {
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   width: 100%;
   max-width: 400px;
   overflow: hidden;
   margin-bottom: 3rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all 0.3s;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .property-card:hover {
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   transform: translateY(-4px);
 }
 
@@ -227,7 +235,7 @@
 .property-title-text {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #212121;
+  color: white;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
@@ -244,7 +252,7 @@
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  color: #666666;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   margin-bottom: 1rem;
   font-family: 'Montserrat', sans-serif;
@@ -254,20 +262,20 @@
   display: flex;
   gap: 1.25rem;
   padding-top: 1rem;
-  border-top: 1px solid #EFF0F2;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .feature {
   display: flex;
   align-items: center;
   gap: 0.375rem;
-  color: #666666;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
   font-family: 'Montserrat', sans-serif;
 }
 
 .footer {
-  background-color: #212121;
+  background-color: #1F655E;
   color: #FFFFFF;
   padding: 3rem 0 1.5rem;
   margin-top: auto;

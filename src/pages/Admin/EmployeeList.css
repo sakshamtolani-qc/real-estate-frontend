@@ -5,14 +5,14 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #EFF0F2;
+  background-color: #053934;
   padding-top: 70px; /* Space for fixed AdminHeader */
 }
 
 .employee-list-main {
   flex: 1;
   padding: 60px 40px;
-    background: #EFF0F2;
+    background: #053934;
 }
 
 .employee-list-content {
@@ -23,7 +23,7 @@
 .employee-list-title {
   font-size: 48px;
   font-weight: 600;
-  color:black;
+  color: white;
   text-align: center;
   margin-bottom: 60px;
   letter-spacing: -0.5px;
@@ -54,13 +54,12 @@
 .filters-btn,
 .add-staff-btn {
   display: flex;
-    color: #000;
   gap: 8px;
   padding: 12px 24px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   background-color: transparent;
-  color: black;
+  color: white !important;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -70,8 +69,8 @@
 
 .filters-btn:hover,
 .add-staff-btn:hover {
-  background-color: rgba(3, 22, 45, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(125, 211, 232, 0.1);
+  border-color: #7DD3E8 !important;
   transform: translateY(-2px);
 }
 
@@ -90,9 +89,9 @@
 .search-input {
   padding: 12px 50px 12px 20px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: transparent;
-    color: #212121;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   width: 280px;
@@ -100,13 +99,13 @@
 }
 
 .search-input::placeholder {
-  color: #666;
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #d4af37;
-  background-color: rgba(255, 255, 255, 0.05);
+  border-color: #7DD3E8 !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 .search-btn {
@@ -114,7 +113,7 @@
   right: 12px;
   background: none;
   border: none;
-    color: #212121;
+    color: white !important;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -142,7 +141,7 @@
 }
 
 .employee-table thead {
-  background-color: #d4af37;
+  background-color: #7DD3E8 !important;
 }
 
 .employee-table th {
@@ -150,14 +149,15 @@
   text-align: left;
   font-weight: 600;
   font-size: 14px;
-    color: #212121;
+    color: white !important;
   cursor: pointer;
   user-select: none;
   transition: background-color 0.3s ease;
+  background-color: #7DD3E8 !important;
 }
 
 .employee-table th:hover {
-  background-color: #c9a532;
+  background-color: #5EC4DB !important;
 }
 
 .th-content {
@@ -191,7 +191,7 @@
 
 .employee-table td {
   padding: 20px 24px;
-    color: #212121;
+    color: #212121 !important;
   font-size: 14px;
   font-weight: 400;
 }
@@ -243,9 +243,9 @@
   width: 44px;
   height: 44px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 255, 255, 0.05);
-  color: black;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 500;
