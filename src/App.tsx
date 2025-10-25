@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
+import { SettingsProvider } from './context/SettingsContext';
 import { TooltipProvider } from './components/common';
 
 // // Layout Components
@@ -32,7 +33,7 @@ import AgentLeads from './pages/Agent/AgentLeads';
 // import InvoiceDetailPage from '@/pages/invoices/invoice-detail/InvoiceDetailPage';
 // import TransactionsPage from '@/pages/transactions/TransactionsPage';
 
-// import SettingsPage from '@/pages/settings/SettingsPage';
+import Settings from './pages/Admin/Settings';
 import Employees from './pages/Admin/EmployeeList';
 // import ProfilePage from '@/pages/profile/ProfilePage';
 
@@ -71,7 +72,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <Router>
+          <SettingsProvider>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <div className="App">
             <Routes>
               {/* All routes commented out for now - Team members will uncomment as they create components */}
@@ -247,14 +249,12 @@ function App() {
                 <Route index element={<ReportsPage />} />
               </Route> */}
 
-              {/* Settings Routes */}
-              {/* <Route path="/settings" element={
+              {/* Settings Routes - Admin Only */}
+              <Route path="/admin/settings" element={
                 <ProtectedRoute allowedRoles={['admin']}>
-                  <DashboardLayout />
+                  <Settings />
                 </ProtectedRoute>
-              }>
-                <Route index element={<SettingsPage />} />
-              </Route> */}
+              } />
 
               {/* Profile Route */}
               {/* <Route path="/profile" element={
@@ -284,7 +284,8 @@ function App() {
               }}
             />
           </div>
-          </Router>
+            </Router>
+          </SettingsProvider>
         </AuthProvider>
       </TooltipProvider>
     </QueryClientProvider>

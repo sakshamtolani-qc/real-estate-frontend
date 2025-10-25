@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Settings, LogOut, ChevronDown, Plus, List, Menu, X } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
+import { useCompanySettings } from '../../../hooks/useCompanySettings';
 import { NotificationBell } from '../NotificationBell/NotificationBell';
 import './AdminHeader.css';
 
@@ -20,6 +21,7 @@ interface Notification {
 export default function AdminHeader() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const { logo, company } = useCompanySettings();
   const [isListingsDropdownOpen, setIsListingsDropdownOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -68,7 +70,8 @@ export default function AdminHeader() {
       <div className="admin-header-container">
         {/* Logo */}
         <Link to="/dashboard" className="admin-logo">
-          <img src="/logo.png" alt="Quorum Property" className="admin-logo-image" />
+          <img src={logo || "/logo.png"} alt={company} className="admin-logo-image" />
+          <span className="admin-logo-text">{company}</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -189,7 +192,8 @@ export default function AdminHeader() {
           <div className="admin-mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="admin-mobile-menu-header">
               <Link to="/dashboard" className="admin-mobile-logo" onClick={() => setIsMobileMenuOpen(false)}>
-                <img src="/logo.png" alt="Quorum Property" className="admin-mobile-logo-image" />
+                <img src={logo || "/logo.png"} alt={company} className="admin-mobile-logo-image" />
+                <span className="admin-mobile-logo-text">{company}</span>
               </Link>
               <button 
                 className="admin-mobile-close-button"

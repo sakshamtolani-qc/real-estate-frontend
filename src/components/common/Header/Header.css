@@ -1,6 +1,6 @@
 .header {
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EFF0F2;
+  background-color: #1F655E !important;
+  border-bottom: 1px solid #1F655E !important;
   padding: 1rem 0;
   position: sticky;
   top: 0;
@@ -22,12 +22,26 @@
 .logo {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.logo:hover {
+  opacity: 0.8;
 }
 
 .logo-image {
-  height: 32px;
+  height: 40px;
   width: auto;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
 }
 
 .nav-menu {
@@ -37,10 +51,10 @@
 }
 
 .nav-link {
-  color: #212121;
+  color: white;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   transition: color 0.2s;
   font-family: 'Montserrat', sans-serif;
 }
@@ -59,9 +73,25 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #212121;
+  color: white;
   font-size: 14px;
+  font-weight: 700;
   font-family: 'Montserrat', sans-serif;
+}
+
+.phone-number a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+.phone-number a:hover {
+  color: #D4AF37;
+}
+
+.phone-number svg {
+  color: white;
 }
 
 .user-button {
@@ -71,15 +101,17 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid #EFF0F2;
-  background-color: #FFFFFF;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: transparent;
   cursor: pointer;
   transition: all 0.2s;
+  color: white;
 }
 
 .user-button:hover {
   border-color: #D4AF37;
-  background-color: #FFFEF9;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #D4AF37;
 }
 
 /* Login Tooltip */

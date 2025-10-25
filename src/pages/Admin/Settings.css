@@ -1,0 +1,486 @@
+.settings-page {
+  min-height: 100vh;
+  margin-top: 50px;
+  background: linear-gradient(135deg, #1a4d4d 0%, #2d5a5a 50%, #1a4d4d 100%);
+  padding-bottom: 0;
+}
+
+.settings-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.settings-title {
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.settings-underline {
+  width: 120px;
+  height: 3px;
+  background-color: #d4af37;
+  margin: 0 auto 60px;
+  border-radius: 2px;
+}
+
+.settings-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+.settings-loading .spinner {
+  width: 40px;
+  height: 40px;
+  color: #d4af37;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.settings-loading p {
+  color: #b0c4c4;
+  font-size: 1rem;
+}
+
+.settings-profile-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  gap: 20px;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.settings-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.settings-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.settings-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.settings-profile-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.settings-profile-details h2 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  word-break: break-word;
+}
+
+.settings-profile-details p {
+  color: #d4af37;
+  font-size: 1rem;
+  margin: 0;
+  word-break: break-all;
+}
+
+.settings-edit-btn {
+  background-color: transparent;
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  padding: 12px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.settings-edit-btn:hover {
+  background-color: #d4af37;
+  color: #1a4d4d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.settings-edit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.settings-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-form-group label {
+  color: white;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.settings-input,
+.settings-select,
+.settings-textarea {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #d4af37;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.settings-input::placeholder,
+.settings-textarea::placeholder {
+  color: #7a9999;
+}
+
+.settings-input:focus,
+.settings-select:focus,
+.settings-textarea:focus {
+  outline: none;
+  border-color: #d4af37;
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.settings-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+.settings-select option {
+  background-color: #1a4d4d;
+  color: white;
+}
+
+.settings-textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.settings-current-value {
+  background-color: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.settings-current-value strong {
+  color: #d4af37;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.settings-current-value p {
+  color: #b0c4c4;
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.settings-form-group-full {
+  grid-column: 1 / -1;
+}
+
+.settings-contact-section {
+  margin-bottom: 60px;
+}
+
+.settings-contact-section h3 {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.settings-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.settings-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.settings-contact-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settings-contact-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #d4af37;
+}
+
+.settings-contact-details {
+  flex: 1;
+}
+
+.settings-contact-details strong {
+  color: white;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.settings-contact-details span {
+  color: #b0c4c4;
+  font-size: 0.85rem;
+}
+
+.settings-contact-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.settings-add-btn {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings-add-btn:hover {
+  color: #d4af37;
+}
+
+.settings-contact-form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.settings-contact-form .settings-input {
+  flex: 1;
+  margin: 0;
+}
+
+.settings-contact-form .settings-add-btn {
+  white-space: nowrap;
+}
+
+.settings-grievance-section {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 40px;
+  margin-bottom: 0;
+}
+
+.settings-grievance-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.settings-grievance-text {
+  flex: 1;
+}
+
+.settings-grievance-text h3 {
+  color: #d4af37;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.settings-grievance-text p {
+  color: #b0c4c4;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.settings-grievance-form {
+  flex: 2;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.settings-email-input {
+  flex: 1;
+  background-color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 24px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.settings-email-input::placeholder {
+  color: #999;
+}
+
+.settings-email-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+}
+
+.settings-submit-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  position: relative;
+  right: 50px;
+}
+
+.settings-submit-btn:hover {
+  transform: translateX(4px);
+}
+
+.settings-submit-btn svg {
+  width: 24px;
+  height: 24px;
+  color: #1a4d4d;
+}
+
+@media (max-width: 968px) {
+  .settings-profile-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .settings-profile-info {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .settings-edit-btn {
+    align-self: flex-start;
+  }
+
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-grievance-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .settings-grievance-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .settings-submit-btn {
+    right: 0;
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 640px) {
+  .settings-container {
+    padding: 30px 16px 60px;
+  }
+
+  .settings-title {
+    font-size: 2rem;
+  }
+
+  .settings-profile-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-profile-info {
+    width: 100%;
+  }
+
+  .settings-edit-btn {
+    width: 100%;
+  }
+
+  .settings-contact-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-grievance-section {
+    padding: 24px;
+  }
+
+  .settings-grievance-text h3 {
+    font-size: 1.2rem;
+  }
+}

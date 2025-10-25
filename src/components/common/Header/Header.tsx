@@ -2,11 +2,13 @@ import { Phone, User, Menu, X, LogOut, Home } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext';
+import { useCompanySettings } from '../../../hooks/useCompanySettings';
 import  './Header.css';
 
 export default function Header() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { logo, phone, company } = useCompanySettings();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -68,7 +70,8 @@ export default function Header() {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <img src="/logo.png" alt="Quorium" className="logo-image" />
+          <img src={logo || "/logo.png"} alt={company} className="logo-image" />
+          <span className="logo-text">{company}</span>
         </Link>
 
         <nav className="nav-menu">
@@ -87,10 +90,12 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
-          <div className="phone-number">
-            <Phone size={16} />
-            <span>+91 9026294xxx</span>
-          </div>
+          {phone && (
+            <div className="phone-number">
+              <Phone size={16} />
+              <span><a href={`tel:${phone}`}>{phone}</a></span>
+            </div>
+          )}
           {user ? (
             <div className="user-menu-container" ref={userMenuRef}>
               <button className="user-button" onClick={toggleUserMenu}>
@@ -147,7 +152,7 @@ export default function Header() {
             {/* Mobile Menu Header */}
             <div className="mobile-menu-header">
               <Link to="/" className="mobile-logo" onClick={closeMenu}>
-                <img src="/logo.png" alt="Quorium" className="mobile-logo-image" />
+                <img src={logo || "/logo.png"} alt={company} className="mobile-logo-image" />
               </Link>
               <button className="mobile-close-button" onClick={closeMenu}>
                 <X size={24} />
@@ -174,10 +179,12 @@ export default function Header() {
             </nav>
             
             <div className="mobile-actions">
-              <div className="mobile-phone-number">
-                <Phone size={18} />
-                <span>+91 9026294xxx</span>
-              </div>
+              {phone && (
+                <div className="mobile-phone-number">
+                  <Phone size={18} />
+                  <span><a href={`tel:${phone}`}>{phone}</a></span>
+                </div>
+              )}
             </div>
           </div>
         </div>

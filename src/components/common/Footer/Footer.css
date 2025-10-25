@@ -2,15 +2,15 @@
 
 .footer {
   width: 100%;
-  background-color: #EFF0F2;
+  background-color: #1F655E !important;
   font-family: 'Montserrat', sans-serif;
 }
 
 /* Feedback Section */
 .feedback-section {
-  background-color: #EFF0F2;
+  background-color: #1F655E !important;
   padding: 20px 0;
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .feedback-content {
@@ -25,7 +25,7 @@
 .feedback-text h3 {
   font-size: 16px;
   font-weight: 600;
-  color: #212121;
+  color: white !important;
   margin: 0 0 4px 0;
   font-family: 'Montserrat', sans-serif;
 }
@@ -33,7 +33,7 @@
 .feedback-text p {
   font-size: 14px;
   font-weight: 400;
-  color: #212121;
+  color: rgba(255, 255, 255, 0.8) !important;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
@@ -67,7 +67,7 @@
 }
 
 .submit-button {
-  background-color: #212121;
+  background-color: white;
   border: none;
   border-radius: 0 25px 25px 0;
   padding: 13px 16px;
@@ -76,12 +76,12 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease;
-  border: 1px solid #212121;
+  border: 1px solid white;
   border-left: none;
 }
 
 .submit-button:hover {
-  background-color: #333;
+  background-color: #f0f0f0;
 }
 
 .arrow-icon {
@@ -92,7 +92,7 @@
 
 /* Main Footer */
 .footer-main {
-  background-color: #EFF0F2;
+  background-color: #1F655E !important;
   padding: 40px 0;
 }
 
@@ -126,7 +126,7 @@
 .footer-section h4 {
   font-size: 14px;
   font-weight: 700;
-  color: #212121;
+  color: white !important;
   margin: 0 0 20px 0;
   letter-spacing: 0.5px;
   font-family: 'Montserrat', sans-serif;
@@ -143,7 +143,7 @@
 }
 
 .footer-section ul li a {
-  color: #212121;
+  color: rgba(255, 255, 255, 0.8) !important;
   text-decoration: none;
   font-size: 14px;
   font-weight: 400;
@@ -163,7 +163,7 @@
 .contact-info .contact-details p {
   font-size: 14px;
   font-weight: 400;
-  color: #212121;
+  color: rgba(255, 255, 255, 0.8) !important;
   margin: 8px 0;
   font-family: 'Montserrat', sans-serif;
 }

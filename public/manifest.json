@@ -1,0 +1,15 @@
+{
+  "short_name": "Real Estate",
+  "name": "Real Estate Platform",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "64x64 32x32 24x24",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1F655E",
+  "background_color": "#ffffff"
+}

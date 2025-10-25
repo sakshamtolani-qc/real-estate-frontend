@@ -26,6 +26,7 @@
   font-family: 'Montserrat', sans-serif;
   line-height: 1.6;
   color: var(--text-dark);
+  margin-top: 60px;
 }
 
 .container {
@@ -135,8 +136,15 @@
 
 /* Hero Section */
 .hero {
-  padding: 120px 0 80px;
-  background: linear-gradient(135deg, var(--primary-white) 0%, var(--primary-gray) 100%);
+  padding: 60px 0 40px;
+  background: #053934 !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+  min-height: 600px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .hero-content {
@@ -151,11 +159,12 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 40px;
+  color: white !important;
 }
 
 .cta-button {
   background: transparent;
-  color: var(--text-dark);
+  color: white;
   border: 2px solid var(--secondary-gold);
   padding: 15px 30px;
   font-size: 14px;
@@ -220,8 +229,17 @@
 
 /* Explore Properties Section */
 .explore-properties {
-  padding: 80px 0;
-  background: var(--primary-white);
+  padding: 40px 0;
+  background: #053934;
+}
+
+.explore-properties .section-header h2,
+.explore-properties .section-header {
+  color: white;
+}
+
+.explore-properties .section-header p {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .section-header {
@@ -233,10 +251,11 @@
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 8px;
+  color: white !important;
 }
 
 .section-header p {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.7) !important;
   font-size: 14px;
 }
 
@@ -247,12 +266,13 @@
 }
 
 .property-type-card {
-  background: var(--primary-white);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .property-type-card:hover {
@@ -274,10 +294,11 @@
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 4px;
+  color: white !important;
 }
 
 .property-type-info p {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.6) !important;
   font-size: 12px;
 }
 
@@ -345,8 +366,33 @@
 
 /* Landing Featured Properties Section - New Design */
 .landing-featured-section {
-  padding: 80px 0;
-  background: var(--primary-gray);
+  padding: 40px 0;
+  background: #053934;
+}
+
+.landing-featured-section .landing-featured-title h2 {
+  color: white;
+}
+
+.landing-featured-section .landing-featured-title p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.landing-featured-section .landing-filter-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.landing-featured-section .landing-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--text-gold);
+}
+
+.landing-featured-section .landing-filter-btn.landing-filter-active {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-gold);
+  border-color: var(--text-gold);
 }
 
 .landing-featured-header {
@@ -441,12 +487,13 @@
 }
 
 .property-card {
-  background: var(--primary-white);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .property-card:hover {
@@ -494,10 +541,11 @@
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 4px;
+  color: white !important;
 }
 
 .location {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.6) !important;
   font-size: 12px;
   margin-bottom: 10px;
 }
@@ -511,7 +559,7 @@
 .property-details span {
   display: flex;
   align-items: center;
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.6) !important;
   font-size: 12px;
 }
 
@@ -523,8 +571,25 @@
 
 /* How It Works Section */
 .how-it-works {
-  padding: 100px 0;
-  background: var(--primary-white);
+  padding: 50px 0;
+  background: #053934;
+}
+
+.how-it-works .section-header h2,
+.how-it-works .section-header {
+  color: white;
+}
+
+.how-it-works .section-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.how-it-works .work-step h3 {
+  color: white;
+}
+
+.how-it-works .work-step p {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .work-steps {
@@ -604,8 +669,24 @@
 
 /* Testimonials Section */
 .testimonials {
-  padding: 100px 0;
-  background: var(--primary-gray);
+  padding: 50px 0;
+  background: #053934;
+}
+
+.testimonials .testimonials-left h2 {
+  color: white;
+}
+
+.testimonials .testimonials-left p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.testimonials .stat h3 {
+  color: var(--text-gold);
+}
+
+.testimonials .stat p {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .testimonials-content {
@@ -654,10 +735,11 @@
 }
 
 .testimonial-card {
-  background: var(--primary-white);
+  background: rgba(255, 255, 255, 0.08);
   padding: 30px;
   border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .testimonial-header {
@@ -676,16 +758,17 @@
 
 .testimonial-header h4 {
   font-weight: 600;
+  color: white !important;
 }
 
 .testimonial-header p {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.6) !important;
   font-size: 14px;
 }
 
 .testimonial-text p {
   font-style: italic;
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.7) !important;
   line-height: 1.6;
 }
 
@@ -751,8 +834,8 @@
 
 /* New Landing About Section Design */
 .landing-about-section {
-  padding: 100px 0;
-  background: var(--primary-white);
+  padding: 50px 0;
+  background: #053934;
 }
 
 .landing-about-content {
@@ -767,11 +850,11 @@
   font-weight: 700;
   margin-bottom: 25px;
   line-height: 1.3;
-  color: var(--text-dark);
+  color: white;
 }
 
 .landing-about-left p {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
   margin-bottom: 15px;
   font-size: 0.95rem;
@@ -787,7 +870,7 @@
 .landing-about-link {
   background: transparent;
   border: none;
-  color: var(--text-dark);
+  color: white;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -803,7 +886,7 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--text-dark);
+  background: white;
   transition: background 0.3s ease;
 }
 
@@ -817,8 +900,8 @@
 
 .landing-about-cta {
   background: transparent;
-  border: 2px solid var(--text-dark);
-  color: var(--text-dark);
+  border: 2px solid white;
+  color: white;
   padding: 14px 35px;
   font-size: 0.95rem;
   font-weight: 600;
@@ -829,10 +912,10 @@
 }
 
 .landing-about-cta:hover {
-  background: var(--text-dark);
-  color: var(--primary-white);
+  background: white;
+  color: #053934;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(33, 33, 33, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
 }
 
 .landing-about-right {
@@ -874,8 +957,21 @@
 
 /* Contact Section */
 .contact-section {
-  padding: 100px 0;
-  background: var(--primary-gray);
+  padding: 50px 0;
+  background: #053934;
+}
+
+.contact-section .section-header h2,
+.contact-section .section-header {
+  color: white;
+}
+
+.contact-section .section-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-section .contact-item h4 {
+  color: var(--text-gold);
 }
 
 .contact-content {
@@ -895,12 +991,13 @@
 }
 
 .contact-item {
-  background: white;
+  background: rgba(255, 255, 255, 0.08);
   padding: 2rem;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .contact-item:hover {
@@ -928,7 +1025,7 @@
 }
 
 .contact-item p {
-  color: var(--text-gray);
+  color: rgba(255, 255, 255, 0.7) !important;
   font-size: 0.95rem;
 }
 
@@ -998,8 +1095,8 @@
 
 /* Footer */
 .footer {
-  background: var(--text-dark);
-  color: var(--primary-white);
+  background: #1F655E !important;
+  color: white !important;
   padding: 80px 0 40px;
 }
 
@@ -1017,18 +1114,19 @@
 }
 
 .footer-logo p {
-  color: var(--primary-gray);
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 .footer-links h4,
 .footer-contact h4 {
   margin-bottom: 15px;
   font-weight: 600;
+  color: white !important;
 }
 
 .footer-links a {
   display: block;
-  color: var(--primary-gray);
+  color: rgba(255, 255, 255, 0.8) !important;
   text-decoration: none;
   margin-bottom: 8px;
   transition: color 0.3s ease;
@@ -1039,15 +1137,15 @@
 }
 
 .footer-contact p {
-  color: var(--primary-gray);
+  color: rgba(255, 255, 255, 0.8) !important;
   margin-bottom: 8px;
 }
 
 .footer-bottom {
-  border-top: 1px solid #333;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 20px;
   text-align: center;
-  color: var(--primary-gray);
+  color: rgba(255, 255, 255, 0.8) !important;
 }
 
 /* Mobile Responsive */

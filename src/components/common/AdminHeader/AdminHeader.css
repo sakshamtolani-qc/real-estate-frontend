@@ -1,14 +1,14 @@
 /* Admin Header Container */
 .admin-header {
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EFF0F2;
+  background-color: #1F655E !important;
+  border-bottom: 1px solid #1F655E !important;
   padding: 0.75rem 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .admin-header-container {
@@ -25,13 +25,37 @@
 .admin-logo {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   text-decoration: none;
   flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.admin-logo:hover {
+  opacity: 0.8;
 }
 
 .admin-logo-image {
-  height: 32px;
+  height: 36px;
   width: auto;
+}
+
+.admin-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.admin-mobile-logo-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }
 
 /* Navigation */
@@ -44,10 +68,10 @@
 }
 
 .admin-nav-link {
-  color: #212121;
+  color: white;
   text-decoration: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 700;
   font-family: 'Montserrat', sans-serif;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
@@ -122,6 +146,7 @@
   color: #212121;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 600;
   font-family: 'Montserrat', sans-serif;
   border-radius: 6px;
   transition: all 0.2s;
