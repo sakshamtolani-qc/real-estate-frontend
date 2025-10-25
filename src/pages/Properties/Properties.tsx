@@ -4,6 +4,7 @@ import { Bed, Bath, Maximize, MapPin, SlidersHorizontal } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
 import AdminHeader from '../../components/common/AdminHeader/AdminHeader';
+import AgentHeader from '../../components/common/AgentHeader/AgentHeader';
 import {Footer} from '../../components/common/Footer/Footer';
 import { PageLoader, SearchLoader } from '../../components/common/Loader';
 import api from '../../services/api';
@@ -153,14 +154,9 @@ export default function Properties() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoadingProperties, setIsLoadingProperties] = useState(true);
   
-  // Check if user is an employee/admin (multiple ways for compatibility)
-  const isAdmin = Boolean(
-    user?.is_employee || 
-    user?.is_superuser ||
-    user?.role === 'admin' || 
-    user?.role === 'agent' ||
-    (user as any)?.is_employee === true
-  );
+  // Check user role for header selection
+  const isAdmin = Boolean(user?.is_superuser);
+  const isAgent = Boolean(user?.is_employee);
   
   // Fetch properties from database
   useEffect(() => {
@@ -294,7 +290,7 @@ export default function Properties() {
 
   return (
     <div className="properties-page">
-      {isAdmin ? <AdminHeader /> : <Header />}
+      {isAdmin ? <AdminHeader /> : isAgent ? <AgentHeader /> : <Header />}
 
       <main className="properties-main">
         <div className="properties-container">

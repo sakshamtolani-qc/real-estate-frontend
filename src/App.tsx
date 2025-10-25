@@ -104,6 +104,13 @@ function App() {
                 {/* Public access to properties - no login required */}
                 <Route path="/properties" element={<Properties />} />
                 <Route path="/property/:id" element={<PropertyDetail />} />
+                
+                {/* Agent Properties Listings Route */}
+                <Route path="/agent/properties" element={
+                  <ProtectedRoute allowedRoles={['agent']}>
+                    <Properties />
+                  </ProtectedRoute>
+                } />
                 {/* <Route path="deals" element={<CustomerDealsPage />} />
                 <Route path="invoices" element={<CustomerInvoicesPage />} />
                 <Route path="documents" element={<CustomerDocumentsPage />} />
@@ -147,8 +154,12 @@ function App() {
                 </ProtectedRoute>
               }></Route>
               
-              {/* Admin Properties Route - not protected as it handles auth internally */}
-              <Route path="/admin/properties" element={<Properties />} />
+              {/* Admin Properties Route - Protected for admin only */}
+              <Route path="/admin/properties" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Properties />
+                </ProtectedRoute>
+              } />
               
               {/* Admin Add Property Route - Protected for admin and agent */}
               <Route path="/admin/properties/add" element={

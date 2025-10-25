@@ -96,7 +96,7 @@ export default function AgentHeader() {
             {isListingsDropdownOpen && (
               <div className="agent-dropdown-menu">
                 <Link 
-                  to="/properties" 
+                  to="/agent/properties" 
                   className="agent-dropdown-item"
                   onClick={() => setIsListingsDropdownOpen(false)}
                 >
@@ -213,7 +213,7 @@ export default function AgentHeader() {
                 Dashboard
               </Link>
               <Link 
-                to="/properties" 
+                to="/agent/properties" 
                 className="agent-mobile-nav-link"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

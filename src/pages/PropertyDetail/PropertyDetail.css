@@ -3,13 +3,13 @@
   display: flex;
   margin-top: 50px;
   flex-direction: column;
-  background-color: #FFFFFF;
+  background-color: #053934;
 }
 
 .property-detail-main {
   flex: 1;
   padding: 2rem 0;
-  background-color: #FAFAFA;
+  background-color: #053934;
 }
 
 .property-detail-container {
@@ -116,10 +116,10 @@
 }
 
 .property-description-section {
-  background-color: #FFFFFF;
+  background-color: #1F655E;
   border-radius: 12px;
   padding: 2.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .description-header {
@@ -133,7 +133,7 @@
 .property-description-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #212121;
+  color: white !important;
   margin: 0 0 0.5rem 0;
   font-family: 'Montserrat', sans-serif;
 }
@@ -141,7 +141,7 @@
 .property-subtitle-text {
   font-size: 0.875rem;
   font-weight: 500;
-  color: #999999;
+  color: rgba(255, 255, 255, 0.7) !important;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
 }
@@ -159,21 +159,21 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid #E0E0E0;
-  background-color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.2s;
-  color: #212121;
+  color: white;
 }
 
 .action-icon-btn:hover {
-  border-color: #D4AF37;
-  background-color: #FFFEF9;
-  color: #D4AF37;
+  border-color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
 .description-content {
-  color: #666666;
+  color: rgba(255, 255, 255, 0.85) !important;
   font-size: 0.938rem;
   line-height: 1.75;
   font-family: 'Montserrat', sans-serif;
@@ -181,6 +181,7 @@
 
 .description-paragraph {
   margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .description-paragraph:last-child {
@@ -193,17 +194,17 @@
 }
 
 .pricing-card {
-  background-color: #FFFFFF;
+  background-color: #1F655E;
   border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid #F0F0F0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 .pricing-card-price {
   font-size: 2rem;
   font-weight: 700;
-  color: #212121;
+  color: white !important;
   margin-bottom: 1.25rem;
   font-family: 'Montserrat', sans-serif;
 }
@@ -211,7 +212,7 @@
 .pricing-card-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #212121;
+  color: white !important;
   margin-bottom: 0.875rem;
   font-family: 'Montserrat', sans-serif;
 }
@@ -220,7 +221,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #666666;
+  color: rgba(255, 255, 255, 0.7) !important;
   font-size: 0.938rem;
   margin-bottom: 1.5rem;
   font-family: 'Montserrat', sans-serif;
@@ -231,8 +232,8 @@
   flex-direction: row;
   gap: 1.5rem;
   padding: 1.5rem 0;
-  border-top: 1px solid #F0F0F0;
-  border-bottom: 1px solid #F0F0F0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 1.75rem;
 }
 
@@ -240,14 +241,14 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #212121;
+  color: white !important;
   font-size: 0.875rem;
   font-weight: 500;
   font-family: 'Montserrat', sans-serif;
 }
 
 .pricing-feature-item svg {
-  color: #666666;
+  color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
 }
 
@@ -256,8 +257,8 @@
   padding: 1rem;
   border-radius: 50px;
   border: none;
-  background-color: #3D3D3D;
-  color: #FFFFFF;
+  background-color: #7DD3E8;
+  color: white;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -266,9 +267,9 @@
 }
 
 .schedule-call-button:hover {
-  background-color: #212121;
+  background-color: #5EC4DB;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(125, 211, 232, 0.3);
 }
 
 .schedule-call-button:active {
@@ -367,7 +368,7 @@
 }
 
 .schedule-modal {
-  background-color: #FFFFFF;
+  background-color: white;
   border-radius: 12px;
   width: 100%;
   max-width: 500px;
@@ -383,7 +384,7 @@
   right: 1.25rem;
   background-color: transparent;
   border: none;
-  color: #666666;
+  color: #777777;
   cursor: pointer;
   padding: 0.5rem;
   display: flex;
@@ -394,7 +395,7 @@
 }
 
 .modal-close-btn:hover {
-  color: #212121;
+  color: #333333;
 }
 
 .modal-gallery-preview {
@@ -413,7 +414,7 @@
 .schedule-modal-title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #212121;
+  color: #333333;
   text-align: center;
   margin: 2rem 0 1.5rem 0;
   font-family: 'Montserrat', sans-serif;
@@ -432,7 +433,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #212121;
+  color: #333333;
   margin-bottom: 0.5rem;
   font-family: 'Montserrat', sans-serif;
 }
@@ -444,16 +445,16 @@
   border: 1px solid #E0E0E0;
   border-radius: 8px;
   font-size: 0.938rem;
-  color: #212121;
+  color: #333333;
   font-family: 'Montserrat', sans-serif;
-  background-color: #FFFFFF;
+  background-color: white;
   transition: border-color 0.2s;
 }
 
 .form-group select:focus,
 .form-group input[type="date"]:focus {
   outline: none;
-  border-color: #D4AF37;
+  border-color: #7DD3E8;
 }
 
 .form-checkbox-group {
@@ -466,7 +467,7 @@
   cursor: pointer;
   font-size: 0.813rem;
   line-height: 1.5;
-  color: #666666;
+  color: #555555;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -484,8 +485,8 @@
   padding: 1rem;
   border-radius: 50px;
   border: none;
-  background-color: #3D3D3D;
-  color: #FFFFFF;
+  background-color: #7DD3E8;
+  color: white;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
@@ -495,9 +496,9 @@
 }
 
 .schedule-submit-btn:hover {
-  background-color: #212121;
+  background-color: #5EC4DB;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(125, 211, 232, 0.3);
 }
 
 .schedule-submit-btn:active {

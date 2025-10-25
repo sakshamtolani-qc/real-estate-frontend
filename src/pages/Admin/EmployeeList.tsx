@@ -11,8 +11,9 @@ interface Employee {
   name: string;
   phone: string;
   leads: number;
-  offersMade: number;
+  dealsClose: number;
   status: 'Active' | 'InActive';
+  user_id: number;
 }
 
 const EmployeeList: React.FC = () => {
@@ -21,19 +22,50 @@ const EmployeeList: React.FC = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await fetch('http://localhost:8000/api/accounts/list/');
+      const token = localStorage.getItem('auth_token');
+      const res = await fetch('http://localhost:8000/api/accounts/list/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await res.json();
       const employeesArr = Array.isArray(data.results) ? data.results : [];
-      setEmployees(
-        employeesArr.map((emp: any) => ({
+      
+      // Fetch leads and deals count for each employee
+      const employeePromises = employeesArr.map(async (emp: any) => {
+        let leadsCount = 0;
+        let dealsCloseCount = 0;
+        
+        try {
+          // Fetch leads assigned to this employee
+          const leadsRes = await fetch('http://localhost:8000/api/leads/list/', {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          const leadsData = await leadsRes.json();
+          const leadsArr = Array.isArray(leadsData.results) ? leadsData.results : [];
+          leadsCount = leadsArr.filter((lead: any) => lead.assigned_to?.id === emp.id).length;
+          
+          // Fetch deals closed by this employee (leads with status 'Won')
+          dealsCloseCount = leadsArr.filter((lead: any) => lead.assigned_to?.id === emp.id && lead.status === 'won').length;
+        } catch (err) {
+          console.error('Failed to fetch leads for employee', emp.id, err);
+        }
+        
+        return {
           id: emp.id,
           name: (emp.user.first_name && emp.user.first_name.length > 0) ? emp.user.first_name : emp.user.username,
           phone: emp.user.phone,
-          leads: 0, // You can update this if you add leads to backend
-          offersMade: 0, // You can update this if you add offersMade to backend
+          leads: leadsCount,
+          dealsClose: dealsCloseCount,
           status: emp.status,
-        }))
-      );
+          user_id: emp.user.id
+        };
+      });
+      
+      const employeeList = await Promise.all(employeePromises);
+      setEmployees(employeeList);
     } catch (err) {
       console.error('Failed to fetch employees', err);
     }
@@ -154,9 +186,9 @@ const EmployeeList: React.FC = () => {
                       <ChevronDown size={16} className="sort-icon" />
                     </div>
                   </th>
-                  <th onClick={() => handleSort('offersMade')}>
+                  <th onClick={() => handleSort('dealsClose')}>
                     <div className="th-content">
-                      Offers Made
+                      Deals Closed
                       <ChevronDown size={16} className="sort-icon" />
                     </div>
                   </th>
@@ -174,7 +206,7 @@ const EmployeeList: React.FC = () => {
                     <td>{employee.name}</td>
                     <td>{employee.phone}</td>
                     <td>{employee.leads}</td>
-                    <td>{employee.offersMade}</td>
+                    <td>{employee.dealsClose}</td>
                     <td>
                       <span className={`status-badge status-${employee.status.toLowerCase()}`}>
                         {employee.status}

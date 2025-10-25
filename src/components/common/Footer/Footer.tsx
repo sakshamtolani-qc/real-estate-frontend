@@ -1,10 +1,31 @@
 import React, { useState } from "react";
 import { Facebook, Instagram } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useCompanySettings } from "../../../hooks/useCompanySettings";
 
 export const Footer: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const { company, phone, email: companyEmail, address, city, facebook, instagram, logo } = useCompanySettings();
+
+  const handleSectionLink = (sectionId: string) => {
+    // If on landing page, scroll to section
+    if (window.location.pathname === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      // Navigate to landing page and scroll to section
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+    }
+  };
 
   return (
     <footer className="py-16" style={{ backgroundColor: '#1F655E' }}>
@@ -58,24 +79,24 @@ export const Footer: React.FC = () => {
             <h4 className="font-semibold text-white mb-4">COMPANY</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#about" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('about')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   About Us
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#legal" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('legal')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   Legal Information
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#contact" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('contact')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   Contact Us
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#blogs" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('blogs')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   Blogs
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -85,24 +106,24 @@ export const Footer: React.FC = () => {
             <h4 className="font-semibold text-white mb-4">HELP CENTER</h4>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#find-room" className="hover:text-white transition-colors">
-                  Find a Room
-                </a>
+                <button onClick={() => handleSectionLink('listings')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
+                  Find a Property
+                </button>
               </li>
               <li>
-                <a href="#why-us" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('why-us')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   Why Us?
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#faqs" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('faqs')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   FAQs
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#rental-guides" className="hover:text-white transition-colors">
+                <button onClick={() => handleSectionLink('rental-guides')} className="hover:text-white transition-colors bg-none border-none cursor-pointer text-left">
                   Rental Guides
-                </a>
+                </button>
               </li>
             </ul>
           </div>
