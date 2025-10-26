@@ -185,6 +185,38 @@ export default function Header() {
                   <span><a href={`tel:${phone}`}>{phone}</a></span>
                 </div>
               )}
+              <div className="mobile-user-section">
+                {user ? (
+                  <div className="mobile-user-menu">
+                    <div className="mobile-user-info">
+                      <p className="mobile-user-name">{user.first_name} {user.last_name}</p>
+                      <p className="mobile-user-email">{user.email}</p>
+                    </div>
+                    <button className="mobile-user-item" onClick={() => { 
+                      if ((user as any).is_superuser) {
+                        navigate('/dashboard');
+                      } else if ((user as any).is_employee) {
+                        navigate('/agent/dashboard');
+                      } else {
+                        navigate('/properties');
+                      }
+                      closeMenu();
+                    }}>
+                      <Home size={16} />
+                      <span>{(user as any).is_superuser ? 'Admin' : (user as any).is_employee ? 'Agent' : 'My'} Dashboard</span>
+                    </button>
+                    <button className="mobile-user-item logout" onClick={handleLogout}>
+                      <LogOut size={16} />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                ) : (
+                  <Link to="/login" className="mobile-login-button" onClick={closeMenu}>
+                    <User size={18} />
+                    <span>Login / Sign Up</span>
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>

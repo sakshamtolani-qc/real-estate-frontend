@@ -315,14 +315,14 @@
   border: none;
   background-color: transparent;
   cursor: pointer;
-  color: #212121;
+  color: white;
   transition: all 0.3s ease;
   border-radius: 8px;
 }
 
 .mobile-menu-button:hover {
   color: #D4AF37;
-  background-color: rgba(212, 175, 55, 0.08);
+  background-color: rgba(212, 175, 55, 0.15);
 }
 
 /* Mobile Menu Overlay */
@@ -334,8 +334,8 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(33, 33, 33, 0.95) 0%,
-    rgba(33, 33, 33, 0.85) 100%
+    rgba(31, 101, 94, 0.95) 0%,
+    rgba(26, 77, 71, 0.85) 100%
   );
   backdrop-filter: blur(10px);
   z-index: 100;
@@ -357,17 +357,17 @@
 .mobile-menu {
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(255, 255, 255, 0.95) 100%
+    rgba(31, 101, 94, 0.98) 0%,
+    rgba(26, 77, 71, 0.98) 100%
   );
   backdrop-filter: blur(20px);
   width: 320px;
   height: 100vh;
   padding: 0;
   box-shadow: 
-    -10px 0 40px rgba(0, 0, 0, 0.15),
-    -2px 0 10px rgba(0, 0, 0, 0.05);
-  border-left: 1px solid rgba(239, 240, 242, 0.3);
+    -10px 0 40px rgba(0, 0, 0, 0.3),
+    -2px 0 10px rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(212, 175, 55, 0.2);
   animation: slideInEnhanced 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
@@ -396,11 +396,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.5rem 2rem;
-  border-bottom: 1px solid rgba(239, 240, 242, 0.4);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 254, 249, 0.9) 100%
+    rgba(31, 101, 94, 0.9) 0%,
+    rgba(26, 77, 71, 0.85) 100%
   );
   backdrop-filter: blur(15px);
 }
@@ -424,16 +424,16 @@
   width: 40px;
   height: 40px;
   border: none;
-  background-color: rgba(212, 175, 55, 0.1);
-  color: #212121;
+  background-color: rgba(212, 175, 55, 0.15);
+  color: white;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .mobile-close-button:hover {
-  background-color: rgba(212, 175, 55, 0.2);
+  background-color: rgba(212, 175, 55, 0.25);
   color: #D4AF37;
   transform: rotate(90deg) scale(1.05);
 }
@@ -459,13 +459,13 @@
 }
 
 .mobile-nav-link {
-  color: #212121;
+  color: white;
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
   font-family: 'Montserrat', sans-serif;
   padding: 1.25rem 0;
-  border-bottom: 1px solid rgba(239, 240, 242, 0.6);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   transition: all 0.3s ease;
   position: relative;
   letter-spacing: 0.02em;
@@ -522,10 +522,10 @@
   margin-top: auto;
   background: linear-gradient(
     135deg,
-    rgba(255, 254, 249, 0.8) 0%,
-    rgba(255, 255, 255, 0.9) 100%
+    rgba(26, 77, 71, 0.8) 0%,
+    rgba(31, 101, 94, 0.9) 100%
   );
-  border-top: 1px solid rgba(212, 175, 55, 0.1);
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
   position: relative;
 }
 
@@ -548,23 +548,122 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #212121;
+  color: white;
   font-size: 15px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(212, 175, 55, 0.1);
   border-radius: 12px;
-  border: 1px solid rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
 }
 
 .mobile-phone-number:hover {
-  background: rgba(255, 254, 249, 0.9);
-  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+}
+
+/* Mobile User Section */
+.mobile-user-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-user-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-user-info {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.mobile-user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.mobile-user-email {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.5rem 0 0 0;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mobile-user-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.mobile-user-item:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.4);
+  color: #D4AF37;
+}
+
+.mobile-user-item.logout {
+  color: #FF6B6B;
+}
+
+.mobile-user-item.logout:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.3);
+  color: #FF5252;
+}
+
+.mobile-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(212, 175, 55, 0.15) 100%);
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.mobile-login-button:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.25) 100%);
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
 }
 
 /* Mobile Responsive Styles */

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle, AlertCircle, Phone, Mail, MapPin } from 'lucide-react';
+import { useCompanySettings } from '../../hooks/useCompanySettings';
 import './ContactModal.css';
 
 interface ContactModalProps {
@@ -15,6 +16,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   type = 'general', 
   propertyId 
 }) => {
+  const { email: companyEmail, phone: companyPhone } = useCompanySettings();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -177,14 +179,18 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
         {/* Contact Info Cards */}
         <div className="contact-info-cards">
-          <div className="info-card">
-            <Phone size={20} />
-            <span>+91 9026404xxx</span>
-          </div>
-          <div className="info-card">
-            <Mail size={20} />
-            <span>info@quorumproperty.com</span>
-          </div>
+          {companyPhone && (
+            <div className="info-card">
+              <Phone size={20} />
+              <a href={`tel:${companyPhone}`}>{companyPhone}</a>
+            </div>
+          )}
+          {companyEmail && (
+            <div className="info-card">
+              <Mail size={20} />
+              <a href={`mailto:${companyEmail}`}>{companyEmail}</a>
+            </div>
+          )}
         </div>
 
         {/* Modal Body */}

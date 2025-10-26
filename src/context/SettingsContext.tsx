@@ -68,11 +68,38 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   }, [fetchSettings]);
 
   /**
-   * Load settings on mount
+   * Load settings on mount (only once)
    */
   useEffect(() => {
-    fetchSettings(true);
-  }, [fetchSettings]);
+    let isMounted = true;
+    
+    const loadSettings = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await settingsService.fetchSettings(true);
+        if (isMounted) {
+          setSettings(data);
+        }
+      } catch (err) {
+        if (isMounted) {
+          const errorMessage = err instanceof Error ? err.message : 'Failed to fetch settings';
+          setError(errorMessage);
+          console.error('Error fetching settings:', err);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadSettings();
+    
+    return () => {
+      isMounted = false;
+    };
+  }, []); // Empty dependency array - load only on mount
 
   /**
    * Listen for settings update events from other tabs/windows
@@ -80,13 +107,13 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'company_settings_cache') {
-        refreshSettings();
+        fetchSettings(false); // Bypass cache for updates from other tabs
       }
     };
 
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
-  }, [refreshSettings]);
+  }, [fetchSettings]); // fetchSettings is stable now, minimal re-renders
 
   const value: SettingsContextType = {
     settings,

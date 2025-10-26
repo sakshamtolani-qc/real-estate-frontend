@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { useCompanySettings } from '../../hooks/useCompanySettings';
 import './ContactForm.css';
 
 interface ContactFormProps {
@@ -8,6 +9,7 @@ interface ContactFormProps {
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({ type = 'general', propertyId }) => {
+  const { email: companyEmail, phone: companyPhone } = useCompanySettings();
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -253,6 +255,24 @@ export const ContactForm: React.FC<ContactFormProps> = ({ type = 'general', prop
             </>
           )}
         </button>
+
+        {(companyEmail || companyPhone) && (
+          <div className="contact-info-section">
+            <p className="contact-info-text">Or contact us directly:</p>
+            <div className="contact-info-details">
+              {companyEmail && (
+                <a href={`mailto:${companyEmail}`} className="contact-info-link">
+                  📧 {companyEmail}
+                </a>
+              )}
+              {companyPhone && (
+                <a href={`tel:${companyPhone}`} className="contact-info-link">
+                  📞 {companyPhone}
+                </a>
+              )}
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

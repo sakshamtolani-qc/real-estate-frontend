@@ -251,7 +251,7 @@ const Landing: React.FC = () => {
                 <span className="highlight">Property</span>, Just a<br />
                 <span className="highlight">Click</span> Away.
               </h1>
-              <button className="cta-button">LET US GUIDE YOUR JOURNEY</button>
+              <button className="cta-button" onClick={() => scrollToSection('contact')}>LET US GUIDE YOUR JOURNEY</button>
             </div>
             <div className="hero-image">
               <img src="/building1.png" alt="Buildings" />
@@ -264,13 +264,13 @@ const Landing: React.FC = () => {
       <section className="explore-properties">
         <div className="container">
           <div className="section-header">
-            <h2>Explore Our <span className="highlight">Properties</span></h2>
+            <h2 onClick={() => navigate('/properties')} style={{ cursor: 'pointer' }}>Explore Our <span className="highlight">Properties</span></h2>
             <p>Lorem ipsum dolor sit amet</p>
           </div>
           
           <div className="property-types">
             {propertyTypes.map((type, index) => (
-              <div key={index} className="landing-property-card" onClick={() => handlePropertyClick(index + 1)} style={{ cursor: 'pointer' }}>
+              <div key={index} className="landing-property-card" onClick={() => navigate('/properties')} style={{ cursor: 'pointer' }}>
                 <img src={type.image} alt={type.title} className="landing-property-image" />
                 <div className="landing-property-overlay">
                   <h3>{type.title}</h3>
@@ -326,7 +326,7 @@ const Landing: React.FC = () => {
       <section className="how-it-works">
         <div className="container">
           <div className="section-header">
-            <h2>How It <span className="highlight">works</span>? Find a <span className="highlight">perfect</span> home</h2>
+            <h2>How It <span className="highlight">works</span>? <span onClick={() => navigate('/properties')} style={{ cursor: 'pointer' }}>Find a <span className="highlight">perfect</span> home</span></h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
 
@@ -410,7 +410,7 @@ const Landing: React.FC = () => {
                 <button className="landing-about-link">Ask A Question</button>
                 <button className="landing-about-link">Find A Property</button>
               </div>
-              <button className="landing-about-cta">Let Us Guide Your Home</button>
+              <button className="landing-about-cta" onClick={() => scrollToSection('contact')}>Let Us Guide Your Home</button>
             </div>
             <div className="landing-about-right">
               <div className="landing-about-single-image">
