@@ -147,14 +147,14 @@ const mockProperties: Property[] = [
 
 export default function Properties() {
   const navigate = useNavigate();
-  const { user, isLoading } = useAuth();
+  const { user } = useAuth();
   const [selectedType, setSelectedType] = useState<PropertyType>('all');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<FilterType[]>([]);
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoadingProperties, setIsLoadingProperties] = useState(true);
   
-  // Check user role for header selection
+  // Check user role for header selection (optional, properties page doesn't require auth)
   const isAdmin = Boolean(user?.is_superuser);
   const isAgent = Boolean(user?.is_employee);
   
@@ -239,11 +239,7 @@ export default function Properties() {
   }, []);
   
   // Allow all users to view properties (no login required)
-  // Removed authentication check
-  
-  // Debug log
-  console.log('Properties - User:', user);
-  console.log('Properties - isAdmin:', isAdmin);
+  // This page is accessible without authentication
   
   // Show loading state only for properties (not authentication)
   if (isLoadingProperties) {
@@ -270,11 +266,11 @@ export default function Properties() {
     return typeMatch && filterMatch;
   });
   
-  // Debug logging
-  console.log('Total properties:', properties.length);
-  console.log('Filtered properties:', filteredProperties.length);
-  console.log('Selected type:', selectedType);
-  console.log('Selected filters:', selectedFilters);
+  // Debug logging (commented out to reduce noise)
+  // console.log('Total properties:', properties.length);
+  // console.log('Filtered properties:', filteredProperties.length);
+  // console.log('Selected type:', selectedType);
+  // console.log('Selected filters:', selectedFilters);
 
   const handlePropertyClick = (id: number) => {
     navigate(`/property/${id}`);

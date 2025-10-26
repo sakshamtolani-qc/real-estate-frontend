@@ -14,12 +14,18 @@ const api: AxiosInstance = axios.create({
   },
 });
 
-// Request interceptor to add auth token
+// Request interceptor to add auth token (but not for public endpoints)
 api.interceptors.request.use(
   (config: any) => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    // Don't add auth header for public/properties endpoints
+    const isPublicEndpoint = config.url?.includes('/properties/list/') || 
+                             config.url?.includes('/properties/') && !config.url?.includes('/properties/add/');
+    
+    if (!isPublicEndpoint) {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
@@ -38,20 +44,21 @@ api.interceptors.response.use(
     
     // Handle 401 Unauthorized - token might be invalid/expired
     if (error.response?.status === 401 && !originalRequest._retry) {
-      console.warn('401 Unauthorized - Token may be invalid');
+      // Don't handle 401 for AllowAny endpoints - they should work without auth
+      const isPublicEndpoint = originalRequest.url?.includes('/properties/list/') || 
+                               originalRequest.url?.includes('/properties/') && !originalRequest.url?.includes('/properties/add/');
       
-      // If token is invalid, clear it and retry without authentication
-      if (error.response?.data?.code === 'token_not_valid') {
-        console.log('Token invalid, clearing and retrying without auth');
-        localStorage.removeItem('auth_token');
-        
-        // Mark this request as retried to avoid infinite loops
+      if (isPublicEndpoint) {
+        // For public endpoints, just retry without the auth header
         originalRequest._retry = true;
-        
-        // Remove the Authorization header and retry
         delete originalRequest.headers.Authorization;
-        
         return api(originalRequest);
+      }
+      
+      // For protected endpoints, check if token is invalid
+      if (error.response?.data?.code === 'token_not_valid') {
+        console.warn('401 Unauthorized - Token invalid');
+        // Don't clear token for protected endpoints - let components handle redirect
       }
     }
     
