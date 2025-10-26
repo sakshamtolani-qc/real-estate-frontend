@@ -14,6 +14,7 @@ interface Employee {
   dealsClose: number;
   status: 'Active' | 'InActive';
   user_id: number;
+  profile_photo_url?: string;
 }
 
 const EmployeeList: React.FC = () => {
@@ -60,7 +61,8 @@ const EmployeeList: React.FC = () => {
           leads: leadsCount,
           dealsClose: dealsCloseCount,
           status: emp.status,
-          user_id: emp.user.id
+          user_id: emp.user.id,
+          profile_photo_url: emp.user.profile_photo_url || undefined
         };
       });
       
@@ -90,13 +92,17 @@ const EmployeeList: React.FC = () => {
   };
 
   const sortedEmployees = React.useMemo(() => {
-  const sortableEmployees = [...employees];
+    const sortableEmployees = [...employees];
     if (sortConfig.key !== null) {
+      const key = sortConfig.key;
       sortableEmployees.sort((a, b) => {
-        if (a[sortConfig.key!] < b[sortConfig.key!]) {
+        const aVal = a[key];
+        const bVal = b[key];
+        if (aVal === undefined || bVal === undefined) return 0;
+        if (aVal < bVal) {
           return sortConfig.direction === 'asc' ? -1 : 1;
         }
-        if (a[sortConfig.key!] > b[sortConfig.key!]) {
+        if (aVal > bVal) {
           return sortConfig.direction === 'asc' ? 1 : -1;
         }
         return 0;
@@ -203,7 +209,35 @@ const EmployeeList: React.FC = () => {
               <tbody>
                 {filteredEmployees.map((employee) => (
                   <tr key={employee.id}>
-                    <td>{employee.name}</td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        {employee.profile_photo_url ? (
+                          <img 
+                            src={employee.profile_photo_url}
+                            alt={employee.name}
+                            style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover' }}
+                          />
+                        ) : (
+                          <div 
+                            style={{
+                              width: '36px',
+                              height: '36px',
+                              borderRadius: '50%',
+                              backgroundColor: '#D4AF37',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '14px',
+                              fontWeight: 'bold',
+                              color: 'white'
+                            }}
+                          >
+                            {employee.name.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <span>{employee.name}</span>
+                      </div>
+                    </td>
                     <td>{employee.phone}</td>
                     <td>{employee.leads}</td>
                     <td>{employee.dealsClose}</td>

@@ -35,7 +35,7 @@ import AgentLeads from './pages/Agent/AgentLeads';
 
 import Settings from './pages/Admin/Settings';
 import Employees from './pages/Admin/EmployeeList';
-// import ProfilePage from '@/pages/profile/ProfilePage';
+import Profile from './pages/Profile/Profile';
 
 // // Customer Portal Pages
 // import CustomerDashboard from '@/pages/customer/dashboard/CustomerDashboard';
@@ -267,14 +267,19 @@ function App() {
                 </ProtectedRoute>
               } />
 
-              {/* Profile Route */}
-              {/* <Route path="/profile" element={
-                <ProtectedRoute>
-                  <DashboardLayout />
+              {/* Admin Profile Route */}
+              <Route path="/admin/profile" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Profile />
                 </ProtectedRoute>
-              }>
-                <Route index element={<ProfilePage />} />
-              </Route> */}
+              } />
+              
+              {/* Agent Profile Route */}
+              <Route path="/agent/profile" element={
+                <ProtectedRoute allowedRoles={['agent']}>
+                  <Profile />
+                </ProtectedRoute>
+              } />
 
               {/* 404 Route - Keep this active */}
               <Route path="*" element={<NotFoundPage />} />

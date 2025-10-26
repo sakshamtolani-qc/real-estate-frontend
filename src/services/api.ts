@@ -17,10 +17,11 @@ const api: AxiosInstance = axios.create({
 // Request interceptor to add auth token (but not for public endpoints)
 api.interceptors.request.use(
   (config: any) => {
-    // Don't add auth header for public/properties endpoints
+    // Public endpoints that don't require auth
     const isPublicEndpoint = config.url?.includes('/properties/list/') || 
-                             config.url?.includes('/properties/') && !config.url?.includes('/properties/add/');
+                             config.url?.includes('/properties/detail/');
     
+    // Always add auth header unless it's a public endpoint
     if (!isPublicEndpoint) {
       const token = localStorage.getItem('auth_token');
       if (token) {
@@ -44,9 +45,9 @@ api.interceptors.response.use(
     
     // Handle 401 Unauthorized - token might be invalid/expired
     if (error.response?.status === 401 && !originalRequest._retry) {
-      // Don't handle 401 for AllowAny endpoints - they should work without auth
+      // Public endpoints that don't require auth
       const isPublicEndpoint = originalRequest.url?.includes('/properties/list/') || 
-                               originalRequest.url?.includes('/properties/') && !originalRequest.url?.includes('/properties/add/');
+                               originalRequest.url?.includes('/properties/detail/');
       
       if (isPublicEndpoint) {
         // For public endpoints, just retry without the auth header

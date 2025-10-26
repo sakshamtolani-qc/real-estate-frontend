@@ -158,6 +158,14 @@ export default function AdminHeader() {
                 </div>
                 <div className="dropdown-divider"></div>
                 <Link 
+                  to="/admin/profile" 
+                  className="admin-dropdown-item"
+                  onClick={() => setIsUserDropdownOpen(false)}
+                >
+                  <User size={16} />
+                  <span>My Profile</span>
+                </Link>
+                <Link 
                   to="/admin/settings" 
                   className="admin-dropdown-item"
                   onClick={() => setIsUserDropdownOpen(false)}

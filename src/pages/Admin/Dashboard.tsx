@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -25,8 +25,14 @@ interface Employee {
 }
 
 interface TopCloser {
+  id?: number;
+  user_id?: number;
   name: string;
-  lead_count: number;
+  email?: string;
+  phone?: string;
+  profile_photo_url?: string;
+  lead_count?: number;
+  deals?: number;
 }
 
 interface LeadSourceData {
@@ -39,7 +45,12 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
   const [userName, setUserName] = useState('');
-  const [stats, setStats] = useState<Stat[]>([]);
+  const [stats, setStats] = useState<Stat[]>([
+    { label: "Total Revenue", subtext: "This Month", value: "0", trend: "0%", color: "#8BC5B8" },
+    { label: "New Leads", subtext: "This Month", value: "0", color: "#FFB38A" },
+    { label: "Offers Made", subtext: "This Month", value: "0", color: "#F5D98E" },
+    { label: "Deals Closed", subtext: "This Month", value: "0", trend: "0%", color: "#A5E8D8" }
+  ]);
   const [topClosers, setTopClosers] = useState<TopCloser[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [leadSources, setLeadSources] = useState<LeadSourceData[]>([]);
@@ -74,21 +85,42 @@ const Dashboard = () => {
     }
   }, [user, isLoading, navigate]);
 
+  // Memoize fetchStats so it can be used in dependency arrays
+  const fetchStats = useCallback(async () => {
+    try {
+      const response: any = await api.get('/admin/dashboard/stats/');
+      const data = response.data || response;
+      
+      console.log('Dashboard stats API response:', data);
+      
+      if (data && data.stats) {
+        console.log('Setting stats from API:', data.stats);
+        setStats(data.stats);
+      }
+      
+      if (data && data.top_closers) {
+        console.log('Setting top closers from API:', data.top_closers);
+        setTopClosers(data.top_closers);
+      }
+    } catch (err) {
+      console.error('Failed to fetch stats', err);
+    }
+  }, []);
+  
   useEffect(() => {
     // Wait for auth to finish loading, then check if user is authenticated
     if (isLoading) {
-      return; // Still loading auth state
+      return;
     }
     
     if (!user) {
-      return; // Not authenticated, will redirect in other useEffect
+      return;
     }
 
     // Fetch employees
     const fetchEmployees = async () => {
       try {
         const response: any = await api.get('/accounts/list/');
-        // api.get returns response.data, so the actual data is in response.data
         const data = response.data || response;
         const employeesArr = Array.isArray(data.results) ? data.results : (Array.isArray(response.results) ? response.results : []);
         setEmployees(
@@ -103,88 +135,7 @@ const Dashboard = () => {
         console.error('Failed to fetch employees', err);
       }
     };
-    // Fetch dashboard stats
-    const fetchStats = async () => {
-      try {
-        const response: any = await api.get('/properties/dashboard-stats/');
-        const data = response.data || response;
-        
-        // Default stats if backend returns empty or missing data
-        const defaultStats: Stat[] = [
-          {
-            label: "Total Revenue",
-            subtext: "This Month",
-            value: "0",
-            trend: "0%",
-            color: "#8BC5B8"
-          },
-          {
-            label: "New Leads",
-            subtext: "This Month",
-            value: "0",
-            color: "#FFB38A"
-          },
-          {
-            label: "Offers Made",
-            subtext: "This Month",
-            value: "0",
-            color: "#F5D98E"
-          },
-          {
-            label: "Deals Closed",
-            subtext: "This Month",
-            value: "0",
-            trend: "0%",
-            color: "#A5E8D8"
-          }
-        ];
-        
-        // Merge backend stats with defaults
-        if (data.stats && data.stats.length > 0) {
-          const mergedStats = defaultStats.map(defaultStat => {
-            const backendStat = data.stats.find((s: Stat) => s.label === defaultStat.label);
-            return backendStat || defaultStat;
-          });
-          setStats(mergedStats);
-        } else {
-          setStats(defaultStats);
-        }
-        
-        // Also get top closers from the same endpoint
-        setTopClosers(data.top_closers || []);
-      } catch (err) {
-        console.error('Failed to fetch stats', err);
-        // Set default stats on error
-        setStats([
-          {
-            label: "Total Revenue",
-            subtext: "This Month",
-            value: "0",
-            trend: "0%",
-            color: "#8BC5B8"
-          },
-          {
-            label: "New Leads",
-            subtext: "This Month",
-            value: "0",
-            color: "#FFB38A"
-          },
-          {
-            label: "Offers Made",
-            subtext: "This Month",
-            value: "0",
-            color: "#F5D98E"
-          },
-          {
-            label: "Deals Closed",
-            subtext: "This Month",
-            value: "0",
-            trend: "0%",
-            color: "#A5E8D8"
-          }
-        ]);
-      }
-    };
+    
     // Fetch lead sources
     const fetchLeadSources = async () => {
       try {
@@ -198,6 +149,7 @@ const Dashboard = () => {
         console.error('Failed to fetch lead sources', err);
       }
     };
+    
     // Fetch user name
     const fetchUserName = async () => {
       try {
@@ -208,6 +160,7 @@ const Dashboard = () => {
         console.error('Failed to fetch user name', err);
       }
     };
+    
     const loadAllData = async () => {
       setIsLoadingData(true);
       const startTime = Date.now();
@@ -217,7 +170,6 @@ const Dashboard = () => {
         fetchLeadSources(),
         fetchUserName()
       ]);
-      // Ensure loader shows for at least 1 second
       const elapsedTime = Date.now() - startTime;
       const remainingTime = Math.max(0, 1000 - elapsedTime);
       setTimeout(() => {
@@ -226,7 +178,14 @@ const Dashboard = () => {
     };
 
     loadAllData();
-  }, [user, isLoading]);
+    
+    // Set up interval for KPI auto-refresh every 15 seconds
+    const refreshInterval = setInterval(() => {
+      fetchStats();
+    }, 15000);
+    
+    return () => clearInterval(refreshInterval);
+  }, [user, isLoading, fetchStats]);
 
 
   // Show loading state while fetching data
@@ -293,15 +252,23 @@ const Dashboard = () => {
                 {topClosers.map((closer, index) => (
                   <div key={index} className="closer-item">
                     <div className="closer-avatar-wrapper">
-                      <div className="closer-avatar" style={{ background: '#D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', fontSize: '24px', color: 'white' }}>
-                        {closer.name.charAt(0).toUpperCase()}
-                      </div>
+                      {closer.profile_photo_url ? (
+                        <img 
+                          src={closer.profile_photo_url} 
+                          alt={closer.name}
+                          style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }}
+                        />
+                      ) : (
+                        <div className="closer-avatar" style={{ background: '#D4AF37', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '60px', height: '60px', borderRadius: '50%', fontSize: '24px', color: 'white' }}>
+                          {closer.name.charAt(0).toUpperCase()}
+                        </div>
+                      )}
                       <div className="closer-badge">
                         <span>🏆</span>
                       </div>
                     </div>
                     <p className="closer-name">{closer.name}</p>
-                    <p className="closer-deals">Leads Assigned: {closer.lead_count}</p>
+                    <p className="closer-deals">Deals: {closer.deals ?? closer.lead_count ?? 0}</p>
                   </div>
                 ))}
               </div>
