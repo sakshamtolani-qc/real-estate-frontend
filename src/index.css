@@ -248,26 +248,120 @@
 }
 
 /* Custom Sonner theme */
-[data-sonner-toaster] {
-  --normal-bg: theme('colors.white');
-  --normal-border: theme('colors.gray.200');
-  --normal-text: theme('colors.gray.900');
-  
-  --success-bg: theme('colors.success.50');
-  --success-border: theme('colors.success.200');
-  --success-text: theme('colors.success.800');
-  
-  --error-bg: theme('colors.error.50');
-  --error-border: theme('colors.error.200');
-  --error-text: theme('colors.error.800');
-  
-  --warning-bg: theme('colors.warning.50');
-  --warning-border: theme('colors.warning.200');
-  --warning-text: theme('colors.warning.800');
-  
-  --info-bg: theme('colors.primary.50');
-  --info-border: theme('colors.primary.200');
-  --info-text: theme('colors.primary.800');
+/* Enhanced Toast Styles */
+[data-sonner-toast] {
+  border-radius: 12px !important;
+  padding: 16px 20px !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+[data-sonner-toast]:hover {
+  transform: translateY(-2px) !important;
+}
+
+/* Success Toast */
+[data-sonner-toast].toast-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.4) !important;
+}
+
+[data-sonner-toast].toast-success [data-icon] {
+  color: #ffffff !important;
+}
+
+/* Error Toast */
+[data-sonner-toast].toast-error {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(239, 68, 68, 0.4) !important;
+}
+
+[data-sonner-toast].toast-error [data-icon] {
+  color: #ffffff !important;
+}
+
+/* Warning Toast */
+[data-sonner-toast].toast-warning {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(245, 158, 11, 0.4) !important;
+}
+
+[data-sonner-toast].toast-warning [data-icon] {
+  color: #ffffff !important;
+}
+
+/* Info Toast */
+[data-sonner-toast].toast-info {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.4) !important;
+}
+
+[data-sonner-toast].toast-info [data-icon] {
+  color: #ffffff !important;
+}
+
+/* Default/Custom Toast */
+[data-sonner-toast].toast-default,
+[data-sonner-toast].toast-custom {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(107, 114, 128, 0.4) !important;
+}
+
+/* Loading Toast */
+[data-sonner-toast].toast-loading {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.4) !important;
+}
+
+/* Toast Description */
+[data-sonner-toast] [data-description] {
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin-top: 4px !important;
+  font-size: 13px !important;
+}
+
+/* Toast Action Button */
+[data-sonner-toast] [data-button] {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-sonner-toast] [data-button]:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Toast Close Button */
+[data-sonner-toast] [data-close-button] {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-sonner-toast] [data-close-button]:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.1) !important;
 }
 
 /* Tooltip animations */

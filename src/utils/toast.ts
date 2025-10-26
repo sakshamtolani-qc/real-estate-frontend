@@ -1,12 +1,15 @@
 import { toast as sonnerToast } from 'sonner';
 
-// Enhanced toast utility with consistent styling
+// Enhanced toast utility with consistent styling and better visuals
 export const toast = {
   // Success toast
   success: (message: string, options?: { description?: string; duration?: number }) => {
     return sonnerToast.success(message, {
       description: options?.description,
       duration: options?.duration || 4000,
+      classNames: {
+        toast: 'toast-success',
+      },
     });
   },
 
@@ -15,6 +18,9 @@ export const toast = {
     return sonnerToast.error(message, {
       description: options?.description,
       duration: options?.duration || 6000,
+      classNames: {
+        toast: 'toast-error',
+      },
     });
   },
 
@@ -23,6 +29,9 @@ export const toast = {
     return sonnerToast.warning(message, {
       description: options?.description,
       duration: options?.duration || 5000,
+      classNames: {
+        toast: 'toast-warning',
+      },
     });
   },
 
@@ -31,6 +40,9 @@ export const toast = {
     return sonnerToast.info(message, {
       description: options?.description,
       duration: options?.duration || 4000,
+      classNames: {
+        toast: 'toast-info',
+      },
     });
   },
 
@@ -39,12 +51,19 @@ export const toast = {
     return sonnerToast(message, {
       description: options?.description,
       duration: options?.duration || 4000,
+      classNames: {
+        toast: 'toast-default',
+      },
     });
   },
 
   // Loading toast
   loading: (message: string) => {
-    return sonnerToast.loading(message);
+    return sonnerToast.loading(message, {
+      classNames: {
+        toast: 'toast-loading',
+      },
+    });
   },
 
   // Promise toast - shows loading, then success/error
@@ -83,6 +102,9 @@ export const toast = {
         label: options.action.label,
         onClick: options.action.onClick,
       } : undefined,
+      classNames: {
+        toast: 'toast-custom',
+      },
     });
   },
 
