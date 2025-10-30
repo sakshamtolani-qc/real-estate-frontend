@@ -137,7 +137,11 @@ export default function AgentHeader() {
               onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
             >
               <div className="user-avatar">
-                <User size={18} />
+                {user?.profile_photo_url || user?.profile_picture ? (
+                  <img src={user.profile_photo_url || user.profile_picture} alt="Profile" className="user-avatar-image" />
+                ) : (
+                  <User size={18} />
+                )}
               </div>
               <span className="user-name">{user?.first_name || 'Agent'}</span>
               <ChevronDown 
@@ -150,7 +154,11 @@ export default function AgentHeader() {
               <div className="agent-dropdown-menu user-menu">
                 <div className="user-menu-header">
                   <div className="user-avatar large">
-                    <User size={24} />
+                    {user?.profile_photo_url || user?.profile_picture ? (
+                      <img src={user.profile_photo_url || user.profile_picture} alt="Profile" className="user-avatar-image" />
+                    ) : (
+                      <User size={24} />
+                    )}
                   </div>
                   <div className="user-info">
                     <p className="user-full-name">{user?.first_name} {user?.last_name}</p>
@@ -245,7 +253,11 @@ export default function AgentHeader() {
             <div className="agent-mobile-footer">
               <div className="agent-mobile-user-info">
                 <div className="user-avatar">
-                  <User size={20} />
+                  {user?.profile_photo_url || user?.profile_picture ? (
+                    <img src={user.profile_photo_url || user.profile_picture} alt="Profile" className="user-avatar-image" />
+                  ) : (
+                    <User size={20} />
+                  )}
                 </div>
                 <div>
                   <p className="mobile-user-name">{user?.first_name} {user?.last_name}</p>

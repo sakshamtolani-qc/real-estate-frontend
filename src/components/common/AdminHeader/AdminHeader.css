@@ -29,6 +29,7 @@
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s;
+  min-width: 0;
 }
 
 .admin-logo:hover {
@@ -38,6 +39,10 @@
 .admin-logo-image {
   height: 36px;
   width: auto;
+  max-width: 100px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 .admin-logo-text {
@@ -352,10 +357,18 @@
 }
 
 .user-avatar.large {
-  width: 20px;
-  height: 20px;
+  width: 48px;
+  height: 48px;
   background-color: #FFFEF9;
   border: 2px solid #F5F5F5;
+}
+
+.user-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .user-name {
@@ -542,7 +555,10 @@
 .admin-mobile-logo-image {
   height: 28px;
   width: auto;
+  max-width: 150px;
+  object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  display: block;
 }
 
 .admin-mobile-close-button {
