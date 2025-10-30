@@ -12,6 +12,7 @@ interface AuthContextType {
   login: (credentials: LoginForm) => Promise<void>;
   logout: () => void;
   register: (userData: any) => Promise<void>;
+  updateUser: (updatedUser: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -123,6 +124,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const updateUser = (updatedUser: Partial<User>): void => {
+    const newUser = { ...user, ...updatedUser } as User;
+    setUser(newUser);
+    localStorage.setItem('auth_user', JSON.stringify(newUser));
+  };
+
   const logout = (): void => {
     setUser(null);
     setToken(null);
@@ -133,9 +140,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Clear session storage as well
     sessionStorage.clear();
     
-    // Optional: Call logout API
-    authService.logout().catch((error) => logger.error('Logout API error:', error));
-    
     // Show success toast
     reToast.auth.logoutSuccess();
     
@@ -143,6 +147,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (window.history.state) {
       window.history.replaceState(null, '', '/login');
     }
+    
+    // Redirect to login page
+    window.location.href = '/login';
   };
 
   const value: AuthContextType = {
@@ -152,6 +159,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     logout,
     register,
+    updateUser,
   };
 
   return (

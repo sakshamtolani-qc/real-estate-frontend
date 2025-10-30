@@ -29,9 +29,11 @@ export const authService = {
     return apiService.post('/auth/auth/refresh/', { refresh_token: refreshToken });
   },
 
-  // Logout user
-  logout: async (): Promise<ApiResponse<{ message: string }>> => {
-    return apiService.post('/auth/auth/logout/');
+  // Logout user (client-side only - no backend endpoint needed)
+  logout: async (): Promise<{ message: string }> => {
+    // Logout is handled client-side by clearing tokens
+    // No backend logout endpoint needed
+    return { message: 'Logged out successfully' };
   },
 
   // Request password reset

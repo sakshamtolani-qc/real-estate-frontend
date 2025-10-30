@@ -17,7 +17,7 @@ interface ContactInfo {
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
-  const { user, token } = useAuth();
+  const { user, token, updateUser } = useAuth();
   const [profileData, setProfileData] = useState<Partial<UserProfile>>({
     first_name: '',
     last_name: '',
@@ -59,6 +59,8 @@ const Profile: React.FC = () => {
       setProfileData(profile);
       if (profile.profile_photo_url) {
         setPhotoPreview(profile.profile_photo_url);
+      } else if (profile.profile_photo) {
+        setPhotoPreview(profile.profile_photo);
       }
     } catch (err) {
       console.error('Failed to fetch profile:', err);
@@ -102,6 +104,22 @@ const Profile: React.FC = () => {
       }
 
       setProfileData(response);
+      
+      // Update the AuthContext with the new user data
+      updateUser({
+        first_name: response.first_name,
+        last_name: response.last_name,
+        email: response.email,
+        phone: response.phone,
+        profile_photo_url: response.profile_photo_url,
+        profile_photo: response.profile_photo,
+      });
+      
+      // Set photo preview with the new URL
+      if (response.profile_photo_url) {
+        setPhotoPreview(response.profile_photo_url);
+      }
+      
       setSuccess('Profile updated successfully!');
       setProfilePhoto(null);
       setIsEditing(false);
