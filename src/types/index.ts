@@ -35,6 +35,8 @@ export interface User {
   is_employee?: boolean;
   is_client?: boolean;
   profile_picture?: string;
+  profile_photo?: string;
+  profile_photo_url?: string;
   created_at?: string;
   updated_at?: string;
   is_superuser?: boolean;

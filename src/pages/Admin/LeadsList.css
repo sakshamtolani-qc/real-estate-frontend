@@ -273,6 +273,16 @@
   background-color: #22C55E;
 }
 
+.status-closed {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-closed::before {
+  background-color: #10B981;
+}
+
 .status-lost {
   background-color: rgba(239, 68, 68, 0.1);
   color: #EF4444;

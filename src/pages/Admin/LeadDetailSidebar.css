@@ -437,6 +437,13 @@
   width: 100%;
   box-sizing: border-box;
   z-index: 2;
+  flex-wrap: wrap;
+}
+
+.sidebar-actions-left {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .sidebar-actions-right {
@@ -501,6 +508,37 @@
 }
 
 .btn-cancel:active {
+  transform: scale(0.98);
+}
+
+.btn-close-deal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #10B981;
+  border: 1px solid #10B981;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-close-deal:hover:not(:disabled) {
+  background-color: #059669;
+  border-color: #059669;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-close-deal:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-close-deal:active:not(:disabled) {
   transform: scale(0.98);
 }
 
@@ -673,6 +711,12 @@
   .sidebar-actions {
     padding: 20px 24px;
     flex-direction: column;
+    gap: 12px;
+  }
+
+  .sidebar-actions-left {
+    width: 100%;
+    flex-direction: column;
   }
 
   .sidebar-actions-right {
@@ -682,7 +726,8 @@
 
   .btn-cancel,
   .btn-update,
-  .btn-delete {
+  .btn-delete,
+  .btn-close-deal {
     width: 100%;
     flex: none;
   }

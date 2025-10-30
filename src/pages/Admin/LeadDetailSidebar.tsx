@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { X, Calendar, User, Trash2 } from 'lucide-react';
+import { X, Calendar, User, Trash2, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import CloseLeadForm from './CloseLeadForm';
 import './LeadDetailSidebar.css';
 
 interface Agent {
@@ -51,6 +52,7 @@ const STATUS_OPTIONS = [
   { value: 'proposal', label: 'Proposal' },
   { value: 'negotiation', label: 'Negotiation' },
   { value: 'won', label: 'Won' },
+  { value: 'closed', label: 'Closed' },
   { value: 'lost', label: 'Lost' },
 ];
 
@@ -61,6 +63,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showCloseDealForm, setShowCloseDealForm] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -234,6 +237,12 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
 
   const handleDeleteCancel = () => {
     setShowDeleteConfirm(false);
+  };
+
+  const handleCloseDealSuccess = () => {
+    // Refresh lead details and trigger parent update
+    fetchLeadDetails();
+    onUpdate();
   };
 
   if (loading) {
@@ -413,15 +422,28 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
           </div>
 
           <div className="sidebar-actions">
-            <button 
-              type="button" 
-              className="btn-delete" 
-              onClick={handleDeleteClick}
-              disabled={saving || deleting}
-            >
-              <Trash2 size={16} />
-              Delete Lead
-            </button>
+            <div className="sidebar-actions-left">
+              {formData.status === 'won' && (
+                <button 
+                  type="button" 
+                  className="btn-close-deal" 
+                  onClick={() => setShowCloseDealForm(true)}
+                  disabled={saving || deleting}
+                >
+                  <CheckCircle size={16} />
+                  Close Deal
+                </button>
+              )}
+              <button 
+                type="button" 
+                className="btn-delete" 
+                onClick={handleDeleteClick}
+                disabled={saving || deleting}
+              >
+                <Trash2 size={16} />
+                Delete Lead
+              </button>
+            </div>
             <div className="sidebar-actions-right">
               <button type="button" className="btn-cancel" onClick={onClose}>
                 Cancel
@@ -464,6 +486,16 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
               </div>
             </div>
           </div>
+        )}
+
+        {showCloseDealForm && (
+          <CloseLeadForm
+            leadId={lead?.id || leadId}
+            firstName={formData.first_name}
+            lastName={formData.last_name}
+            onClose={() => setShowCloseDealForm(false)}
+            onSuccess={handleCloseDealSuccess}
+          />
         )}
       </div>
     </div>
