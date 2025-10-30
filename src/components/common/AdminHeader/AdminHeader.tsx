@@ -259,10 +259,28 @@ export default function AdminHeader() {
                   <p className="mobile-user-email">{user?.email}</p>
                 </div>
               </div>
-              <button className="admin-mobile-logout-button" onClick={handleLogout}>
-                <LogOut size={18} />
-                <span>Sign Out</span>
-              </button>
+              <div className="admin-mobile-user-menu">
+                <Link 
+                  to="/admin/profile" 
+                  className="admin-mobile-user-item"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <User size={18} />
+                  <span>My Profile</span>
+                </Link>
+                <Link 
+                  to="/admin/settings" 
+                  className="admin-mobile-user-item"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Settings size={18} />
+                  <span>Settings</span>
+                </Link>
+                <button className="admin-mobile-logout-button" onClick={handleLogout}>
+                  <LogOut size={18} />
+                  <span>Sign Out</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

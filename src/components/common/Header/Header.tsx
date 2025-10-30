@@ -153,6 +153,7 @@ export default function Header() {
             <div className="mobile-menu-header">
               <Link to="/" className="mobile-logo" onClick={closeMenu}>
                 <img src={logo || "/logo.png"} alt={company} className="mobile-logo-image" />
+                <span className="mobile-logo-text">{company}</span>
               </Link>
               <button className="mobile-close-button" onClick={closeMenu}>
                 <X size={24} />

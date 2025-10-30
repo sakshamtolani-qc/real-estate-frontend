@@ -119,7 +119,7 @@ export default function AgentHeader() {
             Leads
           </Link>
 
-          <Link to="/agent/closed-deals" className="agent-nav-link">
+          <Link to="/agent/deals" className="agent-nav-link">
             <CheckCircle size={16} />
             Closed Deals
           </Link>
@@ -234,7 +234,7 @@ export default function AgentHeader() {
                 Leads
               </Link>
               <Link 
-                to="/agent/closed-deals" 
+                to="/agent/deals" 
                 className="agent-mobile-nav-link"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -252,6 +252,14 @@ export default function AgentHeader() {
                   <p className="mobile-user-email">{user?.email}</p>
                 </div>
               </div>
+              <Link 
+                to="/agent/profile" 
+                className="agent-mobile-user-item"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <User size={18} />
+                <span>My Profile</span>
+              </Link>
               <button className="agent-mobile-logout-button" onClick={handleLogout}>
                 <LogOut size={18} />
                 <span>Sign Out</span>

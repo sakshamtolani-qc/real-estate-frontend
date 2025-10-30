@@ -451,21 +451,12 @@
 
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
+  .hero-section {
+    display: none;
+  }
+
   .signup-container {
-    grid-template-rows: 35vh 1fr;
-  }
-
-  .signup-hero {
-    padding: 1rem;
-  }
-
-  .hero-text h1 {
-    font-size: 2rem;
-  }
-
-  .hero-logo {
-    height: 40px;
-    margin-bottom: 1.5rem;
+    flex-direction: column;
   }
 
   .signup-form-section {

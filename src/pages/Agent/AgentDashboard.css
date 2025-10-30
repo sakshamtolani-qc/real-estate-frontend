@@ -668,7 +668,7 @@
 
 @media (max-width: 900px) {
   .agent-stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -691,11 +691,26 @@
   }
 
   .agent-stats-grid {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    justify-content: stretch;
+    max-width: 100%;
   }
 
   .agent-stat-card {
-    width: 200px;
+    width: 100%;
+    min-height: 120px;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .agent-stat-header {
+    font-size: 0.7rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .agent-stat-value {
+    font-size: 2rem;
   }
 
   .agent-table-controls {
@@ -745,14 +760,30 @@
     font-size: 2rem;
   }
 
+  .agent-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
   .agent-stat-card {
-    width: 180px;
-    min-height: 100px;
-    padding: 1rem 1.2rem;
+    width: 100%;
+    min-height: 110px;
+    padding: 1rem 1.25rem;
+  }
+
+  .agent-stat-header {
+    font-size: 0.65rem;
+    margin-bottom: 0.5rem;
   }
 
   .agent-stat-value {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
+  }
+
+  .agent-stat-subtext {
+    font-size: 0.65rem;
+    margin-top: 0.3rem;
   }
 
   .agent-email-form {

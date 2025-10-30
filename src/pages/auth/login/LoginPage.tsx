@@ -4,6 +4,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import { useSettings } from '../../../context/SettingsContext';
 import { ButtonLoader } from '../../../components/common/Loader';
+import { logger } from '../../../utils/logger';
 import './LoginPage.css';
 
 interface LoginFormData {
@@ -62,7 +63,7 @@ const Login: React.FC = () => {
       });
       // Navigation will be handled by the useEffect above
     } catch (error: any) {
-      console.error('Login error:', error);
+      logger.error('Login error:', error);
       setError(error?.message || 'Invalid credentials. Please try again.');
       setIsLoading(false);
     }

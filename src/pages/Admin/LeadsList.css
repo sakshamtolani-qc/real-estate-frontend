@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   background-color: #053934;
-  padding-top: 70px; /* Space for fixed AdminHeader */
+  padding-top: 80px; /* Space for fixed AdminHeader */
 }
 
 .leads-list-main {

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User, LoginForm } from '@/types';
 import { authService } from '../services';
 import { reToast } from '../utils';
+import { logger } from '../utils/logger';
 import { migrateUserData, needsUserDataRefresh, refreshUserData } from '../utils/userMigration';
 
 interface AuthContextType {
@@ -39,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           
           // If user data still needs refresh, fetch from backend
           if (needsUserDataRefresh()) {
-            console.log('User data needs refresh, fetching from backend...');
+            logger.info('User data needs refresh, fetching from backend...');
             const freshUser = await refreshUserData(storedToken);
             if (freshUser) {
               setUser(freshUser as unknown as User);
@@ -87,7 +88,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   localStorage.setItem('refresh_token', response.refresh);
   localStorage.setItem('auth_user', JSON.stringify(response.user));
     } catch (error) {
-      console.error('Login error:', error);
+      logger.error('Login error:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -115,7 +116,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem('refresh_token', response.refresh);
       localStorage.setItem('auth_user', JSON.stringify(response.user));
     } catch (error) {
-      console.error('Registration error:', error);
+      logger.error('Registration error:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -133,7 +134,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     sessionStorage.clear();
     
     // Optional: Call logout API
-    authService.logout().catch(console.error);
+    authService.logout().catch((error) => logger.error('Logout API error:', error));
     
     // Show success toast
     reToast.auth.logoutSuccess();

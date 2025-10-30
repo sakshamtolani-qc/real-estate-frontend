@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ApiResponse, ApiError } from '@/types';
+import { logger } from '../utils/logger';
 
 // Base API URL - Update this to match your backend
 const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
@@ -58,18 +59,16 @@ api.interceptors.response.use(
       
       // For protected endpoints, check if token is invalid
       if (error.response?.data?.code === 'token_not_valid') {
-        console.warn('401 Unauthorized - Token invalid');
+        logger.warn('401 Unauthorized - Token invalid');
         // Don't clear token for protected endpoints - let components handle redirect
       }
     }
     
     // Handle network errors
     if (!error.response) {
-      console.error('Network Error Details:', {
+      logger.error('Network Error Details:', {
         message: error.message,
         code: error.code,
-        config: error.config,
-        request: error.request,
       });
       return Promise.reject({
         success: false,
