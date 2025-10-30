@@ -7,77 +7,88 @@ import './CloseDeal.css';
 
 interface Deal {
   id: number;
-  title: string;
-  closingDate: string;
-  image: string;
+  property_title: string;
+  closing_date: string;
+  closing_amount: string;
+  offer_amount?: string;
+  lead_name: string;
+  property_image?: string;
 }
 
 const CloseDeal = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [filteredDeals, setFilteredDeals] = useState<Deal[]>([]);
 
   useEffect(() => {
-    // Simulate loading data
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
+    fetchDeals();
   }, []);
 
-  const deals: Deal[] = [
-    {
-      id: 1,
-      title: 'Lorem Ipsum',
-      closingDate: '5 Sept 2025',
-      image: '/property-1.jpg'
-    },
-    {
-      id: 2,
-      title: 'Flat with 3 Rooms',
-      closingDate: '12 Sept 2025',
-      image: '/property-2.jpg'
-    },
-    {
-      id: 3,
-      title: 'Lorem Ipsum',
-      closingDate: '5 Sept 2025',
-      image: '/property-3.jpg'
-    },
-    {
-      id: 4,
-      title: 'Flat with 3 Rooms',
-      closingDate: '12 Sept 2025',
-      image: '/property-4.jpg'
-    },
-    {
-      id: 5,
-      title: 'Lorem Ipsum',
-      closingDate: '5 Sept 2025',
-      image: '/property-5.jpg'
-    },
-    {
-      id: 6,
-      title: 'Flat with 3 Rooms',
-      closingDate: '12 Sept 2025',
-      image: '/property-6.jpg'
+  useEffect(() => {
+    // Filter deals based on search query
+    if (searchQuery.trim() === '') {
+      setFilteredDeals(deals);
+    } else {
+      const filtered = deals.filter((deal) =>
+        deal.property_title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        deal.lead_name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredDeals(filtered);
     }
-  ];
+  }, [searchQuery, deals]);
+
+  const fetchDeals = async () => {
+    const startTime = Date.now();
+    try {
+      const token = localStorage.getItem('auth_token');
+      if (!token) {
+        console.error('No auth token found');
+        window.location.href = '/login';
+        return;
+      }
+
+      const res = await fetch('http://localhost:8000/api/leads/deals/closed/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        if (res.status === 401) {
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('auth_user');
+          window.location.href = '/login';
+          return;
+        }
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      const dealsArray = Array.isArray(data.results) ? data.results : [];
+      setDeals(dealsArray);
+      setFilteredDeals(dealsArray);
+    } catch (err) {
+      console.error('Failed to fetch deals', err);
+    } finally {
+      // Ensure loader shows for at least 1 second
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, 1000 - elapsedTime);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, remainingTime);
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Searching for:', searchQuery);
+    // Filter is handled by useEffect
   };
 
   const handleFilterClick = () => {
     setShowFilters(!showFilters);
-    console.log('Filters toggled');
-  };
-
-  const handleDetailsClick = (dealId: number) => {
-    console.log('Navigating to deal details:', dealId);
-    window.location.href = `/deal/${dealId}`;
   };
 
   if (isLoading) {
@@ -129,29 +140,43 @@ const CloseDeal = () => {
           </h2>
 
           <div className="deal-list">
-            {deals.map((deal) => (
-              <div key={deal.id} className="deal-item">
-                <div className="deal-item-content">
+            {filteredDeals.length > 0 ? (
+              filteredDeals.map((deal) => (
+                <div key={deal.id} className="deal-item">
                   <img
-                    src={deal.image}
-                    alt={deal.title}
+                    src={deal.property_image || '/property-placeholder.jpg'}
+                    alt={deal.property_title}
                     className="deal-item-image"
                   />
-                  <div className="deal-item-info">
-                    <h3 className="deal-item-title">{deal.title}</h3>
-                    <p className="deal-item-date">
-                      Closing Date: <span className="deal-date-value">{deal.closingDate}</span>
-                    </p>
+                  <div className="deal-item-content">
+                    <div className="deal-item-main">
+                      <h3 className="deal-item-title">{deal.property_title}</h3>
+                      <p className="deal-item-lead">
+                        <span className="deal-label">Lead:</span> <span className="deal-lead-name">{deal.lead_name}</span>
+                      </p>
+                    </div>
+                    <div className="deal-item-details">
+                      <div className="deal-detail-column">
+                        <span className="deal-label">Offer Amount:</span>
+                        <span className="deal-offer-value">${deal.offer_amount ? parseFloat(deal.offer_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : 'N/A'}</span>
+                      </div>
+                      <div className="deal-detail-column">
+                        <span className="deal-label">Closing Amount:</span>
+                        <span className="deal-amount-value">${parseFloat(deal.closing_amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                      </div>
+                      <div className="deal-detail-column">
+                        <span className="deal-label">Closing Date:</span>
+                        <span className="deal-date-value">{new Date(deal.closing_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <button
-                  className="deal-details-btn"
-                  onClick={() => handleDetailsClick(deal.id)}
-                >
-                  Details
-                </button>
+              ))
+            ) : (
+              <div className="deal-no-results">
+                <p>No closed deals found.</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
