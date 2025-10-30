@@ -11,7 +11,7 @@ import { ContactModal } from '../../components/ContactModal/ContactModal';
 const Landing: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { settings } = useSettings();
+  const { settings, refreshSettings } = useSettings();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -42,11 +42,15 @@ const Landing: React.FC = () => {
         email: updatedSettings.email || 'info@quorumproperty.com',
         address: updatedSettings.address ? `${updatedSettings.address}${updatedSettings.city ? ', ' + updatedSettings.city : ''}` : '123 Property Street, Real Estate District'
       });
+      // Refresh settings context to get latest data
+      if (refreshSettings) {
+        refreshSettings();
+      }
     };
 
     window.addEventListener('settingsUpdated', handleSettingsUpdate);
     return () => window.removeEventListener('settingsUpdated', handleSettingsUpdate);
-  }, []);
+  }, [refreshSettings]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -403,9 +407,19 @@ const Landing: React.FC = () => {
         <div className="container">
           <div className="landing-about-content">
             <div className="landing-about-left">
-              <h2>Discover More <span className="highlight">About</span><br />Properties</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+              <h2>Discover More <span className="highlight">About</span><br />Us</h2>
+              {settings?.about ? (
+                <div>
+                  {settings.about.split('\n\n').map((paragraph, idx) => (
+                    <p key={idx}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </>
+              )}
               <div className="landing-about-links">
                 <button className="landing-about-link">Ask A Question</button>
                 <button className="landing-about-link">Find A Property</button>
