@@ -87,7 +87,6 @@ const Settings = () => {
       setLogoFile(null); // Reset file input after successful upload
     } catch (error) {
       toast.error('Failed to update settings');
-      console.error('Error saving settings:', error);
     } finally {
       setIsSaving(false);
     }

@@ -40,7 +40,7 @@ const AddProperty = () => {
   const fetchPropertyTypes = async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8000/api/properties/types/', {
+      const response = await fetch('/api/properties/types/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -48,7 +48,7 @@ const AddProperty = () => {
       const data = await response.json();
       setPropertyTypes(data.results || []);
     } catch (err) {
-      console.error('Failed to fetch property types', err);
+      // Failed to fetch property types - will display empty list
     }
   };
 
@@ -120,7 +120,7 @@ const AddProperty = () => {
       });
 
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8000/api/properties/create/', {
+      const response = await fetch('/api/properties/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -153,7 +153,6 @@ const AddProperty = () => {
     } catch (err) {
       setError('An error occurred while creating the property');
       toast.error('An error occurred while creating the property');
-      console.error(err);
     } finally {
       setSubmitting(false);
     }
@@ -175,9 +174,8 @@ const AddProperty = () => {
       photos: photos.length
     };
 
-    console.log('Preview property:', propertyData);
     toast.info(
-      `Preview Property:\n${title} • ${propertyData.propertyType}\n${priceValue} • ${rooms} BHK\n${location}`,
+      `Preview: ${title} • ${propertyData.propertyType} • ${priceValue} • ${rooms} BHK`,
       { duration: 5000 }
     );
   };

@@ -172,6 +172,18 @@
   color: white;
 }
 
+.action-icon-btn.delete-btn {
+  border-color: rgba(239, 68, 68, 0.5);
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.action-icon-btn.delete-btn:hover {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
 .description-content {
   color: rgba(255, 255, 255, 0.85) !important;
   font-size: 0.938rem;
@@ -354,6 +366,229 @@
 .carousel-prev:hover,
 .carousel-next:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Delete Modal Styles */
+.delete-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.delete-modal-content {
+  background-color: #1F655E;
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.delete-modal-icon {
+  color: #ef4444;
+  flex-shrink: 0;
+}
+
+.delete-modal-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.delete-modal-message {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.delete-modal-message strong {
+  color: #7DD3E8;
+  font-weight: 600;
+}
+
+.delete-modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.delete-modal-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.938rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  min-width: 100px;
+}
+
+.delete-modal-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.delete-modal-btn.cancel-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.delete-modal-btn.cancel-btn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.delete-modal-btn.delete-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.delete-modal-btn.delete-btn:hover:not(:disabled) {
+  background-color: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.delete-modal-btn.delete-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .action-icon-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.875rem;
+  }
+
+  .delete-modal-overlay {
+    padding: 1rem;
+  }
+
+  .delete-modal-content {
+    padding: 1.5rem;
+    border-radius: 12px;
+    max-width: 90%;
+  }
+
+  .delete-modal-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .delete-modal-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .delete-modal-title {
+    font-size: 1.25rem;
+  }
+
+  .delete-modal-message {
+    font-size: 0.938rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .delete-modal-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .delete-modal-btn {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-icon-btn {
+    width: 36px;
+    height: 36px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .action-icon-btn.delete-btn {
+    opacity: 0.9;
+  }
+
+  .action-icon-btn.delete-btn:active {
+    background-color: rgba(239, 68, 68, 0.3);
+  }
+
+  .delete-modal-overlay {
+    padding: 1rem 0.5rem;
+  }
+
+  .delete-modal-content {
+    padding: 1.25rem;
+    margin: 1rem;
+    border-radius: 10px;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .delete-modal-icon {
+    min-width: 20px;
+  }
+
+  .delete-modal-title {
+    font-size: 1.125rem;
+  }
+
+  .delete-modal-message {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .delete-modal-message strong {
+    word-break: break-all;
+  }
+
+  .delete-modal-actions {
+    gap: 0.5rem;
+  }
+
+  .delete-modal-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    min-height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 6px;
+  }
+
+  .delete-modal-btn:active {
+    transform: scale(0.98);
+  }
+
+  .description-actions {
+    gap: 0.5rem;
+  }
 }
 
 .schedule-modal-overlay {

@@ -40,12 +40,11 @@ const AgentLeads: React.FC = () => {
     try {
       const token = localStorage.getItem('auth_token');
       if (!token) {
-        console.error('No auth token found');
         window.location.href = '/login';
         return;
       }
       
-      const res = await fetch('http://localhost:8000/api/leads/list/', {
+      const res = await fetch('/api/leads/list/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -53,7 +52,6 @@ const AgentLeads: React.FC = () => {
       
       if (!res.ok) {
         if (res.status === 401) {
-          console.error('Unauthorized - redirecting to login');
           localStorage.removeItem('auth_token');
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('auth_user');
@@ -84,7 +82,7 @@ const AgentLeads: React.FC = () => {
         }))
       );
     } catch (err) {
-      console.error('Failed to fetch leads', err);
+      // Failed to fetch leads
     } finally {
       // Ensure loader shows for at least 1 second
       const elapsedTime = Date.now() - startTime;
@@ -97,6 +95,13 @@ const AgentLeads: React.FC = () => {
 
   useEffect(() => {
     fetchLeads();
+    
+    // Set up polling to refresh leads every 30 seconds
+    const interval = setInterval(() => {
+      fetchLeads();
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // Handle navigation from notification
@@ -157,7 +162,7 @@ const AgentLeads: React.FC = () => {
   };
 
   const handleFiltersClick = () => {
-    console.log('Filters clicked');
+    // Filters functionality to be implemented
   };
 
   const handleAddLeadClick = () => {
@@ -177,6 +182,8 @@ const AgentLeads: React.FC = () => {
 
   const handleCloseSidebar = () => {
     setSelectedLeadId(null);
+    // Refresh leads when sidebar closes in case something was updated
+    fetchLeads();
   };
 
   const handleLeadUpdated = () => {

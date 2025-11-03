@@ -44,12 +44,11 @@ const CloseDeal = () => {
     try {
       const token = localStorage.getItem('auth_token');
       if (!token) {
-        console.error('No auth token found');
         window.location.href = '/login';
         return;
       }
 
-      const res = await fetch('http://localhost:8000/api/leads/deals/closed/', {
+      const res = await fetch('/api/leads/deals/closed/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -71,7 +70,7 @@ const CloseDeal = () => {
       setDeals(dealsArray);
       setFilteredDeals(dealsArray);
     } catch (err) {
-      console.error('Failed to fetch deals', err);
+      // Failed to fetch deals
     } finally {
       // Ensure loader shows for at least 1 second
       const elapsedTime = Date.now() - startTime;

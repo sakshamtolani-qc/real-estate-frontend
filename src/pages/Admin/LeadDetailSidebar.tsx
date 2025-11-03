@@ -80,7 +80,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   const fetchLeadDetails = useCallback(async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const res = await fetch(`http://localhost:8000/api/leads/${leadId}/`, {
+      const res = await fetch(`/api/leads/${leadId}/`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -102,7 +102,6 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
       
       setLoading(false);
     } catch (err) {
-      console.error('Failed to fetch lead details', err);
       setLoading(false);
     }
   }, [leadId]);
@@ -110,7 +109,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
   const fetchAgents = async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const res = await fetch('http://localhost:8000/api/leads/agents/', {
+      const res = await fetch('/api/leads/agents/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -118,7 +117,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
       const data = await res.json();
       setAgents(data.results || []);
     } catch (err) {
-      console.error('Failed to fetch agents', err);
+      // Failed to fetch agents
     }
   };
 
@@ -131,7 +130,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
         setIsAdmin(user.is_superuser || user.is_staff || false);
       }
     } catch (err) {
-      console.error('Failed to parse user data', err);
+      // Failed to parse user data
     }
     
     fetchLeadDetails();
@@ -171,7 +170,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
 
     try {
       const token = localStorage.getItem('auth_token');
-      const res = await fetch(`http://localhost:8000/api/leads/${leadId}/update/`, {
+      const res = await fetch(`/api/leads/${leadId}/update/`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -191,11 +190,9 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
         await fetchLeadDetails();
         onUpdate();
       } else {
-        console.error('Failed to update lead');
         toast.error('Failed to update lead. Please try again.');
       }
     } catch (err) {
-      console.error('Failed to update lead', err);
     } finally {
       setSaving(false);
     }
@@ -210,7 +207,7 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
 
     try {
       const token = localStorage.getItem('auth_token');
-      const res = await fetch(`http://localhost:8000/api/leads/${leadId}/delete/`, {
+      const res = await fetch(`/api/leads/${leadId}/delete/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -223,11 +220,9 @@ const LeadDetailSidebar: React.FC<LeadDetailSidebarProps> = ({ leadId, onClose, 
         onClose();
         onUpdate();
       } else {
-        console.error('Failed to delete lead');
         toast.error('Failed to delete lead. Please try again.');
       }
     } catch (err) {
-      console.error('Failed to delete lead', err);
       toast.error('An error occurred while deleting the lead.');
     } finally {
       setDeleting(false);

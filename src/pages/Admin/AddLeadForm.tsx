@@ -52,7 +52,7 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
           setIsAdmin(user.is_superuser || user.is_staff || false);
         }
       } catch (err) {
-        console.error('Failed to parse user data', err);
+        // Failed to parse user data
       }
     };
     
@@ -60,7 +60,7 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
     const fetchAgents = async () => {
       try {
         const token = localStorage.getItem('auth_token');
-        const res = await fetch('http://localhost:8000/api/accounts/list/', {
+        const res = await fetch('/api/accounts/list/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -76,7 +76,7 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
           }))
         );
       } catch (err) {
-        console.error('Failed to fetch agents', err);
+        // Failed to fetch agents
       }
     };
     
@@ -91,7 +91,7 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
           fetchAgents();
         }
       } catch (err) {
-        console.error('Failed to parse user data', err);
+        // Failed to parse user data
       }
     }
   }, []);
@@ -119,7 +119,7 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
         requestBody.assigned_to = assignedAgent;
       }
       
-      const response = await fetch('http://localhost:8000/api/leads/create/', {
+      const response = await fetch('/api/leads/create/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,13 +150,9 @@ const AddLeadForm: React.FC<AddLeadFormProps> = ({ onLeadAdded, onClose, initial
         // Show error message from backend
         toast.error(data.message || 'Failed to add lead');
         
-        // If duplicate lead, suggest viewing existing lead
-        if (data.existing_lead_id) {
-          console.log('Duplicate lead exists with ID:', data.existing_lead_id);
-        }
+        // If duplicate lead, existing_lead_id can be used by the backend
       }
     } catch (error) {
-      console.error('Error adding lead:', error);
       toast.error('Network error. Please check your connection and try again.');
     } finally {
       setIsLoading(false);

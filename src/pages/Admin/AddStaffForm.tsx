@@ -50,10 +50,7 @@ const AddStaffForm: React.FC<AddStaffFormProps> = ({ onStaffAdded }) => {
         status: form.status
       };
       
-      console.log('Sending staff data:', staffData);
-      console.log('Using token:', token);
-      
-      const res = await fetch('http://localhost:8000/api/accounts/add-staff/', {
+      const res = await fetch('/api/accounts/add-staff/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +87,6 @@ const AddStaffForm: React.FC<AddStaffFormProps> = ({ onStaffAdded }) => {
       });
       onStaffAdded();
     } catch (err: any) {
-      console.error('Add staff error:', err);
       setError(err.message || 'Error adding staff');
     } finally {
       setIsLoading(false);

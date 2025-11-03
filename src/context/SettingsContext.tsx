@@ -107,7 +107,8 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'company_settings_cache') {
-        fetchSettings(false); // Bypass cache for updates from other tabs
+        // Use cache=true to use the newly stored data instead of fetching again
+        fetchSettings(true);
       }
     };
 

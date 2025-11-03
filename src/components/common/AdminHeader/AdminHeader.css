@@ -853,18 +853,34 @@
   }
   
   .admin-header-actions {
-    display: none;
+    display: flex !important;
+    gap: 0.5rem;
+    order: 2;
+    margin-left: auto;
   }
   
   .admin-mobile-menu-button {
     display: flex;
+    order: 3;
   }
   
   .admin-header-container {
-    padding: 0 1rem;
-    margin-left: 10px;
-    margin-right: 10px;
-    gap: 1rem;
+    padding: 0 0.75rem;
+    margin-left: 5px;
+    margin-right: 5px;
+    gap: 0.5rem;
+  }
+  
+  /* Hide user menu on small mobile, keep notification bell visible */
+  .admin-user-wrapper {
+    display: none;
+  }
+  
+  /* Notification bell on mobile */
+  .admin-icon-button {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
   }
   
   /* Mobile User Info */

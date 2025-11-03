@@ -91,19 +91,15 @@ const Dashboard = () => {
       const response: any = await api.get('/admin/dashboard/stats/');
       const data = response.data || response;
       
-      console.log('Dashboard stats API response:', data);
-      
       if (data && data.stats) {
-        console.log('Setting stats from API:', data.stats);
         setStats(data.stats);
       }
       
       if (data && data.top_closers) {
-        console.log('Setting top closers from API:', data.top_closers);
         setTopClosers(data.top_closers);
       }
     } catch (err) {
-      console.error('Failed to fetch stats', err);
+      // Failed to fetch stats
     }
   }, []);
   
@@ -132,7 +128,7 @@ const Dashboard = () => {
           }))
         );
       } catch (err) {
-        console.error('Failed to fetch employees', err);
+        // Failed to fetch employees
       }
     };
     
@@ -146,7 +142,7 @@ const Dashboard = () => {
           setSelectedSource(data.lead_sources[0].source);
         }
       } catch (err) {
-        console.error('Failed to fetch lead sources', err);
+        // Failed to fetch lead sources
       }
     };
     
@@ -157,7 +153,7 @@ const Dashboard = () => {
         const data = response.data || response;
         setUserName(data.first_name || data.username || '');
       } catch (err) {
-        console.error('Failed to fetch user name', err);
+        // Failed to fetch user name
       }
     };
     

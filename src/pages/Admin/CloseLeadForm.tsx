@@ -45,7 +45,7 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
       const token = localStorage.getItem('auth_token');
       
       // Try with authentication first
-      let res = await fetch('http://localhost:8000/api/properties/list/', {
+      let res = await fetch('/api/properties/list/', {
         headers: token ? {
           'Authorization': `Bearer ${token}`,
         } : {},
@@ -53,12 +53,11 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
 
       // If unauthorized, try without token (API might allow public access)
       if (res.status === 401 && token) {
-        res = await fetch('http://localhost:8000/api/properties/list/');
+        res = await fetch('/api/properties/list/');
       }
 
       if (res.ok) {
         const data = await res.json();
-        console.log('Properties API Response:', data);
         
         let propertiesArray: Property[] = [];
         
@@ -67,12 +66,9 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
           propertiesArray = data;
         } else if (data.results && Array.isArray(data.results)) {
           propertiesArray = data.results;
-        } else if (typeof data === 'object' && Object.keys(data).length > 0) {
-          console.warn('Unexpected properties response format:', data);
         }
         
         if (propertiesArray.length === 0) {
-          console.warn('No properties returned from API');
           setProperties([]);
           setLoading(false);
           return;
@@ -87,16 +83,11 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
         }));
         
         setProperties(transformedProperties.slice(0, 20));
-        console.log('Loaded properties:', transformedProperties);
       } else {
-        console.error('Failed to fetch properties. Status:', res.status, 'Text:', res.statusText);
-        const errorText = await res.text();
-        console.error('Error response:', errorText);
         toast.error(`Failed to load properties (${res.status})`);
       }
     } catch (err) {
-      console.error('Failed to fetch properties:', err);
-      toast.error('Failed to load properties - check console for details');
+      toast.error('Failed to load properties');
     } finally {
       setLoading(false);
     }
@@ -144,7 +135,7 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
     try {
       const token = localStorage.getItem('auth_token');
       const res = await fetch(
-        `http://localhost:8000/api/leads/${leadId}/close-deal/`,
+        `/api/leads/${leadId}/close-deal/`,
         {
           method: 'POST',
           headers: {
@@ -170,7 +161,6 @@ const CloseLeadForm: React.FC<CloseLeadFormProps> = ({
         toast.error(errorData.message || 'Failed to close deal');
       }
     } catch (err) {
-      console.error('Failed to close deal', err);
       toast.error('An error occurred while closing the deal');
     } finally {
       setSubmitting(false);

@@ -63,7 +63,6 @@ const Profile: React.FC = () => {
         setPhotoPreview(profile.profile_photo);
       }
     } catch (err) {
-      console.error('Failed to fetch profile:', err);
       setError('Failed to load profile');
     } finally {
       setLoading(false);
@@ -125,7 +124,6 @@ const Profile: React.FC = () => {
       setIsEditing(false);
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      console.error('Failed to save profile:', err);
       setError('Failed to save profile. Please try again.');
     } finally {
       setSaving(false);

@@ -51,6 +51,7 @@
     "format": "prettier --write src/**/*.{ts,tsx,css}",
     "type-check": "tsc --noEmit"
   },
+  "proxy": "http://localhost:8000",
   "browserslist": {
     "production": [
       ">0.2%",

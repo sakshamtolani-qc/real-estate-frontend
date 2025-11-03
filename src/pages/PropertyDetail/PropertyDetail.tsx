@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Heart, Share2, Bed, Bath, Maximize, MapPin, ChevronLeft, ChevronRight, X, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../../components/common/Header/Header';
@@ -39,12 +39,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 export default function PropertyDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [property, setProperty] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showCarousel, setShowCarousel] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   
   // Check if user is an employee/admin (multiple ways for compatibility)
   const isAdmin = Boolean(
@@ -65,15 +68,13 @@ export default function PropertyDetail() {
         const data = response.data || response;
         
         // Map backend data to frontend format
-        // Generate default images based on property ID
-        const propertyImageNum = ((data.id - 1) % 6) + 1;
+        // Use backend images as-is, or fall back to static placeholder if no images
         const defaultImages = [
-          `/property${propertyImageNum}-1.png`,
-          `/property${propertyImageNum}-2.png`,
-          `/property${propertyImageNum}-3.png`,
-          `/property${propertyImageNum}-4.png`,
-          `/property${propertyImageNum}-5.png`,
-          `/property${propertyImageNum}-6.png`
+          '/P1a.png',
+          '/P1b.png',
+          '/P1c.png',
+          '/P1d-3.png',
+          '/P1e-4.png'
         ];
         
         const mappedProperty = {
@@ -85,15 +86,14 @@ export default function PropertyDetail() {
           bathrooms: data.bathrooms || 0,
           area: data.area || 0,
           description: data.description || 'No description available.',
-          images: data.images && data.images.length > 0 ? data.images : defaultImages,
+          images: (data.images && data.images.length > 0) ? data.images : defaultImages,
           subtitle: data.subtitle || data.property_type || ''
         };
         
         setProperty(mappedProperty);
-      } catch (error) {
-        console.error('Failed to fetch property:', error);
-        // Use mock data as fallback
-        setProperty(mockPropertyData);
+    } catch (error) {
+      // Use mock data as fallback
+      setProperty(mockPropertyData);
       } finally {
         // Ensure loader shows for at least 1 second
         const elapsedTime = Date.now() - startTime;
@@ -109,10 +109,6 @@ export default function PropertyDetail() {
     }
   }, [id]);
   
-  // Debug log
-  console.log('PropertyDetail - User:', user);
-  console.log('PropertyDetail - isAdmin:', isAdmin);
-  console.log('PropertyDetail - Property Images:', property?.images);
 
   const handleFavorite = () => {
     toast.info('Favorite functionality coming soon!');
@@ -147,6 +143,35 @@ export default function PropertyDetail() {
     );
   };
 
+  const handleDeleteProperty = async () => {
+    setIsDeleting(true);
+    try {
+      const token = localStorage.getItem('auth_token');
+      const response = await fetch(`/api/properties/delete/${property.id}/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success(data.message || 'Property deleted successfully!');
+        setShowDeleteModal(false);
+        // Redirect to properties list after 1.5 seconds
+        setTimeout(() => {
+          navigate('/properties', { replace: true });
+        }, 1500);
+      } else {
+        toast.error(data.message || 'Failed to delete property');
+      }
+    } catch (error) {
+      toast.error('An error occurred while deleting the property');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   // Show loading state
   if (isLoading || !property) {
@@ -167,7 +192,6 @@ export default function PropertyDetail() {
                   alt={property.title}
                   className="main-gallery-image"
                   onError={(e) => {
-                    console.error('Main image failed to load:', property.images[0]);
                     (e.target as HTMLImageElement).src = '/P1a.png';
                   }}
                 />
@@ -185,7 +209,6 @@ export default function PropertyDetail() {
                       alt={`Property view ${index + 1}`}
                       className="side-gallery-image"
                       onError={(e) => {
-                        console.error(`Side image ${index + 1} failed to load:`, image);
                         (e.target as HTMLImageElement).src = '/P1b.png';
                       }}
                     />
@@ -201,7 +224,6 @@ export default function PropertyDetail() {
                       alt="More photos"
                       className="side-gallery-image"
                       onError={(e) => {
-                        console.error('More photos image failed to load:', property.images[4]);
                         (e.target as HTMLImageElement).src = '/P1c.png';
                       }}
                     />
@@ -229,6 +251,16 @@ export default function PropertyDetail() {
                   <button className="action-icon-btn" onClick={handleShare} aria-label="Share property">
                     <Share2 size={22} />
                   </button>
+                  {isAdmin && (
+                    <button 
+                      className="action-icon-btn delete-btn" 
+                      onClick={() => setShowDeleteModal(true)}
+                      aria-label="Delete property"
+                      title="Delete property - Only available for agents and admins"
+                    >
+                      <Trash2 size={22} />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -291,7 +323,6 @@ export default function PropertyDetail() {
               alt={`Property view ${currentImageIndex + 1}`}
               className="carousel-image"
               onError={(e) => {
-                console.error(`Carousel image ${currentImageIndex + 1} failed to load:`, property.images[currentImageIndex]);
                 (e.target as HTMLImageElement).src = '/P1a.png';
               }}
             />
@@ -299,6 +330,37 @@ export default function PropertyDetail() {
           <button className="carousel-next" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
             <ChevronRight size={40} />
           </button>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="delete-modal-overlay" onClick={() => !isDeleting && setShowDeleteModal(false)}>
+          <div className="delete-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="delete-modal-header">
+              <Trash2 size={32} className="delete-modal-icon" />
+              <h2 className="delete-modal-title">Delete Property</h2>
+            </div>
+            <p className="delete-modal-message">
+              Are you sure you want to delete <strong>"{property.title}"</strong>? This action cannot be undone.
+            </p>
+            <div className="delete-modal-actions">
+              <button
+                className="delete-modal-btn cancel-btn"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+              <button
+                className="delete-modal-btn delete-btn"
+                onClick={handleDeleteProperty}
+                disabled={isDeleting}
+              >
+                {isDeleting ? 'Deleting...' : 'Delete Property'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

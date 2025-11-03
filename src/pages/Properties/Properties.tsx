@@ -164,26 +164,17 @@ export default function Properties() {
       const startTime = Date.now();
       try {
         setIsLoadingProperties(true);
-        console.log('Fetching properties from API...');
         const response: any = await api.get('/properties/list/');
-        console.log('Raw API response:', response);
         
         const data = response.data || response;
-        console.log('Data after parsing:', data);
-        console.log('Is data an array?', Array.isArray(data));
-        console.log('Data type:', typeof data);
         
         // Get the actual properties array
         let propertiesArray = data;
         if (data && typeof data === 'object' && data.results) {
           propertiesArray = data.results;
         } else if (!Array.isArray(data)) {
-          console.error('Unexpected data format:', data);
           propertiesArray = [];
         }
-        
-        console.log('Properties array to map:', propertiesArray);
-        console.log('Properties array length:', propertiesArray.length);
         
         // Map backend data to frontend format
         const mappedProperties: Property[] = propertiesArray.map((prop: any, index: number) => {
@@ -216,13 +207,8 @@ export default function Properties() {
           };
         });
         
-        console.log('Mapped properties:', mappedProperties);
-        console.log('Total properties fetched:', mappedProperties.length);
-        console.log('First property image:', mappedProperties[0]?.image);
-        console.log('All property images:', mappedProperties.map(p => ({ id: p.id, image: p.image })));
         setProperties(mappedProperties);
       } catch (error) {
-        console.error('Failed to fetch properties:', error);
         // Keep empty array if fetch fails
         setProperties([]);
       } finally {
@@ -265,12 +251,6 @@ export default function Properties() {
 
     return typeMatch && filterMatch;
   });
-  
-  // Debug logging (commented out to reduce noise)
-  // console.log('Total properties:', properties.length);
-  // console.log('Filtered properties:', filteredProperties.length);
-  // console.log('Selected type:', selectedType);
-  // console.log('Selected filters:', selectedFilters);
 
   const handlePropertyClick = (id: number) => {
     navigate(`/property/${id}`);
@@ -367,11 +347,7 @@ export default function Properties() {
                     alt={property.title} 
                     className="property-image"
                     onError={(e) => {
-                      console.error(`Image failed for property ${property.id}:`, property.image);
                       (e.target as HTMLImageElement).src = '/P1.png';
-                    }}
-                    onLoad={(e) => {
-                      console.log(`Image loaded successfully for property ${property.id}:`, property.image);
                     }}
                   />
                   <div className="property-badges">

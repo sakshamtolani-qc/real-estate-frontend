@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell, X, Check } from 'lucide-react';
+import { Bell, X, Check, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './NotificationBell.css';
 
@@ -117,6 +117,44 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onNotificati
     }
   };
 
+  // Clear all notifications
+  const clearAllNotifications = async () => {
+    try {
+      setIsLoading(true);
+      const token = localStorage.getItem('auth_token');
+      
+      // First mark all as read
+      await fetch('http://localhost:8000/api/leads/notifications/mark-all-read/', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Then delete all notifications
+      const deletePromises = notifications.map(notification => 
+        fetch(`http://localhost:8000/api/leads/notifications/${notification.id}/delete/`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+      );
+
+      await Promise.all(deletePromises);
+
+      // Update local state
+      setNotifications([]);
+      setUnreadCount(0);
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Error clearing all notifications:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Handle notification click
   const handleNotificationClick = (notification: Notification) => {
     // Mark as read if not already read
@@ -188,16 +226,30 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({ onNotificati
         <div className="notification-dropdown">
           <div className="notification-header">
             <h3>Notifications</h3>
-            {unreadCount > 0 && (
-              <button 
-                className="mark-all-read-btn"
-                onClick={markAllAsRead}
-                disabled={isLoading}
-              >
-                <Check size={14} />
-                Mark all read
-              </button>
-            )}
+            <div className="notification-header-actions">
+              {unreadCount > 0 && (
+                <button 
+                  className="mark-all-read-btn"
+                  onClick={markAllAsRead}
+                  disabled={isLoading}
+                  title="Mark all notifications as read"
+                >
+                  <Check size={14} />
+                  Mark all read
+                </button>
+              )}
+              {notifications.length > 0 && (
+                <button 
+                  className="clear-all-btn"
+                  onClick={clearAllNotifications}
+                  disabled={isLoading}
+                  title="Mark all as read and clear"
+                >
+                  <Trash2 size={14} />
+                  Clear all
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="notification-list">

@@ -74,10 +74,35 @@ const Dashboard: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const refreshDashboardStats = async () => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return;
+    
+    try {
+      const response = await fetch('/api/leads/agent/dashboard-stats/', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setStats({
+          new_leads: data.new_leads || 0,
+          total_leads: data.total_leads || 0,
+          offers_made: data.offers_made || 0,
+          deals_closed: data.deals_closed || 0
+        });
+      }
+    } catch (error) {
+      console.error('Failed to refresh stats:', error);
+    }
+  };
+
   const handleDeleteVisit = async (visitId: number) => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch(`http://localhost:8000/api/leads/visits/${visitId}/delete/`, {
+      const response = await fetch(`/api/leads/visits/${visitId}/delete/`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -87,11 +112,12 @@ const Dashboard: React.FC = () => {
       if (response.ok) {
         setScheduledVisits(scheduledVisits.filter(visit => visit.id !== visitId));
         toast.success('Visit deleted successfully!');
+        // Refresh stats after deleting visit
+        refreshDashboardStats();
       } else {
         toast.error('Failed to delete visit. Please try again.');
       }
     } catch (error) {
-      console.error('Error deleting visit:', error);
       toast.error('An error occurred while deleting the visit.');
     }
   };
@@ -124,7 +150,7 @@ const Dashboard: React.FC = () => {
     
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8000/api/leads/visits/create/', {
+      const response = await fetch('/api/leads/visits/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +162,7 @@ const Dashboard: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         // Refresh visits list
-        const visitsResponse = await fetch('http://localhost:8000/api/leads/visits/', {
+        const visitsResponse = await fetch('/api/leads/visits/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -159,13 +185,15 @@ const Dashboard: React.FC = () => {
           location: ''
         });
         
+        // Refresh stats after scheduling visit
+        refreshDashboardStats();
+        
         toast.success('Visit scheduled successfully!');
       } else {
         const errorData = await response.json();
         toast.error(errorData.message || 'Failed to schedule visit');
       }
     } catch (error) {
-      console.error('Error scheduling visit:', error);
       toast.error('Failed to schedule visit. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -202,7 +230,7 @@ const Dashboard: React.FC = () => {
           return;
         }
         
-        const response = await fetch('http://localhost:8000/api/leads/agent/dashboard-stats/', {
+        const response = await fetch('/api/leads/agent/dashboard-stats/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -229,7 +257,7 @@ const Dashboard: React.FC = () => {
         });
         
         // Fetch scheduled visits
-        const visitsResponse = await fetch('http://localhost:8000/api/leads/visits/', {
+        const visitsResponse = await fetch('/api/leads/visits/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -261,7 +289,7 @@ const Dashboard: React.FC = () => {
         }
         
         // Fetch leads for dropdown
-        const leadsResponse = await fetch('http://localhost:8000/api/leads/list/', {
+        const leadsResponse = await fetch('/api/leads/list/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -282,7 +310,7 @@ const Dashboard: React.FC = () => {
         }
         
         // Fetch properties for dropdown
-        const propertiesResponse = await fetch('http://localhost:8000/api/properties/list/', {
+        const propertiesResponse = await fetch('/api/properties/list/', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -296,7 +324,7 @@ const Dashboard: React.FC = () => {
         }
         
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        // Failed to fetch dashboard data
       } finally {
         setIsLoadingData(false);
         setIsLoadingVisits(false);

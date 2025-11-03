@@ -127,8 +127,6 @@ const Signup: React.FC = () => {
       }, 1500);
       
     } catch (error: any) {
-      console.error('Signup error:', error);
-      
       // Handle specific error messages from backend
       if (error?.response?.data) {
         const errorData = error.response.data;

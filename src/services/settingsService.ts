@@ -29,7 +29,8 @@ export interface CompanySettings {
 
 class SettingsService {
   private cacheKey = 'company_settings_cache';
-  private cacheDuration = 5 * 60 * 1000; // 5 minutes
+  private cacheDuration = 30 * 60 * 1000; // 30 minutes
+  private pendingRequest: Promise<CompanySettings> | null = null;
 
   /**
    * Get cached settings from localStorage
@@ -77,7 +78,7 @@ class SettingsService {
   }
 
   /**
-   * Fetch company settings with caching
+   * Fetch company settings with caching and request deduplication
    */
   async fetchSettings(useCache = true): Promise<CompanySettings> {
     try {
@@ -89,17 +90,27 @@ class SettingsService {
         }
       }
 
-      const response = await axios.get(`${API_BASE_URL}/leads/settings/`);
-
-      if (response.data.success) {
-        const settings = response.data.data;
-        this.setCachedSettings(settings);
-        return settings;
+      // If there's already a pending request, return it instead of making a new one
+      if (this.pendingRequest) {
+        return this.pendingRequest;
       }
 
-      throw new Error(response.data.message || 'Failed to fetch settings');
+      // Make the request and store it as pending
+      this.pendingRequest = axios.get(`${API_BASE_URL}/leads/settings/`).then((response) => {
+        if (response.data.success) {
+          const settings = response.data.data;
+          this.setCachedSettings(settings);
+          return settings;
+        }
+        throw new Error(response.data.message || 'Failed to fetch settings');
+      }).finally(() => {
+        this.pendingRequest = null;
+      });
+
+      return this.pendingRequest;
     } catch (error) {
       console.error('Error fetching settings:', error);
+      this.pendingRequest = null;
       // Return default settings if fetch fails
       return this.getDefaultSettings();
     }
