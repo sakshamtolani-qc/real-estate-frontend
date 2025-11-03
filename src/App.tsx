@@ -22,6 +22,7 @@ import AddProperty from './pages/Admin/AddProperty';
 import LeadsList from './pages/Admin/LeadsList';
 import AgentLeads from './pages/Agent/AgentLeads';
 import CloseDeal from './pages/Agent/CloseDeal';
+import Reports from './pages/Admin/Reports';
 // import LeadDetailPage from '@/pages/leads/lead-detail/LeadDetailPage';
 
 // import PropertiesPage from '@/pages/properties/PropertiesPage';
@@ -268,6 +269,13 @@ function App() {
                 <Route index element={<ReportsPage />} />
               </Route> */}
 
+              {/* Reports Routes - Admin Only */}
+              <Route path="/admin/reports" element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <Reports />
+                </ProtectedRoute>
+              } />
+              
               {/* Settings Routes - Admin Only */}
               <Route path="/admin/settings" element={
                 <ProtectedRoute allowedRoles={['admin']}>

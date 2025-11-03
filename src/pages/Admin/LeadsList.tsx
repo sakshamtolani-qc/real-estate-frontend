@@ -32,6 +32,8 @@ const LeadsList: React.FC = () => {
     key: keyof Lead | null;
     direction: 'asc' | 'desc';
   }>({ key: null, direction: 'asc' });
+  
+  const itemsPerPage = 10;
 
   const fetchLeads = async () => {
     const startTime = Date.now();
@@ -39,12 +41,11 @@ const LeadsList: React.FC = () => {
     try {
       const token = localStorage.getItem('auth_token');
       if (!token) {
-        console.error('No auth token found');
         window.location.href = '/login';
         return;
       }
       
-      const res = await fetch('http://localhost:8000/api/leads/list/', {
+      const res = await fetch('/api/leads/list/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -52,7 +53,6 @@ const LeadsList: React.FC = () => {
       
       if (!res.ok) {
         if (res.status === 401) {
-          console.error('Unauthorized - redirecting to login');
           localStorage.removeItem('auth_token');
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('auth_user');
@@ -80,7 +80,6 @@ const LeadsList: React.FC = () => {
         }))
       );
     } catch (err) {
-      console.error('Failed to fetch leads', err);
     } finally {
       // Ensure loader shows for at least 1 second
       const elapsedTime = Date.now() - startTime;
@@ -93,6 +92,13 @@ const LeadsList: React.FC = () => {
 
   useEffect(() => {
     fetchLeads();
+    
+    // Set up polling to refresh leads every 30 seconds
+    const interval = setInterval(() => {
+      fetchLeads();
+    }, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   // Handle navigation from notification
@@ -143,13 +149,26 @@ const LeadsList: React.FC = () => {
     lead.phone.includes(searchQuery) ||
     lead.assigned_agent.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredLeads.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedLeads = filteredLeads.slice(startIndex, endIndex);
+  
+  // Reset to page 1 if current page exceeds total pages
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [filteredLeads.length, totalPages, currentPage]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
   const handleFiltersClick = () => {
-    console.log('Filters clicked');
+    // Filters functionality to be implemented
   };
 
   const handleAddLeadClick = () => {
@@ -169,6 +188,8 @@ const LeadsList: React.FC = () => {
 
   const handleCloseSidebar = () => {
     setSelectedLeadId(null);
+    // Refresh leads when sidebar closes in case something was updated
+    fetchLeads();
   };
 
   const handleLeadUpdated = () => {
@@ -271,7 +292,7 @@ const LeadsList: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredLeads.map((lead) => (
+                {paginatedLeads.map((lead) => (
                   <tr key={lead.id} onClick={() => handleLeadClick(lead.id)} style={{ cursor: 'pointer' }}>
                     <td>{lead.name}</td>
                     <td>{lead.email}</td>
@@ -290,30 +311,15 @@ const LeadsList: React.FC = () => {
           </div>
 
           <div className="pagination">
-            <button
-              className={`page-btn ${currentPage === 1 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(1)}
-            >
-              1
-            </button>
-            <button
-              className={`page-btn ${currentPage === 2 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(2)}
-            >
-              2
-            </button>
-            <button
-              className={`page-btn ${currentPage === 3 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(3)}
-            >
-              3
-            </button>
-            <button
-              className={`page-btn ${currentPage === 4 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(4)}
-            >
-              4
-            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
           </div>
 
           {selectedLeadId && (

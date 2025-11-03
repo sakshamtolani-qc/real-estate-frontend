@@ -24,7 +24,7 @@ const EmployeeList: React.FC = () => {
   const fetchEmployees = async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const res = await fetch('http://localhost:8000/api/accounts/list/', {
+      const res = await fetch('/api/accounts/list/', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -39,7 +39,7 @@ const EmployeeList: React.FC = () => {
         
         try {
           // Fetch leads assigned to this employee
-          const leadsRes = await fetch('http://localhost:8000/api/leads/list/', {
+          const leadsRes = await fetch('/api/leads/list/', {
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -48,10 +48,22 @@ const EmployeeList: React.FC = () => {
           const leadsArr = Array.isArray(leadsData.results) ? leadsData.results : [];
           leadsCount = leadsArr.filter((lead: any) => lead.assigned_to?.id === emp.id).length;
           
-          // Fetch deals closed by this employee (leads with status 'Won')
-          dealsCloseCount = leadsArr.filter((lead: any) => lead.assigned_to?.id === emp.id && lead.status === 'won').length;
+          // Fetch closed deals by this employee from closed deals endpoint
+          try {
+            const dealsRes = await fetch('/api/leads/deals/closed/', {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            const dealsData = await dealsRes.json();
+            const dealsArr = Array.isArray(dealsData.results) ? dealsData.results : [];
+            dealsCloseCount = dealsArr.filter((deal: any) => deal.closed_by === emp.user.first_name || deal.closed_by === emp.user.username).length;
+          } catch (err) {
+            // If deals endpoint fails, fallback to checking won status
+            dealsCloseCount = leadsArr.filter((lead: any) => lead.assigned_to?.id === emp.id && (lead.status === 'won' || lead.status === 'Won' || lead.status === 'CLOSED')).length;
+          }
         } catch (err) {
-          console.error('Failed to fetch leads for employee', emp.id, err);
+          // Failed to fetch leads for this employee
         }
         
         return {
@@ -69,7 +81,7 @@ const EmployeeList: React.FC = () => {
       const employeeList = await Promise.all(employeePromises);
       setEmployees(employeeList);
     } catch (err) {
-      console.error('Failed to fetch employees', err);
+      // Failed to fetch employees
     }
   };
   useEffect(() => {
@@ -82,6 +94,8 @@ const EmployeeList: React.FC = () => {
     key: keyof Employee | null;
     direction: 'asc' | 'desc';
   }>({ key: null, direction: 'asc' });
+  
+  const itemsPerPage = 10;
 
   const handleSort = (key: keyof Employee) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -115,13 +129,26 @@ const EmployeeList: React.FC = () => {
     employee.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     employee.phone.includes(searchQuery)
   );
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedEmployees = filteredEmployees.slice(startIndex, endIndex);
+  
+  // Reset to page 1 if current page exceeds total pages
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [filteredEmployees.length, totalPages, currentPage]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
   };
 
   const handleFiltersClick = () => {
-    console.log('Filters clicked');
+    // Filters functionality to be implemented
   };
 
   const handleAddStaffClick = () => {
@@ -207,7 +234,7 @@ const EmployeeList: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredEmployees.map((employee) => (
+                {paginatedEmployees.map((employee) => (
                   <tr key={employee.id}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -253,30 +280,15 @@ const EmployeeList: React.FC = () => {
           </div>
 
           <div className="pagination">
-            <button
-              className={`page-btn ${currentPage === 1 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(1)}
-            >
-              1
-            </button>
-            <button
-              className={`page-btn ${currentPage === 2 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(2)}
-            >
-              2
-            </button>
-            <button
-              className={`page-btn ${currentPage === 3 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(3)}
-            >
-              3
-            </button>
-            <button
-              className={`page-btn ${currentPage === 4 ? 'active' : ''}`}
-              onClick={() => setCurrentPage(4)}
-            >
-              4
-            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`page-btn ${currentPage === page ? 'active' : ''}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
           </div>
         </div>
       </main>
